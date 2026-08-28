@@ -34,6 +34,9 @@ export default function Header() {
         <div className="nav-actions">
           {isAuthenticated ? (
             <>
+              {user?.isAdmin && (
+                <Link to="/admin/users" className="btn btn-ghost" onClick={() => setOpen(false)}>Admin</Link>
+              )}
               <Link to="/my-page" className="btn btn-ghost" onClick={() => setOpen(false)}>
                 {user?.fullName ? user.fullName.split(' ')[0] : 'My page'}
               </Link>

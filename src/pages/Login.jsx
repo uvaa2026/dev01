@@ -27,11 +27,12 @@ export default function Login() {
     try {
       await api.login(form)
       setStatus({ type: 'success', message: 'Logged in. Redirecting…' })
-      // The login response only carries a minimal { id, fullName, email }
-      // shape — refresh from /auth/me so My Page has the full profile
-      // (organisation, verticals, verification status, etc.) right away.
-      await refreshUser()
-      const destination = location.state?.from || '/my-page'
+      // The login response only carries a minimal { id, fullName, email,
+      // isAdmin } shape — refresh from /auth/me so My Page has the full
+      // profile (organisation, verticals, verification status, etc.)
+      // right away.
+      const freshUser = await refreshUser()
+      const destination = location.state?.from || (freshUser?.isAdmin ? '/admin/users' : '/my-page')
       setTimeout(() => navigate(destination, { replace: true }), 300)
     } catch (err) {
       if (err instanceof ApiError && err.status === 0) {

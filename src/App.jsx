@@ -3,6 +3,7 @@ import GrainOverlay from './components/GrainOverlay.jsx'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import AdminRoute from './components/AdminRoute.jsx'
 import { AssessmentProvider } from './context/AssessmentContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import Welcome from './pages/Welcome.jsx'
@@ -13,6 +14,8 @@ import MyPage from './pages/MyPage.jsx'
 import GunaProfiler from './pages/assessment/GunaProfiler.jsx'
 import ConstructAssessment from './pages/assessment/ConstructAssessment.jsx'
 import Processing from './pages/assessment/Processing.jsx'
+import AdminUsers from './pages/admin/AdminUsers.jsx'
+import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
 
 export default function App() {
   return (
@@ -57,6 +60,22 @@ export default function App() {
                 <ProtectedRoute>
                   <Processing />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute>
+                  <AdminUsers />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/users/:id"
+              element={
+                <AdminRoute>
+                  <AdminUserDetail />
+                </AdminRoute>
               }
             />
           </Routes>

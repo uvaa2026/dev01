@@ -80,4 +80,11 @@ export const api = {
   // all 15 required. Upserts, so resubmitting replaces the previous answers.
   submitGunaAssessment: (answers) =>
     request('/assessment/guna', { method: 'POST', body: JSON.stringify({ answers }) }),
+
+  // Admin-only endpoints (require is_admin on the signed-in account —
+  // AdminRoute gates access on the frontend, the API enforces it again on
+  // every request). Never called for a regular respondent.
+  adminListUsers: () => request('/admin/users', { method: 'GET' }),
+  adminGetUser: (id) => request(`/admin/users/${id}`, { method: 'GET' }),
+  adminGetUserGuna: (id) => request(`/admin/users/${id}/guna`, { method: 'GET' }),
 }
