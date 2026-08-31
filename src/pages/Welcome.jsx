@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom'
 import useScrollToHash from '../lib/useScrollToHash.js'
+import { useAuth } from '../context/AuthContext.jsx'
 
 export default function Welcome() {
   useScrollToHash()
+  const { isAuthenticated, user } = useAuth()
+  const destination = user?.isAdmin ? '/admin/users' : '/my-page'
+  const destinationLabel = user?.isAdmin ? 'Go to Admin' : 'Go to My Page'
 
   return (
     <>
@@ -21,10 +25,16 @@ export default function Welcome() {
               psychometric framework that measures your emotional decision-stability under pressure —
               and gives you a personalised, three-tier plan to strengthen it.
             </p>
-            <div className="hero-actions">
-              <Link to="/register" className="btn btn-primary btn-lg">Create your account</Link>
-              <Link to="/login" className="btn btn-ghost btn-lg">I already have an account</Link>
-            </div>
+            {isAuthenticated ? (
+              <div className="hero-actions">
+                <Link to={destination} className="btn btn-primary btn-lg">{destinationLabel}</Link>
+              </div>
+            ) : (
+              <div className="hero-actions">
+                <Link to="/register" className="btn btn-primary btn-lg">Create your account</Link>
+                <Link to="/login" className="btn btn-ghost btn-lg">I already have an account</Link>
+              </div>
+            )}
             <div className="trust-bar">
               <span>DPDP Act 2023 compliant</span>
               <span>Privacy by design</span>
@@ -164,26 +174,30 @@ export default function Welcome() {
               <li>Cohort completion tracking, deadlines, and CSV export for your HR systems.</li>
               <li>Data residency in India · DPDP Act 2023 compliant · AES-256 encryption at rest.</li>
             </ul>
-            <div>
-              <Link to="/register" className="btn btn-primary">Set up your organisation</Link>
-            </div>
+            {!isAuthenticated && (
+              <div>
+                <Link to="/register" className="btn btn-primary">Set up your organisation</Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* ============ CTA ============ */}
-      <section>
-        <div className="container">
-          <div className="cta-band">
-            <h2>Ready to see your profile?</h2>
-            <p>Registration takes about two minutes. The full assessment takes about fifty.</p>
-            <div className="hero-actions">
-              <Link to="/register" className="btn btn-primary btn-lg">Create your account</Link>
-              <Link to="/login" className="btn btn-ghost btn-lg">Log in</Link>
+      {!isAuthenticated && (
+        <section>
+          <div className="container">
+            <div className="cta-band">
+              <h2>Ready to see your profile?</h2>
+              <p>Registration takes about two minutes. The full assessment takes about fifty.</p>
+              <div className="hero-actions">
+                <Link to="/register" className="btn btn-primary btn-lg">Create your account</Link>
+                <Link to="/login" className="btn btn-ghost btn-lg">Log in</Link>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   )
 }

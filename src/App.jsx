@@ -4,6 +4,7 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
+import GuestRoute from './components/GuestRoute.jsx'
 import { AssessmentProvider } from './context/AssessmentContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import Welcome from './pages/Welcome.jsx'
@@ -27,8 +28,22 @@ export default function App() {
         <main id="main">
           <Routes>
             <Route path="/" element={<Welcome />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/register"
+              element={
+                <GuestRoute>
+                  <Register />
+                </GuestRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <GuestRoute>
+                  <Login />
+                </GuestRoute>
+              }
+            />
             <Route path="/verify" element={<VerifyEmail />} />
             <Route
               path="/my-page"
