@@ -72,14 +72,48 @@ export const api = {
   // POST /auth/logout — clears the session cookie
   logout: () => request('/auth/logout', { method: 'POST' }),
 
-  // GET /assessment/guna — { submitted, answers, submittedAt }. Used both to
-  // show a "completed" state and to resume/edit a previous submission.
+  // GET /assessment/briefing — { acknowledged, acknowledgedAt }. Gates entry
+  // to the Guna profiler (BeforeYouBegin.jsx).
+  getBriefingStatus: () => request('/assessment/briefing', { method: 'GET' }),
+
+  // POST /assessment/briefing — records the "I understand, begin" click.
+  acknowledgeBriefing: () => request('/assessment/briefing', { method: 'POST' }),
+
+  // GET /assessment/guna — { submitted, answers, submittedAt, draft, expired }.
+  // `draft` (when present) is { answers, currentIndex, startedAt } for a
+  // resumable in-progress attempt; `expired` is true for exactly one
+  // response right after a >72h draft was discarded server-side, so the UI
+  // can say "that session expired, starting over" once.
   getGunaAssessment: () => request('/assessment/guna', { method: 'GET' }),
+
+  // PATCH /assessment/guna/draft { answers, currentIndex } — saves
+  // in-progress answers (any subset, in any order). Called after every
+  // answer and from the explicit "Save draft" button.
+  saveGunaDraft: (answers, currentIndex) =>
+    request('/assessment/guna/draft', { method: 'PATCH', body: JSON.stringify({ answers, currentIndex }) }),
 
   // POST /assessment/guna { answers: [{ vignetteId, optionKey }, ...15] } —
   // all 15 required. Upserts, so resubmitting replaces the previous answers.
   submitGunaAssessment: (answers) =>
     request('/assessment/guna', { method: 'POST', body: JSON.stringify({ answers }) }),
+
+  // GET /assessment/construct — same shape as getGunaAssessment, plus a
+  // `locked` flag when the Guna profiler hasn't been submitted yet.
+  getConstructAssessment: () => request('/assessment/construct', { method: 'GET' }),
+
+  // PATCH /assessment/construct/draft — mirrors saveGunaDraft.
+  saveConstructDraft: (answers, currentIndex) =>
+    request('/assessment/construct/draft', { method: 'PATCH', body: JSON.stringify({ answers, currentIndex }) }),
+
+  // POST /assessment/construct { answers: [{ scenarioId, optionKey }, ...32] }.
+  submitConstructAssessment: (answers) =>
+    request('/assessment/construct', { method: 'POST', body: JSON.stringify({ answers }) }),
+
+  // GET /assessment/report — { ready: false } until both stages are scored,
+  // otherwise the full read-only participant report (DQI, four dimension
+  // scores, UVAA Pattern — never guna counts/percentages, those stay
+  // facilitator-only).
+  getReport: () => request('/assessment/report', { method: 'GET' }),
 
   // Admin-only endpoints (require is_admin on the signed-in account —
   // AdminRoute gates access on the frontend, the API enforces it again on
@@ -87,4 +121,6 @@ export const api = {
   adminListUsers: () => request('/admin/users', { method: 'GET' }),
   adminGetUser: (id) => request(`/admin/users/${id}`, { method: 'GET' }),
   adminGetUserGuna: (id) => request(`/admin/users/${id}/guna`, { method: 'GET' }),
+  adminGetUserConstruct: (id) => request(`/admin/users/${id}/construct`, { method: 'GET' }),
+  adminGetUserReport: (id) => request(`/admin/users/${id}/report`, { method: 'GET' }),
 }

@@ -17,7 +17,10 @@ function careerStageLabel(vertical, code) {
 export default function MyPage() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const [gunaStatus, setGunaStatus] = useState(null) // null = loading, else { submitted, submittedAt }
+  // null = loading, else { submitted, submittedAt, ... }
+  const [gunaStatus, setGunaStatus] = useState(null)
+  const [constructStatus, setConstructStatus] = useState(null)
+  const [reportStatus, setReportStatus] = useState(null) // { ready } while not ready, or the full report once ready
 
   useEffect(() => {
     let cancelled = false
@@ -25,6 +28,14 @@ export default function MyPage() {
       .getGunaAssessment()
       .then((data) => { if (!cancelled) setGunaStatus(data) })
       .catch(() => { if (!cancelled) setGunaStatus({ submitted: false, submittedAt: null }) })
+    api
+      .getConstructAssessment()
+      .then((data) => { if (!cancelled) setConstructStatus(data) })
+      .catch(() => { if (!cancelled) setConstructStatus({ locked: true, submitted: false, submittedAt: null }) })
+    api
+      .getReport()
+      .then((data) => { if (!cancelled) setReportStatus(data) })
+      .catch(() => { if (!cancelled) setReportStatus({ ready: false }) })
     return () => { cancelled = true }
   }, [])
 
@@ -34,6 +45,10 @@ export default function MyPage() {
   }
 
   if (!user) return null // ProtectedRoute keeps this from rendering while signed out
+
+  const gunaSubmitted = !!gunaStatus?.submitted
+  const constructSubmitted = !!constructStatus?.submitted
+  const constructLocked = !gunaSubmitted
 
   return (
     <div className="mypage-shell container">
@@ -45,6 +60,13 @@ export default function MyPage() {
         </div>
         <button type="button" className="btn btn-ghost" onClick={handleLogout}>Log out</button>
       </div>
+
+      {reportStatus?.ready && (
+        <div className="status-msg success" style={{ display: 'block' }}>
+          Your report is ready.{' '}
+          <Link to="/report" style={{ fontWeight: 600 }}>View your UVAA report →</Link>
+        </div>
+      )}
 
       <div className="mypage-grid">
         <section className="mypage-card">
@@ -91,23 +113,72 @@ export default function MyPage() {
         </section>
 
         <section className="mypage-card">
-          <h3>Guna profiler</h3>
+          <h3>1. Guna profiler</h3>
           {gunaStatus === null && (
             <p style={{ color: 'var(--text-muted)' }}>Checking your assessment status…</p>
           )}
-          {gunaStatus?.submitted ? (
+          {gunaSubmitted ? (
             <>
               <p>
                 <span className="verified-badge">Completed</span>{' '}
                 {gunaStatus.submittedAt && `on ${new Date(gunaStatus.submittedAt).toLocaleDateString()}`}
               </p>
-              <p>Scoring and your personalised profile will be available soon.</p>
+              <p>Scoring and your personalised profile will be available with your full report.</p>
               <Link to="/assessment/guna" className="btn btn-ghost btn-block">Review / edit my answers</Link>
             </>
           ) : gunaStatus && (
             <>
-              <p>15 short situations to establish your baseline. Takes about five minutes — you can go back and forward, and pick up where you left off.</p>
-              <Link to="/assessment/guna" className="btn btn-primary btn-block">Start the Guna profiler</Link>
+              <p>15 short situations to establish your baseline. Takes about five minutes — you can go back and forward, save your progress, and pick up where you left off (within 72 hours).</p>
+              <Link to="/assessment/begin" className="btn btn-primary btn-block">
+                {gunaStatus.draft ? 'Continue the Guna profiler' : 'Start the Guna profiler'}
+              </Link>
+            </>
+          )}
+        </section>
+
+        <section className={`mypage-card${constructLocked ? ' locked-card' : ''}`}>
+          <h3>2. Construct assessment</h3>
+          {constructStatus === null && (
+            <p style={{ color: 'var(--text-muted)' }}>Checking your assessment status…</p>
+          )}
+          {constructLocked && constructStatus && (
+            <p style={{ color: 'var(--text-muted)' }}>Unlocks once you've completed the Guna profiler above.</p>
+          )}
+          {!constructLocked && constructSubmitted && (
+            <>
+              <p>
+                <span className="verified-badge">Completed</span>{' '}
+                {constructStatus.submittedAt && `on ${new Date(constructStatus.submittedAt).toLocaleDateString()}`}
+              </p>
+              <p>Your combined report will be available once scoring is complete.</p>
+            </>
+          )}
+          {!constructLocked && !constructSubmitted && constructStatus && (
+            <>
+              <p>32 short scenarios covering the full picture. Takes about thirty minutes — same as the Guna profiler, you can save your progress and resume within 72 hours.</p>
+              <Link to="/assessment/construct" className="btn btn-primary btn-block">
+                {constructStatus.draft ? 'Continue the Construct assessment' : 'Start the Construct assessment'}
+              </Link>
+            </>
+          )}
+        </section>
+
+        <section className={`mypage-card${!reportStatus?.ready ? ' locked-card' : ''}`}>
+          <h3>3. Your report</h3>
+          {reportStatus === null && (
+            <p style={{ color: 'var(--text-muted)' }}>Checking your report status…</p>
+          )}
+          {reportStatus && !reportStatus.ready && (
+            <p style={{ color: 'var(--text-muted)' }}>
+              {constructSubmitted
+                ? 'Both assessments are in — your report will be available here after some time.'
+                : 'Available once both assessments above are complete.'}
+            </p>
+          )}
+          {reportStatus?.ready && (
+            <>
+              <p><span className="verified-badge">Ready</span></p>
+              <Link to="/report" className="btn btn-primary btn-block">View your report</Link>
             </>
           )}
         </section>

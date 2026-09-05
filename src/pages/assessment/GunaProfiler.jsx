@@ -5,6 +5,7 @@ import { GUNA_VIGNETTES } from '../../data/gunaVignettes.js'
 import { api, ApiError } from '../../lib/api.js'
 
 const AUTO_ADVANCE_MS = 450
+const DRAFT_SAVE_DEBOUNCE_MS = 600
 
 export default function GunaProfiler() {
   const navigate = useNavigate()
@@ -15,7 +16,16 @@ export default function GunaProfiler() {
   const [submitError, setSubmitError] = useState(null)
   const [submittedAt, setSubmittedAt] = useState(null)
   const [previousAnswers, setPreviousAnswers] = useState(null)
+  // 'resumed' — a server draft was found and restored; 'expired' — a >72h
+  // draft was found and discarded server-side (FR-17), starting fresh.
+  const [resumeNotice, setResumeNotice] = useState(null)
+  const [draftSaveState, setDraftSaveState] = useState('idle') // idle | saving | saved | error
   const advanceTimer = useRef(null)
+  const draftSaveTimer = useRef(null)
+  // Guards the auto-save effect against firing during the initial load (the
+  // resume-restore itself touches gunaAnswers/index and must not be mistaken
+  // for a real edit that needs saving straight back to the server).
+  const hasLoadedRef = useRef(false)
 
   const total = GUNA_VIGNETTES.length
   const vignette = GUNA_VIGNETTES[index]
@@ -24,9 +34,11 @@ export default function GunaProfiler() {
   const answeredIds = useMemo(() => new Set(Object.keys(gunaAnswers)), [gunaAnswers])
   const answeredCount = answeredIds.size
 
-  // On arrival, check whether this respondent already has a completed
-  // submission — if so, skip straight to the completion screen instead of
-  // making them re-answer everything.
+  // On arrival: a completed submission goes straight to the completion
+  // screen; an in-progress draft (FR-17, 72h resume window — enforced
+  // server-side) is restored into context at the question it left off on;
+  // otherwise it's a fresh attempt, possibly right after an old draft aged
+  // out and was discarded.
   useEffect(() => {
     let cancelled = false
     api
@@ -37,9 +49,18 @@ export default function GunaProfiler() {
           setPreviousAnswers(data.answers)
           setSubmittedAt(data.submittedAt)
           setPhase('done')
-        } else {
-          setPhase('quiz')
+          return
         }
+        if (data.draft && data.draft.answers?.length) {
+          for (const a of data.draft.answers) answerGuna(a.vignetteId, a.optionKey)
+          const savedIndex = typeof data.draft.currentIndex === 'number' ? data.draft.currentIndex : 0
+          setIndex(Math.max(0, Math.min(total - 1, savedIndex)))
+          setResumeNotice('resumed')
+        } else if (data.expired) {
+          setResumeNotice('expired')
+        }
+        hasLoadedRef.current = true
+        setPhase('quiz')
       })
       .catch((err) => {
         if (cancelled) return
@@ -50,7 +71,39 @@ export default function GunaProfiler() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => () => clearTimeout(advanceTimer.current), [])
+  useEffect(() => () => {
+    clearTimeout(advanceTimer.current)
+    clearTimeout(draftSaveTimer.current)
+  }, [])
+
+  const persistDraft = useCallback((map, currentIndex) => {
+    const answers = Object.entries(map).map(([vignetteId, optionKey]) => ({ vignetteId, optionKey }))
+    setDraftSaveState('saving')
+    api
+      .saveGunaDraft(answers, currentIndex)
+      .then((res) => {
+        setDraftSaveState('saved')
+        if (res?.restarted) {
+          // Edge case: the tab sat open long enough that the draft aged past
+          // 72h between loads — the server discarded it and started a fresh
+          // one on this save. Let the respondent know why their earlier
+          // answers on this screen no longer match what's stored.
+          setResumeNotice('expired')
+        }
+      })
+      .catch(() => setDraftSaveState('error'))
+  }, [])
+
+  // Auto-save shortly after every answer or navigation change, once the
+  // initial load/resume has finished.
+  useEffect(() => {
+    if (phase !== 'quiz' || !hasLoadedRef.current) return undefined
+    clearTimeout(draftSaveTimer.current)
+    draftSaveTimer.current = setTimeout(() => {
+      persistDraft(gunaAnswers, index)
+    }, DRAFT_SAVE_DEBOUNCE_MS)
+    return () => clearTimeout(draftSaveTimer.current)
+  }, [gunaAnswers, index, phase, persistDraft])
 
   // Accepts an optional answers-map override so the very last answer can be
   // submitted correctly even though it hasn't round-tripped through context
@@ -108,6 +161,11 @@ export default function GunaProfiler() {
     else goToIndex(index + 1)
   }
 
+  function handleSaveDraft() {
+    clearTimeout(draftSaveTimer.current)
+    persistDraft(gunaAnswers, index)
+  }
+
   // Keyboard shortcuts: 1/2/3 (or A/B/C) picks an option, arrow keys move
   // between questions that already have an answer (or the current one).
   useEffect(() => {
@@ -137,6 +195,8 @@ export default function GunaProfiler() {
       for (const a of previousAnswers) answerGuna(a.vignetteId, a.optionKey)
     }
     setIndex(0)
+    hasLoadedRef.current = true
+    setResumeNotice(null)
     setPhase('quiz')
   }
 
@@ -172,7 +232,8 @@ export default function GunaProfiler() {
           <h1>Your responses are recorded</h1>
           <p>
             Thank you for completing the Guna profiler. There's nothing more to do here — scoring
-            and your personalised profile will be available a little later.
+            and your personalised profile will be available a little later. You can now start the
+            Construct assessment from My Page.
             {submittedAt && (
               <> Submitted {new Date(submittedAt).toLocaleString()}.</>
             )}
@@ -191,6 +252,18 @@ export default function GunaProfiler() {
   // phase === 'quiz' or 'submitting'
   return (
     <div className="assessment-shell container">
+      {resumeNotice && (
+        <div
+          className={`status-msg ${resumeNotice === 'expired' ? 'error' : 'success'}`}
+          style={{ display: 'block' }}
+          role="status"
+        >
+          {resumeNotice === 'expired'
+            ? 'Your previous in-progress session was more than 72 hours old, so it was cleared — starting fresh.'
+            : 'Welcome back — resumed where you left off.'}
+        </div>
+      )}
+
       <div className="assessment-topbar">
         <div className="guna-stepper" role="tablist" aria-label="Question progress">
           {GUNA_VIGNETTES.map((v, i) => {
@@ -245,12 +318,21 @@ export default function GunaProfiler() {
           <button type="button" className="btn btn-ghost" onClick={handleBack} disabled={phase === 'submitting'}>
             {index === 0 ? 'Exit' : 'Back'}
           </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={handleSaveDraft}
+            disabled={phase === 'submitting' || answeredCount === 0}
+          >
+            {draftSaveState === 'saving' ? 'Saving…' : 'Save draft'}
+          </button>
           <button type="button" className="btn btn-primary" onClick={handleNext} disabled={!selected || phase === 'submitting'}>
             {phase === 'submitting' ? 'Saving…' : isLast ? 'Finish' : 'Next'}
           </button>
         </div>
         <p className="quiz-hint">
           There are no right or wrong answers — answer with what you'd actually do. Tip: press 1, 2, or 3 to answer quickly.
+          {draftSaveState === 'saved' && ' Draft saved.'}
         </p>
       </div>
     </div>

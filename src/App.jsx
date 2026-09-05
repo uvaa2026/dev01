@@ -12,9 +12,10 @@ import Register from './pages/Register.jsx'
 import Login from './pages/Login.jsx'
 import VerifyEmail from './pages/VerifyEmail.jsx'
 import MyPage from './pages/MyPage.jsx'
+import Report from './pages/Report.jsx'
+import BeforeYouBegin from './pages/assessment/BeforeYouBegin.jsx'
 import GunaProfiler from './pages/assessment/GunaProfiler.jsx'
 import ConstructAssessment from './pages/assessment/ConstructAssessment.jsx'
-import Processing from './pages/assessment/Processing.jsx'
 import AdminUsers from './pages/admin/AdminUsers.jsx'
 import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
 
@@ -54,6 +55,22 @@ export default function App() {
               }
             />
             <Route
+              path="/report"
+              element={
+                <ProtectedRoute>
+                  <Report />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/assessment/begin"
+              element={
+                <ProtectedRoute>
+                  <BeforeYouBegin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/assessment/guna"
               element={
                 <ProtectedRoute>
@@ -66,14 +83,6 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <ConstructAssessment />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/assessment/processing"
-              element={
-                <ProtectedRoute>
-                  <Processing />
                 </ProtectedRoute>
               }
             />

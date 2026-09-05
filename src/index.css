@@ -1360,6 +1360,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   margin-bottom: 18px;
 }
 
+/* A stage the respondent can't start yet (Construct before Guna is
+   submitted, the report before both are scored) — same card, visibly
+   inactive rather than hidden, so the sequence of steps stays legible. */
+.mypage-card.locked-card {
+  opacity: 0.6;
+}
+.mypage-card.locked-card h3 {
+  color: var(--text-muted);
+}
+
 .info-list { display: grid; gap: 14px; }
 .info-row {
   display: flex;

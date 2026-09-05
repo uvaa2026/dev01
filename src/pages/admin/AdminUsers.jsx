@@ -51,6 +51,8 @@ export default function AdminUsers() {
                 <th>Organisation</th>
                 <th>Verified</th>
                 <th>Guna profiler</th>
+                <th>Construct</th>
+                <th>Report</th>
                 <th>Registered</th>
               </tr>
             </thead>
@@ -72,11 +74,21 @@ export default function AdminUsers() {
                       ? <span className="verified-badge">Completed</span>
                       : <span className="pending-badge">Not started</span>}
                   </td>
+                  <td>
+                    {u.assessments.construct.submitted
+                      ? <span className="verified-badge">Completed</span>
+                      : <span className="pending-badge">Not started</span>}
+                  </td>
+                  <td>
+                    {u.reportReady
+                      ? <span className="verified-badge">Ready</span>
+                      : <span className="pending-badge">Pending</span>}
+                  </td>
                   <td className="admin-table-muted">{new Date(u.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
               {state.users.length === 0 && (
-                <tr><td colSpan={6} className="admin-table-muted">No registered users yet.</td></tr>
+                <tr><td colSpan={8} className="admin-table-muted">No registered users yet.</td></tr>
               )}
             </tbody>
           </table>
