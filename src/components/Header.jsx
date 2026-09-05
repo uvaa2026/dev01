@@ -28,7 +28,9 @@ export default function Header() {
           <li><Link to="/#about" onClick={() => setOpen(false)}>About UVAA</Link></li>
           <li><Link to="/#dimensions" onClick={() => setOpen(false)}>The Framework</Link></li>
           <li><Link to="/#how-it-works" onClick={() => setOpen(false)}>How it works</Link></li>
-          <li><Link to="/#organisations" onClick={() => setOpen(false)}>For Organisations</Link></li>
+          {!isAuthenticated && (
+            <li><Link to="/#organisations" onClick={() => setOpen(false)}>For Organisations</Link></li>
+          )}
         </ul>
 
         <div className="nav-actions">

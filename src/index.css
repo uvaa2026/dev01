@@ -404,6 +404,9 @@ section { padding: 72px 0; position: relative; }
   color: var(--text-secondary);
   font-size: 1rem;
 }
+.section-head p + p {
+  margin-top: 10px;
+}
 
 /* ---- Overview text block ---- */
 .overview {

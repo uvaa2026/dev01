@@ -62,16 +62,21 @@ export default function Welcome() {
           </div>
           <div className="overview">
             <p className="overview-copy">
-              The UVAA web application is the digital delivery platform for the UVAA assessment
-              instrument — enabling you to complete the full diagnostic, receive a personalised{' '}
-              <strong>Emotional Stability Under Pressure profile</strong>, and generate a three-tier
-              intervention plan. Scenarios are delivered adaptively based on your own professional
-              context, so what you see reflects the pressures of your own world — not a generic test.
+              UVAA looks at how your judgement behaves when a situation gets difficult, rather than at
+              what you know or how you describe yourself.
             </p>
             <p className="overview-copy">
-              You'll complete realistic scenarios before ever seeing a framework label or construct
-              name — so your responses stay honest and unprimed. Your results are yours: no individual
-              score is visible to an HR administrator without your explicit consent.
+              It measures two things. How you operate, which is the state you tend to work from. And
+              decision quality under pressure, which is what happens to that judgement when the
+              pressure is live.
+            </p>
+            <p className="overview-copy">
+              The two do not always agree. Where they diverge is usually the most useful thing the
+              assessment can tell you.
+            </p>
+            <p className="overview-copy">
+              The framework draws on the three gunas from Vedic literature alongside research in
+              behavioural economics on how judgement distorts under pressure.
             </p>
           </div>
         </div>
@@ -125,7 +130,8 @@ export default function Welcome() {
           <div className="section-head">
             <span className="eyebrow"><span className="dot"></span> Your journey</span>
             <h2>From registration to your practice plan</h2>
-            <p>Five steps, roughly fifty minutes, and a report designed to be used — not filed away.</p>
+            <p>Two parts, one sitting, 35 to 45 minutes.</p>
+            <p>Part one asks how you tend to respond in everyday situations.<br />Part two puts you in work situations and asks what you would do.</p>
           </div>
 
           <div className="journey">
