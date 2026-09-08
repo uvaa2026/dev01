@@ -92,6 +92,11 @@ export default function Report() {
       <div className="results-header">
         <span className="eyebrow"><span className="dot"></span> Your report</span>
         <h1>Your UVAA report</h1>
+        <div className="print-actions">
+          <button type="button" className="btn btn-ghost" onClick={() => window.print()}>
+            Print / Save as PDF
+          </button>
+        </div>
       </div>
 
       {/* Section 1 — About this assessment. Fixed text, prints on every report. */}

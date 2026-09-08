@@ -1796,3 +1796,72 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .report-section { padding: 24px 18px; }
   .guna-orientation-legend { gap: 14px; }
 }
+
+/* ==========================================================================
+   Report print / Save-as-PDF
+   The button opens the browser's native print dialog; "Save as PDF" there
+   is the export path (no server round trip, no new dependency). The rules
+   below just make that dialog's paper preview look like a document instead
+   of a screenshot of the dark UI: chrome and the button itself are hidden,
+   the report's own dark palette is swapped for a print-safe light one by
+   overriding the same custom properties everything else already reads
+   through var(), and sections avoid splitting across a page break.
+   ========================================================================== */
+.print-actions { margin-top: 18px; display: flex; justify-content: center; }
+
+@media print {
+  @page { margin: 16mm 14mm; }
+
+  .site-header, .site-footer, .skip-link, .print-actions, .results-actions {
+    display: none !important;
+  }
+
+  body::before, body::after { display: none !important; }
+
+  :root {
+    --bg-void: #ffffff;
+    --bg-base: #ffffff;
+    --bg-surface: #ffffff;
+    --bg-surface-2: #f4f5f8;
+    --bg-surface-3: #e9eaf0;
+    --accent-cyan: #0f7a9e;
+    --accent-cyan-dim: #0f7a9e;
+    --accent-cyan-soft: #dff1f7;
+    --accent-amber: #a86315;
+    --accent-amber-soft: #f5e6d3;
+    --accent-violet: #5a4bcf;
+    --accent-magenta: #a5306a;
+    --accent-magenta-soft: #f4dde8;
+    --text-primary: #12141c;
+    --text-secondary: #3d4256;
+    --text-muted: #5c6172;
+    --border-soft: #d9dbe3;
+    --border-strong: #b9bcc8;
+    --shadow-card: none;
+    --shadow-glow-cyan: none;
+  }
+
+  body { background: #fff; color: var(--text-primary); }
+
+  .uvaa-report { max-width: 100%; padding: 0; }
+  .results-header { margin-bottom: 24px; }
+
+  .report-section {
+    box-shadow: none;
+    border: 1px solid var(--border-soft);
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .orientation-dominance-block,
+  .dqi-callout,
+  .pattern-text-block,
+  .capacity-bar-row,
+  .capacity-line-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .pattern-grid-scroll { overflow: visible; }
+  .pattern-grid { min-width: 0; }
+}
