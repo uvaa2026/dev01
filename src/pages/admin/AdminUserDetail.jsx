@@ -353,13 +353,15 @@ export default function AdminUserDetail() {
               {report.data.pattern.steppedDown && <span className="pending-badge" style={{ marginLeft: 8 }}>Stepped down</span>}
             </div>
             <h3>{report.data.pattern.label}</h3>
-            <p>{report.data.pattern.meaning}</p>
+            <p>{report.data.pattern.description}</p>
+            <p style={{ marginTop: 12 }}><strong>What holds.</strong> {report.data.pattern.whatHolds}</p>
+            <p style={{ marginTop: 12 }}><strong>Development focus.</strong> {report.data.pattern.developmentFocus}</p>
           </div>
 
           {report.data.needsFacilitatorReview && (
             <div className="status-msg error" style={{ display: 'block' }} role="alert">
-              Reserved-and-decisive pattern (Tamas + Anchored) — no automated plan prints for this
-              respondent. Facilitator follow-up needed.
+              Reserved but steady pattern (Tamas + Anchored) — the participant's own report ends
+              after section 3 for this pattern. Facilitator follow-up needed.
             </div>
           )}
         </section>
