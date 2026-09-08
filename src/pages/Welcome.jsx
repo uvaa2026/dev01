@@ -165,6 +165,7 @@ export default function Welcome() {
       </section>
 
       {/* ============ FOR ORGANISATIONS ============ */}
+      {!isAuthenticated && (
       <section id="organisations">
         <div className="container">
           <div className="section-head">
@@ -180,15 +181,15 @@ export default function Welcome() {
               <li>Cohort completion tracking, deadlines, and CSV export for your HR systems.</li>
               <li>Data residency in India · DPDP Act 2023 compliant · AES-256 encryption at rest.</li>
             </ul>
-            {!isAuthenticated && (
+            
               <div>
                 <Link to="/register" className="btn btn-primary">Set up your organisation</Link>
               </div>
-            )}
+            
           </div>
         </div>
       </section>
-
+              )}
       {/* ============ CTA ============ */}
       {!isAuthenticated && (
         <section>
