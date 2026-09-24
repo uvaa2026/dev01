@@ -53,8 +53,11 @@ async function request(path, options = {}) {
 }
 
 export const api = {
-  // POST /auth/register { fullName, email, password, organisation, vertical,
+  // POST /auth/register { cohortCode, fullName, email, password, vertical,
   //                        careerStage, experience, department, consent }
+  // Code-first: every participant registration needs a cohort code from
+  // their organisation now — see the two-step flow in OrgRegister.jsx /
+  // Register.jsx (lookupCohortCode first, then this).
   register: (payload) =>
     request('/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
 
@@ -123,4 +126,51 @@ export const api = {
   adminGetUserGuna: (id) => request(`/admin/users/${id}/guna`, { method: 'GET' }),
   adminGetUserConstruct: (id) => request(`/admin/users/${id}/construct`, { method: 'GET' }),
   adminGetUserReport: (id) => request(`/admin/users/${id}/report`, { method: 'GET' }),
+
+  // --- Organisation registration (OrgRegister.jsx) ---------------------
+
+  // POST /org/register { organisationName, organisationType, emailDomain,
+  //   seatCount, approvalMode, provisioningModel, orgAdmin, facilitator }
+  orgRegister: (payload) =>
+    request('/org/register', { method: 'POST', body: JSON.stringify(payload) }),
+
+  // POST /org/verify { token } — from the "type=org" verification link.
+  // Returns { organisationName, cohortCode } on success, so the Org Admin
+  // sees their cohort code immediately without a separate lookup.
+  orgVerifyEmail: (token) =>
+    request('/org/verify', { method: 'POST', body: JSON.stringify({ token }) }),
+
+  // GET /org/lookup?code=... (public) — step 1 of participant registration.
+  lookupCohortCode: (code) =>
+    request(`/org/lookup?code=${encodeURIComponent(code)}`, { method: 'GET' }),
+
+  // POST /org/login { email, password, rememberMe } — a separate login for
+  // the Org Admin, independent of the respondent/participant session. Used
+  // by an Org Admin who declined to take the assessment themselves and so
+  // has no respondent account at all.
+  orgLogin: (payload) =>
+    request('/org/login', { method: 'POST', body: JSON.stringify(payload) }),
+
+  // GET /org/me — resolves only for a direct Org Admin session (see
+  // orgLogin above). 404s for a participant/respondent session or when
+  // signed out; OrgAuthContext treats either as "not an org-admin session".
+  orgMe: () => request('/org/me', { method: 'GET' }),
+
+  // --- Org Admin dashboard (org-admin/*) --------------------------------
+  // Every call below works for EITHER an Org Admin session (orgLogin) or a
+  // respondent session belonging to an opted-in Org Admin (auth login) —
+  // the backend's requireOrgAdmin middleware resolves the org either way,
+  // so the frontend never needs to know which kind of session is active.
+  orgAdmin: {
+    overview: () => request('/org-admin/overview', { method: 'GET' }),
+    participants: () => request('/org-admin/participants', { method: 'GET' }),
+    participant: (id) => request(`/org-admin/participants/${id}`, { method: 'GET' }),
+    approve: (id, decision) =>
+      request(`/org-admin/participants/${id}/approve`, { method: 'PATCH', body: JSON.stringify({ decision }) }),
+    listRoster: () => request('/org-admin/roster', { method: 'GET' }),
+    addRosterEntry: (payload) =>
+      request('/org-admin/roster', { method: 'POST', body: JSON.stringify(payload) }),
+    uploadRosterCsv: (csv) =>
+      request('/org-admin/roster/bulk', { method: 'POST', body: JSON.stringify({ csv }) }),
+  },
 }

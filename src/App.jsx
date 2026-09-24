@@ -5,8 +5,11 @@ import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import AdminRoute from './components/AdminRoute.jsx'
 import GuestRoute from './components/GuestRoute.jsx'
+import OrgGuestRoute from './components/OrgGuestRoute.jsx'
+import OrgAdminRoute from './components/OrgAdminRoute.jsx'
 import { AssessmentProvider } from './context/AssessmentContext.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import { OrgAuthProvider } from './context/OrgAuthContext.jsx'
 import Welcome from './pages/Welcome.jsx'
 import Register from './pages/Register.jsx'
 import Login from './pages/Login.jsx'
@@ -18,10 +21,14 @@ import GunaProfiler from './pages/assessment/GunaProfiler.jsx'
 import ConstructAssessment from './pages/assessment/ConstructAssessment.jsx'
 import AdminUsers from './pages/admin/AdminUsers.jsx'
 import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
+import OrgRegister from './pages/OrgRegister.jsx'
+import OrgLogin from './pages/OrgLogin.jsx'
+import OrgAdminDashboard from './pages/org-admin/OrgAdminDashboard.jsx'
 
 export default function App() {
   return (
     <AuthProvider>
+      <OrgAuthProvider>
       <AssessmentProvider>
         <GrainOverlay />
         <a href="#main" className="skip-link">Skip to content</a>
@@ -102,10 +109,35 @@ export default function App() {
                 </AdminRoute>
               }
             />
+            <Route
+              path="/org-register"
+              element={
+                <OrgGuestRoute>
+                  <OrgRegister />
+                </OrgGuestRoute>
+              }
+            />
+            <Route
+              path="/org-login"
+              element={
+                <OrgGuestRoute>
+                  <OrgLogin />
+                </OrgGuestRoute>
+              }
+            />
+            <Route
+              path="/org-admin"
+              element={
+                <OrgAdminRoute>
+                  <OrgAdminDashboard />
+                </OrgAdminRoute>
+              }
+            />
           </Routes>
         </main>
         <Footer />
       </AssessmentProvider>
+      </OrgAuthProvider>
     </AuthProvider>
   )
 }

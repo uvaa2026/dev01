@@ -13,7 +13,8 @@ export default function GuestRoute({ children }) {
   }
 
   if (isAuthenticated) {
-    return <Navigate to={user?.isAdmin ? '/admin/users' : '/my-page'} replace />
+    const destination = user?.isAdmin ? '/admin/users' : user?.isOrgAdminOf ? '/org-admin' : '/my-page'
+    return <Navigate to={destination} replace />
   }
 
   return children

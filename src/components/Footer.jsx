@@ -23,6 +23,8 @@ export default function Footer() {
             <h5>Account</h5>
             <Link to="/register">Register</Link>
             <Link to="/login">Log in</Link>
+            <Link to="/org-register">Register your organisation</Link>
+            <Link to="/org-login">Org Admin login</Link>
           </div>
           <div className="footer-col">
             <h5>Legal</h5>

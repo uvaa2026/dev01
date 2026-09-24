@@ -1865,3 +1865,105 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .pattern-grid-scroll { overflow: visible; }
   .pattern-grid { min-width: 0; }
 }
+
+/* ==========================================================================
+   Organisation-level platform — org registration, org admin login/dashboard,
+   participant cohort-code registration wizard. Reuses existing tokens and
+   layout primitives (.auth-shell, .field, .checkbox-row, .admin-table,
+   .mypage-card, .badge classes) rather than introducing a parallel system.
+   ========================================================================== */
+
+.auth-card-wide { max-width: 640px; }
+
+.radio-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.radio-row input[type="radio"] {
+  margin-top: 3px;
+  width: 16px; height: 16px;
+  accent-color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.wizard-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+.wizard-actions .btn-lg { flex: 1; }
+
+.btn-sm { padding: 8px 16px; font-size: 0.82rem; }
+
+.code-display {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin: 12px 0;
+}
+.code-display-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.code-display-value {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stat-card-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.stat-card-value {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.roster-add-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .roster-add-form { grid-template-columns: 1fr; }
+}
