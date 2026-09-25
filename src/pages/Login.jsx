@@ -66,11 +66,6 @@ export default function Login() {
           <h1>Log in</h1>
           <p className="subtitle">New to UVAA? <Link to="/register" className="link-accent">Create an account</Link>.</p>
 
-          <div className="form-note">
-            <span aria-hidden="true">ⓘ</span>
-            <span>Received a unique assessment link from your HR administrator? Open that link directly instead of logging in here.</span>
-          </div>
-
           {status && (
             <div className={`status-msg ${status.type === 'error' ? 'error' : 'success'}`} style={{ display: 'block' }} role="status">
               {status.message}
@@ -116,7 +111,7 @@ export default function Login() {
             <p className="form-footer-link">
               Registering on behalf of your organisation?{' '}
               <Link to="/org-register" className="link-accent">Register your organisation</Link>{' · '}
-              <Link to="/org-login" className="link-accent">Org Admin login</Link>.
+              <Link to="/org-login" className="link-accent">Admin login</Link>.
             </p>
           </form>
         </div>

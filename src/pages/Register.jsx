@@ -185,7 +185,7 @@ export default function Register() {
             <form ref={codeFormRef} onSubmit={handleCodeSubmit} noValidate>
               <div className="form-note">
                 <span aria-hidden="true">ⓘ</span>
-                <span>Registration is by cohort code only — get this from your organisation's Org Admin.</span>
+                <span>Registration is by cohort code only — get this from your organisation's Admin.</span>
               </div>
 
               <div className="field">
@@ -195,7 +195,7 @@ export default function Register() {
                   placeholder="e.g. ABCD240926EF" required autoFocus
                   value={cohortCode} onChange={(e) => setCohortCode(e.target.value)}
                 />
-                <span className="hint">Your organisation's Org Admin has this code.</span>
+                <span className="hint">Your organisation's Admin has this code.</span>
               </div>
 
               <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={submitting}>
@@ -343,12 +343,12 @@ export default function Register() {
                     checked={consent.orgAdmin} onChange={handleConsentChange}
                   />
                   <label htmlFor="consentOrgAdmin">
-                    I consent to my organisation's Org Admin seeing my profile and scores.
+                    I consent to my organisation's Admin seeing my profile and scores.
                   </label>
                 </div>
 
                 <p className="hint">
-                  Declining the facilitator or Org Admin consent above changes nothing about the report you receive yourself — it only controls who else can see it.
+                  Declining the facilitator or Admin consent above changes nothing about the report you receive yourself — it only controls who else can see it.
                 </p>
               </fieldset>
 

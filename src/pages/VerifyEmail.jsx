@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
 
@@ -6,21 +6,29 @@ export default function VerifyEmail() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token')
   const isOrg = searchParams.get('type') === 'org'
-  const [status, setStatus] = useState('pending') // pending | success | error
-  const [message, setMessage] = useState('Verifying your email…')
+  // 'ready' (waiting on the person to click Confirm) | 'verifying' | 'success' | 'error'
+  //
+  // Deliberately NOT auto-verified on page load. Corporate mail security
+  // gateways (Outlook Safe Links, Proofpoint, Mimecast, etc.) routinely
+  // "detonate" links in a hidden browser before a human ever opens the
+  // email — if verification fired on mount, that automated visit alone
+  // would consume the token and, for an Org Admin, silently issue and
+  // email the cohort code before anyone actually clicked. Requiring an
+  // explicit click means a scanner that merely loads the page can't
+  // trigger it.
+  const [status, setStatus] = useState(token ? 'ready' : 'error')
+  const [message, setMessage] = useState(
+    token ? '' : 'This verification link is missing a token. Please use the full link from your email.',
+  )
   const [cohortCode, setCohortCode] = useState(null)
   const [copied, setCopied] = useState(false)
   const ranRef = useRef(false)
 
-  useEffect(() => {
-    if (ranRef.current) return
+  function handleConfirm() {
+    if (ranRef.current || !token) return
     ranRef.current = true
-
-    if (!token) {
-      setStatus('error')
-      setMessage('This verification link is missing a token. Please use the full link from your email.')
-      return
-    }
+    setStatus('verifying')
+    setMessage('Verifying your email…')
 
     const verify = isOrg ? api.orgVerifyEmail(token) : api.verifyEmail(token)
     verify
@@ -32,6 +40,7 @@ export default function VerifyEmail() {
         }
       })
       .catch((err) => {
+        ranRef.current = false
         setStatus('error')
         setMessage(
           err instanceof ApiError
@@ -39,7 +48,7 @@ export default function VerifyEmail() {
             : 'Could not verify your email right now. Please try again in a moment.',
         )
       })
-  }, [token, isOrg])
+  }
 
   async function copyCode() {
     try {
@@ -61,7 +70,7 @@ export default function VerifyEmail() {
         <h2>{isOrg ? 'One last step before your cohort code is issued' : 'One last step before you can log in'}</h2>
         <p>
           {isOrg
-            ? "We ask every Org Admin to confirm their email address before we issue a cohort code — it keeps the code tied to a verified organisation."
+            ? "We ask every Admin to confirm their email address before we issue a cohort code — it keeps the code tied to a verified organisation."
             : "We ask every respondent to confirm their email address before their first login — it keeps assessment results tied to a verified identity."}
         </p>
         <ul className="auth-aside-list">
@@ -82,13 +91,30 @@ export default function VerifyEmail() {
         <div className="auth-card">
           <h1>{isOrg ? 'Organisation email verification' : 'Email verification'}</h1>
 
-          <div
-            className={`status-msg ${status === 'error' ? 'error' : 'success'}`}
-            style={{ display: 'block' }}
-            role="status"
-          >
-            {message}
-          </div>
+          {status === 'ready' && (
+            <>
+              <p style={{ color: 'var(--text-secondary)' }}>
+                Click below to confirm this is you and finish verifying your email address.
+              </p>
+              <button
+                type="button"
+                className="btn btn-primary btn-block btn-lg"
+                onClick={handleConfirm}
+              >
+                Confirm my email
+              </button>
+            </>
+          )}
+
+          {status !== 'ready' && (
+            <div
+              className={`status-msg ${status === 'error' ? 'error' : 'success'}`}
+              style={{ display: 'block' }}
+              role="status"
+            >
+              {message}
+            </div>
+          )}
 
           {status === 'success' && isOrg && cohortCode && (
             <div className="code-display">
@@ -109,7 +135,7 @@ export default function VerifyEmail() {
               className="btn btn-primary btn-block btn-lg"
               style={{ marginTop: '20px' }}
             >
-              {isOrg ? 'Go to Org Admin login' : 'Go to login'}
+              {isOrg ? 'Go to Admin login' : 'Go to login'}
             </Link>
           )}
 

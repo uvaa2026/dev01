@@ -164,7 +164,7 @@ export default function OrgAdminDashboard() {
     <div className="admin-shell container">
       <div className="admin-header">
         <div>
-          <span className="eyebrow"><span className="dot"></span> Org Admin</span>
+          <span className="eyebrow"><span className="dot"></span> Admin</span>
           <h1>{org.organisationName}</h1>
           <p className="subtitle">
             {isOrgAuthenticated ? orgAdmin?.email : 'Signed in as your respondent account'}

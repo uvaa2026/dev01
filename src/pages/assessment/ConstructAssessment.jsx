@@ -31,7 +31,6 @@ export default function ConstructAssessment() {
   const total = CONSTRUCT_SCENARIOS.length
   const scenario = CONSTRUCT_SCENARIOS[index]
   const selected = constructAnswers[scenario?.id]
-  const isLast = index === total - 1
   const answeredIds = useMemo(() => new Set(Object.keys(constructAnswers)), [constructAnswers])
   const answeredCount = answeredIds.size
 
@@ -142,24 +141,17 @@ export default function ConstructAssessment() {
     goToIndex(index - 1)
   }
 
-  function handleNext() {
-    if (!selected) return
-    clearTimeout(advanceTimer.current)
-    if (isLast) submit()
-    else goToIndex(index + 1)
-  }
-
   function handleSaveDraft() {
     clearTimeout(draftSaveTimer.current)
     persistDraft(constructAnswers, index)
   }
 
-  // Keyboard shortcuts: 1-4 (or A-D) picks an option, arrow keys navigate.
+  // Keyboard shortcuts: 1-3 (or A-C) picks an option, left arrow navigates back.
   useEffect(() => {
     if (phase !== 'quiz') return undefined
     function onKeyDown(e) {
       if (e.metaKey || e.ctrlKey || e.altKey) return
-      const optionByDigit = { 1: 0, 2: 1, 3: 2, 4: 3 }
+      const optionByDigit = { 1: 0, 2: 1, 3: 2 }
       if (optionByDigit[e.key] !== undefined && scenario.options[optionByDigit[e.key]]) {
         handleSelect(scenario.options[optionByDigit[e.key]].key)
         return
@@ -170,7 +162,6 @@ export default function ConstructAssessment() {
         return
       }
       if (e.key === 'ArrowLeft') handleBack()
-      if (e.key === 'ArrowRight' && selected) handleNext()
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -318,12 +309,15 @@ export default function ConstructAssessment() {
           >
             {draftSaveState === 'saving' ? 'Saving…' : 'Save draft'}
           </button>
-          <button type="button" className="btn btn-primary" onClick={handleNext} disabled={!selected || phase === 'submitting'}>
-            {phase === 'submitting' ? 'Saving…' : isLast ? 'Finish' : 'Next'}
-          </button>
+          {phase === 'submitting' && (
+            <span className="btn btn-primary" aria-disabled="true" style={{ pointerEvents: 'none', opacity: 0.7 }}>
+              Saving…
+            </span>
+          )}
         </div>
         <p className="quiz-hint">
-          There are no right or wrong answers — answer with what you'd actually do. Tip: press 1-4 to answer quickly.
+          There are no right or wrong answers — answer with what you'd actually do. Selecting an answer moves you
+          on automatically — no need to click anything else. Tip: press 1, 2, or 3 to answer quickly.
           {draftSaveState === 'saved' && ' Draft saved.'}
         </p>
       </div>

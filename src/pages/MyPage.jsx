@@ -123,8 +123,7 @@ export default function MyPage() {
                 <span className="verified-badge">Completed</span>{' '}
                 {gunaStatus.submittedAt && `on ${new Date(gunaStatus.submittedAt).toLocaleDateString()}`}
               </p>
-              <p>Scoring and your personalised profile will be available with your full report.</p>
-              <Link to="/assessment/guna" className="btn btn-ghost btn-block">Review / edit my answers</Link>
+              <p>Scoring and your personalised profile will be available with your full report. Your answers are locked and can't be changed.</p>
             </>
           ) : gunaStatus && (
             <>

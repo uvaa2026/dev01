@@ -46,7 +46,7 @@ export default function OrgLogin() {
   return (
     <div className="auth-shell">
       <aside className="auth-aside">
-        <span className="eyebrow"><span className="dot"></span> Org Admin</span>
+        <span className="eyebrow"><span className="dot"></span> Admin</span>
         <h2>Run your organisation's cohort</h2>
         <p>See who's registered, approve pending participants, manage your roster, and view scores that participants chose to share with you.</p>
         <ul className="auth-aside-list">
@@ -57,7 +57,7 @@ export default function OrgLogin() {
 
       <div className="auth-main">
         <div className="auth-card">
-          <h1>Org Admin login</h1>
+          <h1>Admin login</h1>
           <p className="subtitle">
             Registering as a participant instead? <Link to="/login" className="link-accent">Go to participant login</Link>.
           </p>

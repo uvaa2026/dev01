@@ -15,7 +15,6 @@ export default function GunaProfiler() {
   const [loadError, setLoadError] = useState(null)
   const [submitError, setSubmitError] = useState(null)
   const [submittedAt, setSubmittedAt] = useState(null)
-  const [previousAnswers, setPreviousAnswers] = useState(null)
   // 'resumed' — a server draft was found and restored; 'expired' — a >72h
   // draft was found and discarded server-side (FR-17), starting fresh.
   const [resumeNotice, setResumeNotice] = useState(null)
@@ -30,7 +29,6 @@ export default function GunaProfiler() {
   const total = GUNA_VIGNETTES.length
   const vignette = GUNA_VIGNETTES[index]
   const selected = gunaAnswers[vignette?.id]
-  const isLast = index === total - 1
   const answeredIds = useMemo(() => new Set(Object.keys(gunaAnswers)), [gunaAnswers])
   const answeredCount = answeredIds.size
 
@@ -46,7 +44,6 @@ export default function GunaProfiler() {
       .then((data) => {
         if (cancelled) return
         if (data.submitted) {
-          setPreviousAnswers(data.answers)
           setSubmittedAt(data.submittedAt)
           setPhase('done')
           return
@@ -118,7 +115,6 @@ export default function GunaProfiler() {
     try {
       const data = await api.submitGunaAssessment(answers)
       setSubmittedAt(data.submittedAt)
-      setPreviousAnswers(answers)
       setPhase('done')
     } catch (err) {
       setSubmitError(err instanceof ApiError ? err.message : 'Could not save your responses. Please try again.')
@@ -154,13 +150,6 @@ export default function GunaProfiler() {
     goToIndex(index - 1)
   }
 
-  function handleNext() {
-    if (!selected) return
-    clearTimeout(advanceTimer.current)
-    if (isLast) submit()
-    else goToIndex(index + 1)
-  }
-
   function handleSaveDraft() {
     clearTimeout(draftSaveTimer.current)
     persistDraft(gunaAnswers, index)
@@ -183,22 +172,11 @@ export default function GunaProfiler() {
         return
       }
       if (e.key === 'ArrowLeft') handleBack()
-      if (e.key === 'ArrowRight' && selected) handleNext()
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, vignette, selected])
-
-  function startEditing() {
-    if (previousAnswers) {
-      for (const a of previousAnswers) answerGuna(a.vignetteId, a.optionKey)
-    }
-    setIndex(0)
-    hasLoadedRef.current = true
-    setResumeNotice(null)
-    setPhase('quiz')
-  }
 
   if (phase === 'loading') {
     return (
@@ -240,9 +218,6 @@ export default function GunaProfiler() {
           </p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <Link to="/my-page" className="btn btn-primary btn-lg">Back to My Page</Link>
-            <button type="button" className="btn btn-ghost btn-lg" onClick={startEditing}>
-              Review / edit my answers
-            </button>
           </div>
         </div>
       </div>
@@ -326,12 +301,15 @@ export default function GunaProfiler() {
           >
             {draftSaveState === 'saving' ? 'Saving…' : 'Save draft'}
           </button>
-          <button type="button" className="btn btn-primary" onClick={handleNext} disabled={!selected || phase === 'submitting'}>
-            {phase === 'submitting' ? 'Saving…' : isLast ? 'Finish' : 'Next'}
-          </button>
+          {phase === 'submitting' && (
+            <span className="btn btn-primary" aria-disabled="true" style={{ pointerEvents: 'none', opacity: 0.7 }}>
+              Saving…
+            </span>
+          )}
         </div>
         <p className="quiz-hint">
-          There are no right or wrong answers — answer with what you'd actually do. Tip: press 1, 2, or 3 to answer quickly.
+          There are no right or wrong answers — answer with what you'd actually do. Selecting an answer moves you
+          on automatically — no need to click anything else. Tip: press 1, 2, or 3 to answer quickly.
           {draftSaveState === 'saved' && ' Draft saved.'}
         </p>
       </div>

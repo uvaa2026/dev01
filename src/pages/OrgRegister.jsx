@@ -42,11 +42,11 @@ export default function OrgRegister() {
     if (!formRef.current.reportValidity()) return
 
     if (form.adminPassword !== form.adminConfirmPassword) {
-      setStatus({ type: 'error', message: "The Org Admin's passwords do not match." })
+      setStatus({ type: 'error', message: "The Admin's passwords do not match." })
       return
     }
     if (form.hasFacilitator && form.facilitatorEmail.trim().toLowerCase() === form.adminEmail.trim().toLowerCase()) {
-      setStatus({ type: 'error', message: 'The facilitator must use a different email address than the Org Admin.' })
+      setStatus({ type: 'error', message: 'The facilitator must use a different email address than the Admin.' })
       return
     }
 
@@ -93,17 +93,17 @@ export default function OrgRegister() {
       <div className="auth-shell">
         <aside className="auth-aside">
           <span className="eyebrow"><span className="dot"></span> Organisation registered</span>
-          <h2>Check the Org Admin inbox</h2>
+          <h2>Check the Admin inbox</h2>
           <p>We've sent a verification link to {form.adminEmail}. Your cohort code is issued the moment that link is confirmed.</p>
         </aside>
         <div className="auth-main">
           <div className="auth-card">
             <h1>Almost there</h1>
             <div className="status-msg success" style={{ display: 'block' }} role="status">
-              Organisation registered. Check the Org Admin email ({form.adminEmail}) to verify before your cohort code is issued.
+              Organisation registered. Check the Admin email ({form.adminEmail}) to verify before your cohort code is issued.
             </div>
             <p className="form-footer-link">
-              Already verified? <Link to="/org-login" className="link-accent">Log in to your Org Admin dashboard</Link>.
+              Already verified? <Link to="/org-login" className="link-accent">Log in to your Admin dashboard</Link>.
             </p>
           </div>
         </div>
@@ -207,7 +207,7 @@ export default function OrgRegister() {
             </fieldset>
 
             <fieldset>
-              <legend>Org Admin (required)</legend>
+              <legend>Admin (required)</legend>
               <p className="hint" style={{ marginBottom: '14px' }}>This person manages your organisation's dashboard, roster, and approvals.</p>
 
               <div className="field">
@@ -317,7 +317,7 @@ export default function OrgRegister() {
             </button>
 
             <p className="form-footer-link">
-              Already registered? <Link to="/org-login" className="link-accent">Log in to your Org Admin dashboard</Link>.
+              Already registered? <Link to="/org-login" className="link-accent">Log in to your Admin dashboard</Link>.
             </p>
           </form>
         </div>

@@ -183,7 +183,7 @@ export default function Welcome() {
             </ul>
             
               <div>
-                <Link to="/register" className="btn btn-primary">Set up your organisation</Link>
+                <Link to="/org-register" className="btn btn-primary">Set up your organisation</Link>
               </div>
             
           </div>
