@@ -381,6 +381,45 @@ body::after {
 }
 
 /* ==========================================================================
+   Evidence strip — sits immediately below the hero, one glance of proof
+   points (count, duration, output shape) instead of hero-paragraph clutter.
+   ========================================================================== */
+.evidence-section { padding: 0 0 72px; }
+
+.evidence-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.evidence-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 30px 18px;
+  border-right: 1px solid var(--border-soft);
+}
+.evidence-item:last-child { border-right: none; }
+
+.evidence-num {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 800;
+  background: linear-gradient(120deg, var(--accent-cyan), var(--accent-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.evidence-label {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
    Sections (shared)
    ========================================================================== */
 section { padding: 72px 0; position: relative; }
@@ -1273,6 +1312,10 @@ fieldset legend {
   .journey { grid-template-columns: repeat(3, 1fr); }
   .vertical-grid { grid-template-columns: 1fr; }
   .trust-panel { grid-template-columns: 1fr; }
+  .evidence-strip { grid-template-columns: repeat(2, 1fr); }
+  .evidence-item:nth-child(2) { border-right: none; }
+  .evidence-item { border-bottom: 1px solid var(--border-soft); }
+  .evidence-item:nth-last-child(-n+2) { border-bottom: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .score-grid { grid-template-columns: 1fr; }
   .guna-breakdown { grid-template-columns: 1fr; }

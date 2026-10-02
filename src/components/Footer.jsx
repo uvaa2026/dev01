@@ -14,17 +14,13 @@ export default function Footer() {
           </div>
           <div className="footer-col">
             <h5>Platform</h5>
-            <Link to="/#about">About UVAA</Link>
             <Link to="/#dimensions">The framework</Link>
-            <Link to="/#how-it-works">How it works</Link>
-            <Link to="/#organisations">For organisations</Link>
+            <Link to="/org-register">Register your organisation</Link>
           </div>
           <div className="footer-col">
             <h5>Account</h5>
-            <Link to="/register">Register</Link>
-            <Link to="/login">Log in</Link>
-            <Link to="/org-register">Register your organisation</Link>
-            <Link to="/org-login">Admin login</Link>
+            <Link to="/login">Sign in</Link>
+            <Link to="/org-login">Organisation admin login</Link>
           </div>
           <div className="footer-col">
             <h5>Legal</h5>
