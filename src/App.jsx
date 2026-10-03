@@ -24,6 +24,14 @@ import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
 import OrgRegister from './pages/OrgRegister.jsx'
 import OrgLogin from './pages/OrgLogin.jsx'
 import OrgAdminDashboard from './pages/org-admin/OrgAdminDashboard.jsx'
+import WhyUvaa from './pages/WhyUvaa.jsx'
+import Framework from './pages/Framework.jsx'
+import TheAssessment from './pages/TheAssessment.jsx'
+import WhatYouGet from './pages/WhatYouGet.jsx'
+import ForOrganisations from './pages/ForOrganisations.jsx'
+import PrivacyData from './pages/PrivacyData.jsx'
+import WhatUvaaDoesNotClaim from './pages/WhatUvaaDoesNotClaim.jsx'
+import TalkToUs from './pages/TalkToUs.jsx'
 
 export default function App() {
   return (
@@ -36,6 +44,14 @@ export default function App() {
         <main id="main">
           <Routes>
             <Route path="/" element={<Welcome />} />
+            <Route path="/why-uvaa" element={<WhyUvaa />} />
+            <Route path="/framework" element={<Framework />} />
+            <Route path="/the-assessment" element={<TheAssessment />} />
+            <Route path="/what-you-get" element={<WhatYouGet />} />
+            <Route path="/for-organisations" element={<ForOrganisations />} />
+            <Route path="/privacy-data" element={<PrivacyData />} />
+            <Route path="/what-uvaa-does-not-claim" element={<WhatUvaaDoesNotClaim />} />
+            <Route path="/talk-to-us" element={<TalkToUs />} />
             <Route
               path="/register"
               element={

@@ -30,10 +30,11 @@ export default function Header() {
         </Link>
 
         <ul className={`nav-links${open ? ' open' : ''}`} id="navLinks">
-          <li><Link to="/#dimensions" onClick={() => setOpen(false)}>The Framework</Link></li>
-          {!isAuthenticated && !isOrgAuthenticated && (
-            <li><Link to="/login" onClick={() => setOpen(false)}>Sign In</Link></li>
-          )}
+          <li><Link to="/why-uvaa" onClick={() => setOpen(false)}>Why UVAA</Link></li>
+          <li><Link to="/framework" onClick={() => setOpen(false)}>The Framework</Link></li>
+          <li><Link to="/the-assessment" onClick={() => setOpen(false)}>The Assessment</Link></li>
+          <li><Link to="/what-you-get" onClick={() => setOpen(false)}>What You Get</Link></li>
+          <li><Link to="/for-organisations" onClick={() => setOpen(false)}>For Organisations</Link></li>
         </ul>
 
         <div className="nav-actions">
@@ -58,7 +59,11 @@ export default function Header() {
               <button type="button" className="btn btn-primary" onClick={handleLogout}>Log out</button>
             </>
           ) : (
-            <a href="mailto:talktous@uvaa.example.com" className="btn btn-primary">Talk to Us</a>
+            <>
+              <Link to="/login" className="nav-text-link" onClick={() => setOpen(false)}>Sign In</Link>
+              <Link to="/register" className="btn btn-ghost" onClick={() => setOpen(false)}>Register</Link>
+              <Link to="/talk-to-us" className="btn btn-primary" onClick={() => setOpen(false)}>Talk to Us</Link>
+            </>
           )}
           <button
             className="nav-toggle"

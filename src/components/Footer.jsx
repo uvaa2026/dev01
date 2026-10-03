@@ -14,18 +14,23 @@ export default function Footer() {
           </div>
           <div className="footer-col">
             <h5>Platform</h5>
-            <Link to="/#dimensions">The framework</Link>
-            <Link to="/org-register">Register your organisation</Link>
+            <Link to="/why-uvaa">Why UVAA</Link>
+            <Link to="/framework">The framework</Link>
+            <Link to="/the-assessment">The assessment</Link>
+            <Link to="/what-you-get">What you get</Link>
+            <Link to="/for-organisations">For organisations</Link>
           </div>
           <div className="footer-col">
             <h5>Account</h5>
+            <Link to="/register">Register</Link>
             <Link to="/login">Sign in</Link>
+            <Link to="/org-register">Register your organisation</Link>
             <Link to="/org-login">Organisation admin login</Link>
           </div>
           <div className="footer-col">
             <h5>Legal</h5>
-            <a href="#">Privacy policy</a>
-            <a href="#">Data &amp; consent (DPDP 2023)</a>
+            <Link to="/privacy-data">Privacy &amp; data</Link>
+            <Link to="/what-uvaa-does-not-claim">What UVAA does not claim</Link>
             <a href="#">Terms of use</a>
           </div>
         </div>
