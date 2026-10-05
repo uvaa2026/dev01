@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 
+// Hero image is hotlinked from Unsplash (free license, no attribution
+// required) rather than bundled into the repo — swap this URL for a
+// self-hosted asset whenever there's a preferred photo, ideally one shot
+// for UVAA rather than stock.
+const HERO_IMAGE = 'https://images.unsplash.com/photo-1780074306225-ac74004f3905?fm=jpg&q=80&w=2400&auto=format&fit=crop'
+
 export default function Welcome() {
   const { isAuthenticated, user } = useAuth()
   const destination = user?.isAdmin ? '/admin/users' : '/my-page'
@@ -8,65 +14,61 @@ export default function Welcome() {
 
   return (
     <>
-      {/* ============ HERO ============ */}
-      <section className="hero">
-        <div className="container hero-grid">
-          <div>
-            <span className="eyebrow">
-              <span className="dot"></span> A framework for the moments that test you
-            </span>
-            <h1>
-              Know how you decide, <span className="accent">when it matters most.</span>
+      {/* ============ HERO — full-bleed photo, narrow copy column, a
+          small note floating at the right, a numbered row along the
+          bottom. Structure follows the agreed reference layout. ============ */}
+      <section className="hero-wide" style={{ backgroundImage: `url(${HERO_IMAGE})` }}>
+        <div className="hero-wide-art" aria-hidden="true"></div>
+        <div className="hero-wide-shade" aria-hidden="true"></div>
+
+        <div className="container-wide hero-wide-stage">
+          <div className="hero-wide-copy">
+            <p className="hero-wide-kicker">Judgement doesn't fail suddenly.<br />It drifts under pressure.</p>
+            <h1 className="hero-wide-title">
+              Know how you decide,<br /><span className="accent">when it matters most.</span>
             </h1>
-            <p className="lead">
+            <p className="hero-wide-desc">
               Most assessments measure what people say they would do. UVAA examines what happens
               to judgement when a situation becomes difficult.
             </p>
             {isAuthenticated ? (
-              <div className="hero-actions">
-                <Link to={destination} className="btn btn-primary btn-lg">{destinationLabel}</Link>
-              </div>
+              <Link to={destination} className="hero-wide-cta">{destinationLabel} <b>→</b></Link>
             ) : (
-              <div className="hero-actions">
-                <Link to="/talk-to-us" className="btn btn-primary btn-lg">Talk to Us</Link>
-                <Link to="/framework#dimensions" className="link-accent" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.98rem' }}>
-                  Explore the Framework →
-                </Link>
-              </div>
+              <Link to="/talk-to-us" className="hero-wide-cta">Talk to Us <b>→</b></Link>
             )}
           </div>
 
-          <div className="hero-visual" aria-hidden="true">
-            <div className="orb-glow"></div>
-            <picture>
-              <source srcSet="/hero-orb.webp" type="image/webp" />
-              <img src="/hero-orb.png" alt="" className="hero-orb-image" />
-            </picture>
-          </div>
-        </div>
-      </section>
+          <div aria-hidden="true"></div>
 
-      {/* ============ EVIDENCE STRIP (immediately below the hero) ============ */}
-      <section className="evidence-section">
-        <div className="container">
-          <div className="evidence-strip">
-            <div className="evidence-item">
-              <span className="evidence-num">47</span>
-              <span className="evidence-label">real situations, not self-description</span>
-            </div>
-            <div className="evidence-item">
-              <span className="evidence-num">50 min</span>
-              <span className="evidence-label">two parts, one sitting</span>
-            </div>
-            <div className="evidence-item">
-              <span className="evidence-num">1 profile</span>
-              <span className="evidence-label">a score and a pattern, not a type</span>
-            </div>
-            <div className="evidence-item">
-              <span className="evidence-num">Ordered</span>
-              <span className="evidence-label">development priorities, not a list</span>
-            </div>
+          <aside className="hero-wide-note" aria-hidden="true">
+            <p className="hero-wide-note-head">Pressure doesn't<br />create the response.<br />It reveals it.</p>
+            <div className="hero-wide-note-rule"></div>
+            <p className="hero-wide-note-list">Clarity<br />Composure<br />Confidence</p>
+          </aside>
+        </div>
+
+        <div className="container-wide hero-wide-steps">
+          <div className="hero-step">
+            <span className="hero-step-no">01</span>
+            <p>47 situations<br />Not self-description</p>
+            <span className="hero-step-tick"></span>
           </div>
+          <div className="hero-step">
+            <span className="hero-step-no">02</span>
+            <p>50 minutes<br />Two parts, one sitting</p>
+            <span className="hero-step-tick"></span>
+          </div>
+          <div className="hero-step">
+            <span className="hero-step-no">03</span>
+            <p>1 profile<br />A score, not a type</p>
+            <span className="hero-step-tick"></span>
+          </div>
+          <div className="hero-step">
+            <span className="hero-step-no">04</span>
+            <p>Ordered<br />Priorities, not a list</p>
+            <span className="hero-step-tick"></span>
+          </div>
+          <div className="hero-wide-sig">A sharper<br />view of<br />judgement</div>
         </div>
       </section>
 
