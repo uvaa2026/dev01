@@ -42,6 +42,7 @@
   --status-bad: #e8579b;
 
   --max-width: 1180px;
+  --max-width-wide: 1360px;
   --font-heading: "Sora", "Segoe UI", system-ui, sans-serif;
   --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
 }
@@ -74,6 +75,15 @@ button { font-family: inherit; cursor: pointer; }
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
+}
+
+/* Wider variant — used on Home's hero and process panel so they read as
+   full landscape sections rather than a narrow centered column. */
+.container-wide {
+  width: 100%;
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+  padding: 0 32px;
 }
 
 /* Ambient cosmic backdrop applied behind every page */
@@ -143,53 +153,71 @@ body::after {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
+  gap: 14px;
 }
 
-.brand-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: conic-gradient(from 210deg, var(--accent-cyan), var(--accent-violet), var(--accent-magenta), var(--accent-cyan));
-  box-shadow: var(--shadow-glow-cyan);
-  position: relative;
+/* Logotype — "UVAA" set as big stylised text (no icon mark): UV in white,
+   each A picked out in its own accent colour. */
+.brand-logotype {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.55rem;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  line-height: 1;
 }
-.brand-mark::after {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  border-radius: 8px;
-  background: var(--bg-void);
+.brand-logotype .brand-a1 { color: var(--accent-cyan); }
+.brand-logotype .brand-a2 {
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-magenta));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border-strong);
+  flex-shrink: 0;
 }
 
 .brand-sub {
   display: block;
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 0.65rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 4px;
 }
 
 .nav-links a {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--text-secondary);
-  transition: color 0.2s ease;
   position: relative;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .nav-links a:hover,
 .nav-links a:focus-visible { color: var(--text-primary); }
+
+/* Modern "active" indicator — a soft glowing pill rather than a plain
+   underline, so the current section reads at a glance. */
+.nav-links a.active {
+  color: var(--text-primary);
+  background: linear-gradient(135deg, rgba(77, 216, 255, 0.18), rgba(139, 124, 255, 0.12));
+  border-color: rgba(77, 216, 255, 0.32);
+  box-shadow: 0 0 18px rgba(77, 216, 255, 0.28), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
 
 .nav-actions {
   display: flex;
@@ -275,6 +303,45 @@ body::after {
   position: relative;
   padding: 88px 0 64px;
   overflow: hidden;
+}
+
+/* Full-bleed photographic hero — the image is the section background
+   (edge to edge, "landscape"), not a boxed picture on one side. A scrim
+   pools dark where the copy sits and fades to nearly nothing toward the
+   right and bottom, so the photo reads as seamless rather than inset. */
+.hero-photo-bg {
+  padding: 104px 0 64px;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center 30%;
+  isolation: isolate;
+}
+
+.hero-bg-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(100deg, rgba(5, 7, 13, 0.95) 0%, rgba(5, 7, 13, 0.84) 30%, rgba(5, 7, 13, 0.4) 56%, rgba(5, 7, 13, 0.08) 76%, transparent 92%),
+    linear-gradient(180deg, rgba(5, 7, 13, 0.1) 0%, transparent 32%, rgba(5, 7, 13, 0.6) 100%);
+}
+
+.hero-grid-bg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.hero-copy-glass {
+  max-width: 600px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius-lg);
+  padding: 38px 40px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
 
 .hero-grid {
@@ -387,67 +454,28 @@ body::after {
   .orb-glow, .hero-orb-image { animation: none; }
 }
 
-/* ---- Hero photo (photographic hero used on Home — a real image with a
-   glass badge floating over it, rather than the abstract orb) ---- */
-.hero-photo-wrap {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  background: linear-gradient(160deg, var(--bg-surface-2), var(--bg-void));
-}
-
-.hero-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: saturate(0.9) contrast(1.05);
-}
-
-.hero-photo-scrim {
+/* ---- Hero badge (the "73 · Sample result" gauge) — floats directly on
+   the photo with no border, just glass + soft shadow, so it reads as part
+   of the image rather than a card imposed on top of it. ---- */
+.hero-badge-float {
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(5, 7, 13, 0.1), rgba(5, 7, 13, 0.5) 72%, rgba(5, 7, 13, 0.88)),
-    linear-gradient(120deg, rgba(77, 216, 255, 0.22), rgba(139, 124, 255, 0.16));
-}
-
-.hero-photo-tag {
-  position: absolute;
-  left: 18px;
-  top: 18px;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  background: rgba(5, 7, 13, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  padding: 8px 14px;
-  border-radius: 999px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-.hero-photo-badge {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
+  z-index: 2;
+  right: 7%;
+  top: 48%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 20px 22px;
+  padding: 22px 24px;
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
-.hero-photo-badge .ring-wrap {
+.hero-badge-float .ring-wrap {
   position: relative;
   width: 100px;
   height: 100px;
@@ -456,7 +484,7 @@ body::after {
   justify-content: center;
 }
 
-.hero-photo-badge .ring-track {
+.hero-badge-float .ring-track {
   position: absolute;
   inset: 0;
   border-radius: 50%;
@@ -465,7 +493,7 @@ body::after {
   mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 8px));
 }
 
-.hero-photo-badge .ring-value {
+.hero-badge-float .ring-value {
   position: relative;
   font-family: var(--font-heading);
   font-size: 1.7rem;
@@ -473,53 +501,53 @@ body::after {
   color: var(--text-primary);
 }
 
-.hero-photo-badge .badge-caption {
+.hero-badge-float .badge-caption {
   font-size: 0.68rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.hero-photo-badge .badge-label {
+.hero-badge-float .badge-label {
   font-size: 0.74rem;
   color: var(--text-secondary);
   text-align: center;
   max-width: 17ch;
 }
 
-/* ---- Icon row (glass icon badges, used for the evidence facts on Home) ---- */
+/* ---- Icon row — sits inside the hero itself (right-aligned, pulled up
+   under the copy), no cards or badge circles: just big uniform icons
+   separated by a hairline, floating straight on the photo. ---- */
 .icon-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 48px;
 }
 .icon-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
   gap: 10px;
-  padding: 26px 16px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.01));
-  border: 1px solid var(--border-soft);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  padding: 0 28px;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
 }
+.icon-item:first-child { border-left: none; padding-left: 0; }
 .icon-badge {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  background: var(--accent-cyan-soft);
   color: var(--accent-cyan);
-  border: 1px solid rgba(77, 216, 255, 0.3);
 }
-.icon-item .icon-num { font-family: var(--font-heading); font-weight: 800; font-size: 1.05rem; color: var(--text-primary); }
-.icon-item .icon-label { font-size: 0.8rem; color: var(--text-secondary); }
+.icon-badge svg { width: 100%; height: 100%; }
+.icon-item .icon-num { font-family: var(--font-heading); font-weight: 800; font-size: 1.02rem; color: var(--text-primary); }
+.icon-item .icon-label { font-size: 0.78rem; color: var(--text-secondary); }
 
 /* ==========================================================================
    Evidence strip — sits immediately below the hero, one glance of proof
@@ -766,29 +794,69 @@ section { padding: 72px 0; position: relative; }
 .step p { font-size: 0.84rem; color: var(--text-secondary); }
 
 /* ---- Dark glass panel (process preview, e.g. the assessment-structure
-   teaser on Home) with numbered steps joined by arrows ---- */
+   teaser on Home) — intro copy + CTA on the left, the four numbered steps
+   as a 2x2 grid on the right, both sitting on the same line. ---- */
 .panel-dark {
   background: linear-gradient(160deg, rgba(13, 18, 32, 0.92), rgba(19, 26, 46, 0.92));
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
-  padding: 44px;
+  padding: 48px;
 }
 
-.panel-steps {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-}
-.panel-steps .step { flex: 1; background: rgba(255, 255, 255, 0.035); }
-.panel-steps .step-arrow {
-  display: flex;
+.panel-dark-split {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 48px;
   align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  font-size: 1.2rem;
-  padding: 0 8px;
-  flex-shrink: 0;
 }
+
+.panel-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.panel-head-left {
+  text-align: left;
+  max-width: none;
+  margin: 0;
+}
+
+.panel-cta { margin-top: 30px; }
+
+.step-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.step-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  padding: 24px 22px;
+}
+
+.step-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  color: var(--accent-cyan);
+  margin-bottom: 16px;
+}
+.step-icon svg { width: 100%; height: 100%; }
+
+.step-no {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.step-card h4 { font-family: var(--font-heading); font-size: 0.98rem; margin-bottom: 6px; }
+.step-card p { font-size: 0.84rem; color: var(--text-secondary); }
 
 /* ---- Panorama band (photographic section divider with a pull-quote) ---- */
 .panorama-band {
@@ -1586,8 +1654,10 @@ fieldset legend {
   .dimension-grid { grid-template-columns: repeat(2, 1fr); }
   .guna-grid { grid-template-columns: repeat(3, 1fr); }
   .triple-grid { grid-template-columns: repeat(3, 1fr); }
-  .icon-row { grid-template-columns: repeat(2, 1fr); }
   .journey { grid-template-columns: repeat(3, 1fr); }
+  .panel-dark-split { grid-template-columns: 1fr; gap: 32px; }
+  .panel-left { align-items: flex-start; }
+  .hero-badge-float { right: 4%; }
   .vertical-grid { grid-template-columns: 1fr; }
   .trust-panel { grid-template-columns: 1fr; }
   .evidence-strip { grid-template-columns: repeat(2, 1fr); }
@@ -1602,10 +1672,22 @@ fieldset legend {
 @media (max-width: 720px) {
   .hero-grid { grid-template-columns: 1fr; }
   .hero-visual { order: -1; max-width: 280px; margin: 0 auto 12px; }
-  .hero-visual-photo { order: -1; max-width: 360px; margin: 0 auto 12px; }
-  .icon-row { grid-template-columns: 1fr 1fr; }
-  .panel-steps { flex-direction: column; }
-  .panel-steps .step-arrow { transform: rotate(90deg); padding: 4px 0; }
+  .hero-photo-bg { display: block; min-height: 0; padding: 36px 0 32px; }
+  .hero-copy-glass { max-width: none; padding: 26px 24px; }
+  .hero-badge-float {
+    position: static;
+    transform: none;
+    margin: 24px auto 0;
+  }
+  .icon-row { justify-content: flex-start; margin-top: 28px; }
+  .icon-item {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 14px 20px 0 0;
+    flex: 1 1 45%;
+  }
+  .icon-item:first-child { border-top: none; padding-top: 0; }
+  .step-grid { grid-template-columns: 1fr; }
   .panel-dark { padding: 28px 22px; }
   .nav-links { display: none; }
   .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }

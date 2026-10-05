@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useOrgAuth } from '../context/OrgAuthContext.jsx'
 
@@ -22,19 +22,19 @@ export default function Header() {
     <header className="site-header">
       <nav className="nav container" aria-label="Primary">
         <Link to="/" className="brand" aria-label="UVAA home" onClick={() => setOpen(false)}>
-          <span className="brand-mark" aria-hidden="true"></span>
-          <span>
-            UVAA
-            <span className="brand-sub">Leadership Intelligence</span>
+          <span className="brand-logotype">
+            UV<span className="brand-a1">A</span><span className="brand-a2">A</span>
           </span>
+          <span className="brand-divider" aria-hidden="true"></span>
+          <span className="brand-sub">Emotional stability under pressure</span>
         </Link>
 
         <ul className={`nav-links${open ? ' open' : ''}`} id="navLinks">
-          <li><Link to="/why-uvaa" onClick={() => setOpen(false)}>Why UVAA</Link></li>
-          <li><Link to="/framework" onClick={() => setOpen(false)}>The Framework</Link></li>
-          <li><Link to="/the-assessment" onClick={() => setOpen(false)}>The Assessment</Link></li>
-          <li><Link to="/what-you-get" onClick={() => setOpen(false)}>What You Get</Link></li>
-          <li><Link to="/for-organisations" onClick={() => setOpen(false)}>For Organisations</Link></li>
+          <li><NavLink to="/why-uvaa" onClick={() => setOpen(false)} className={({ isActive }) => (isActive ? 'active' : undefined)}>Why</NavLink></li>
+          <li><NavLink to="/framework" onClick={() => setOpen(false)} className={({ isActive }) => (isActive ? 'active' : undefined)}>Framework</NavLink></li>
+          <li><NavLink to="/the-assessment" onClick={() => setOpen(false)} className={({ isActive }) => (isActive ? 'active' : undefined)}>Assessment</NavLink></li>
+          <li><NavLink to="/what-you-get" onClick={() => setOpen(false)} className={({ isActive }) => (isActive ? 'active' : undefined)}>Benefits</NavLink></li>
+          <li><NavLink to="/for-organisations" onClick={() => setOpen(false)} className={({ isActive }) => (isActive ? 'active' : undefined)}>Organisations</NavLink></li>
         </ul>
 
         <div className="nav-actions">
