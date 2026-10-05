@@ -1,0 +1,3 @@
+bridge-write-test
+timestamp: 2026-10-05T-verify-1
+If you can see this file and this exact line in it, the device bridge write from Claude reached your real disk.
