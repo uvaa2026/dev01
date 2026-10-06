@@ -84,6 +84,9 @@ button { font-family: inherit; cursor: pointer; }
   margin: 0 auto;
   padding: 0 40px;
 }
+@media (max-width: 640px) {
+  .container-wide { padding: 0 20px; }
+}
 
 /* Ambient cosmic backdrop applied behind every page */
 body::before {
@@ -434,7 +437,8 @@ body::after {
   grid-template-columns: 39% 61%;
   align-items: center;
   min-height: max(540px, calc(100svh - 280px));
-  padding: 56px 0;
+  padding-top: 56px;
+  padding-bottom: 56px;
 }
 
 .hero-wide-copy { max-width: 560px; }
@@ -1613,11 +1617,19 @@ fieldset legend {
   .journey { grid-template-columns: repeat(3, 1fr); }
   .vertical-grid { grid-template-columns: 1fr; }
   .trust-panel { grid-template-columns: 1fr; }
-  .hero-wide-stage { grid-template-columns: 1fr; min-height: 0; padding: 44px 0; }
+  .hero-wide-stage { grid-template-columns: 1fr; min-height: 0; padding-top: 44px; padding-bottom: 44px; }
   .hero-wide-copy { max-width: none; }
   .hero-wide-note { display: none; }
-  .hero-wide-art { background-position: 68% 50%; }
-  .hero-wide-steps { grid-template-columns: repeat(2, 1fr); row-gap: 28px; padding: 24px 0; min-height: 0; }
+  .hero-wide-art { background-position: 68% 50%; opacity: 0.55; }
+  /* The diagonal shade above is tuned for the desktop 39%/61% split, where
+     copy only ever sits in the dark left band. Stacked single-column here,
+     copy spans the full width, so swap in a flat top-to-bottom overlay that
+     stays dark under text regardless of how wide a line runs. */
+  .hero-wide-shade {
+    background:
+      linear-gradient(180deg, rgba(5, 7, 13, 0.82) 0%, rgba(5, 7, 13, 0.9) 45%, rgba(5, 7, 13, 0.97) 100%);
+  }
+  .hero-wide-steps { grid-template-columns: repeat(2, 1fr); row-gap: 28px; padding-top: 24px; padding-bottom: 24px; min-height: 0; }
   .hero-step:nth-child(2)::after { display: none; }
   .hero-wide-sig { display: none; }
   .evidence-strip { grid-template-columns: repeat(2, 1fr); }
@@ -1632,10 +1644,10 @@ fieldset legend {
 @media (max-width: 720px) {
   .hero-grid { grid-template-columns: 1fr; }
   .hero-visual { order: -1; max-width: 280px; margin: 0 auto 12px; }
-  .hero-wide-stage { padding: 32px 0; }
+  .hero-wide-stage { padding-top: 32px; padding-bottom: 32px; }
   .hero-wide-title { font-size: clamp(2rem, 9vw, 2.6rem); }
   .hero-wide-cta { width: 100%; min-width: 0; }
-  .hero-wide-steps { grid-template-columns: 1fr; row-gap: 20px; padding: 20px 0 28px; }
+  .hero-wide-steps { grid-template-columns: 1fr; row-gap: 20px; padding-top: 20px; padding-bottom: 28px; }
   .hero-step { padding-right: 0; padding-bottom: 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
   .hero-step::after { display: none !important; }
   .hero-wide-art { background-position: 66% center; opacity: 0.82; }
