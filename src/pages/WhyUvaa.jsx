@@ -1,21 +1,67 @@
 import { Link } from 'react-router-dom'
-import PageHeader from '../components/PageHeader.jsx'
 
-// Content sourced verbatim from the supplied deck (home_screen.pptx, slide 5
-// "Why UVAA"). The page header itself ("The judgement gap is usually visible
-// only after it costs something.") is change.txt's instruction; the deck's
-// own line below it is kept as the lead-in.
+// Editorial flow for Why UVAA, following the same visual language as the
+// new Home hero (serif statements, small-caps tracked labels, dark glass
+// cards) instead of the generic PageHeader banner other pages still use.
+// Content is the same material the page already had (the four real-world
+// signals and the "what changes" language are carried over verbatim/near-
+// verbatim from the previous version) — restructured into:
+//
+//   WHY UVAA → big statement → THE HIDDEN GAP → calm/pressure spectrum →
+//   4 real-world signals → WHAT YOU SEE ↔ WHAT CHANGES →
+//   closing statement → Explore the Framework
 export default function WhyUvaa() {
   return (
     <>
-      <PageHeader
-        eyebrow="Why UVAA"
-        title="The judgement gap is usually visible only after it costs something."
-        lead="You have already paid for this, without knowing what it was. The gap between what someone knows and what they do under pressure stays invisible until it costs you something. When it does, it rarely looks like a judgement problem."
-      />
+      {/* ============ WHY UVAA — big statement ============ */}
+      <section className="editorial-hero">
+        <div className="container">
+          <p className="editorial-label center">Why UVAA</p>
+          <h1 className="editorial-statement">
+            The judgement gap is usually invisible —<br />
+            <span className="accent">until it costs you something.</span>
+          </h1>
+          <p className="editorial-lead">
+            The gap between what someone knows and what they do under pressure stays hidden
+            until it costs you something. When it does, it rarely looks like a judgement problem.
+          </p>
+        </div>
+      </section>
 
+      {/* ============ THE HIDDEN GAP ============ */}
       <section>
         <div className="container">
+          <p className="editorial-label center">The Hidden Gap</p>
+          <p className="editorial-body">
+            Judgement doesn't fail suddenly. It drifts under pressure — and the drift stays
+            invisible in exactly the moments someone is being watched.
+          </p>
+
+          <div className="gap-spectrum">
+            <div className="gap-spectrum-row">
+              <span className="gap-spectrum-end">Calm</span>
+              <div className="gap-spectrum-track">
+                <span className="gap-spectrum-marker" style={{ left: '68%' }}>
+                  <span className="gap-spectrum-marker-label">The gap</span>
+                </span>
+              </div>
+              <span className="gap-spectrum-end">Pressure</span>
+            </div>
+            <p className="gap-spectrum-caption">
+              Most assessments only ever measure the calm end. UVAA measures what happens as
+              the pressure rises.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ 4 REAL-WORLD SIGNALS ============ */}
+      <section>
+        <div className="container">
+          <p className="editorial-label center">Four Real-World Signals</p>
+          <p className="editorial-intro">
+            None of these show up in performance data as a judgement problem:
+          </p>
           <div className="dimension-grid">
             <div className="card">
               <p>A decision that had to be unwound three months later, made by someone who would have called it correctly in a calmer week.</p>
@@ -30,28 +76,56 @@ export default function WhyUvaa() {
               <p>Someone capable leaving, after a period where their judgement had quietly stopped matching their reputation.</p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="overview" style={{ marginTop: 48 }}>
-            <p className="overview-copy">
-              None of these show up in performance data as a decision problem. They show up as
-              delivery slippage, attrition, or a client relationship that cooled.
-            </p>
-            <p className="overview-copy">
-              Instruments that ask people to describe themselves cannot find this, because the
-              person describing themselves is in the calm moment. UVAA is built to find it.
-            </p>
-            <p className="overview-copy">
-              It has also become the capability worth measuring. Nobody is now worried about
-              whether their people can produce analysis. They are worried about whether someone
-              will hold a position when a client pushes, unwind their own decision when the
-              evidence turns, or sit in ambiguity without closing early.
-            </p>
-          </div>
+      {/* ============ WHAT YOU SEE ↔ WHAT CHANGES ============ */}
+      <section>
+        <div className="container">
+          <p className="editorial-label center">What You See &harr; What Changes</p>
 
-          <div className="hero-actions" style={{ justifyContent: 'center', marginTop: 40 }}>
-            <Link to="/framework" className="btn btn-ghost btn-lg">See the Framework</Link>
-            <Link to="/talk-to-us" className="btn btn-primary btn-lg">Talk to Us</Link>
+          <div className="compare-grid">
+            <div className="compare-col">
+              <p className="compare-col-label">What You See</p>
+              <ul className="compare-list">
+                <li>Delivery slippage with no single clear cause</li>
+                <li>Attrition among people who looked fine on paper</li>
+                <li>A client relationship that quietly cooled</li>
+                <li>Escalations that should never have reached you</li>
+              </ul>
+            </div>
+
+            <div className="compare-divider" aria-hidden="true">&harr;</div>
+
+            <div className="compare-col compare-col-accent">
+              <p className="compare-col-label">What Changes</p>
+              <ul className="compare-list">
+                <li>You know who holds a position when a client pushes</li>
+                <li>You know who unwinds their own decision when the evidence turns</li>
+                <li>You know who can sit in ambiguity without closing early for comfort</li>
+                <li>You know who to put in front of the next high-stakes room</li>
+              </ul>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* ============ ONE CLOSING STATEMENT ============ */}
+      <section>
+        <div className="container">
+          <p className="closing-statement">
+            The gap was always there. The only question is whether you see it before it costs
+            you — or after.
+          </p>
+        </div>
+      </section>
+
+      {/* ============ EXPLORE THE FRAMEWORK ============ */}
+      <section style={{ paddingTop: 0 }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <Link to="/framework" className="hero-wide-cta" style={{ display: 'inline-flex' }}>
+            Explore the Framework <b>&rarr;</b>
+          </Link>
         </div>
       </section>
     </>
