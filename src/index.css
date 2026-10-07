@@ -435,11 +435,14 @@ body::after {
   display: grid;
   grid-template-columns: 39% 61%;
   align-items: center;
-  /* Header (83px, measured) + this + the 96px steps row below = one
-     landscape screen, so the hero lands with no page scrollbar on a
-     typical laptop. Floors at 420px so stacked mobile content (grid
-     collapses to 1fr) never gets squeezed below what it needs. */
-  min-height: max(420px, calc(100svh - 83px - 96px));
+  /* Header (83px, measured) + this + the steps row below (96px + 16px
+     bottom buffer, see .hero-wide-steps) = one landscape screen, so the
+     hero lands with no page scrollbar on a typical laptop — with a little
+     breathing room at the very bottom instead of the steps row sitting
+     flush against the browser edge. Floors at 420px so stacked mobile
+     content (grid collapses to 1fr) never gets squeezed below what it
+     needs. */
+  min-height: max(420px, calc(100svh - 83px - 96px - 16px));
   padding-top: 32px;
   padding-bottom: 32px;
 }
@@ -544,6 +547,7 @@ body::after {
   grid-template-columns: repeat(4, 1fr) 0.7fr;
   align-items: center;
   min-height: 96px;
+  padding-bottom: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 .hero-step {
@@ -915,7 +919,9 @@ section { padding: 72px 0; position: relative; }
    ========================================================================== */
 .footer-fab {
   position: fixed;
-  top: 50%;
+  /* Lower than dead-center so it sits clear of the hero headline/CTA on
+     Home, in the quieter part of the image above the numbered row. */
+  top: 74%;
   right: 24px;
   transform: translateY(-50%);
   z-index: 90;

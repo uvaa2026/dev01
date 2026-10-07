@@ -60,7 +60,7 @@ export default function Header() {
           ) : (
             <>
               <Link to="/register" className="btn btn-ghost" onClick={() => setOpen(false)}>Register</Link>
-              <Link to="/login" className="btn btn-primary" onClick={() => setOpen(false)}>Explore Me</Link>
+              <Link to="/login" className="btn btn-primary" onClick={() => setOpen(false)}>Begin &rarr;</Link>
             </>
           )}
           <button

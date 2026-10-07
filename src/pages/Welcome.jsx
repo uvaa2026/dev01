@@ -61,24 +61,15 @@ export default function Welcome() {
             <p>Ordered<br />Priorities, not a list</p>
             <span className="hero-step-tick"></span>
           </div>
-          <div className="hero-wide-sig">A sharper<br />view of<br />judgement</div>
+          <div className="hero-wide-sig">
+            {isAuthenticated ? (
+              <>A sharper<br />view of<br />judgement</>
+            ) : (
+              <>Worth a conversation<br />before it's worth<br />a cohort</>
+            )}
+          </div>
         </div>
       </section>
-
-      {/* ============ CLOSING CTA ============ */}
-      {!isAuthenticated && (
-        <section>
-          <div className="container">
-            <div className="cta-band">
-              <h2>Worth a conversation before it is worth a cohort.</h2>
-              <p>Discuss the instrument, review a sample report, and consider a pilot cohort.</p>
-              <div className="hero-actions">
-                <Link to="/talk-to-us" className="btn btn-primary btn-lg">Talk to Us</Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
     </>
   )
 }
