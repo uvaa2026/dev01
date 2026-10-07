@@ -51,14 +51,29 @@
 
 html { scroll-behavior: smooth; }
 
+/* Site-wide atmospheric backdrop — the same wave-pattern-over-mountains
+   language as the Home hero image, minus the portrait, so every page
+   (not just Home) sits on dark layered ridges under a faint starfield
+   with cyan/amber/violet wave strands drifting across the sky. Fixed so
+   it reads as one continuous backdrop behind scrolling content rather
+   than a texture that repeats per page; sections and cards stay mostly
+   opaque on top of it, so it mainly shows through the gaps and margins. */
 body {
-  background: var(--bg-base);
+  background:
+    var(--bg-base) url('./assets/page-bg.svg') no-repeat center bottom / cover fixed;
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* Fixed-attachment backgrounds are a common scroll/repaint cost on mobile
+   browsers — fall back to normal scrolling attachment below the tablet
+   breakpoint, same threshold used elsewhere in this file. */
+@media (max-width: 720px) {
+  body { background-attachment: scroll; }
 }
 
 img, svg { display: block; max-width: 100%; }

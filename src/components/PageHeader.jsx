@@ -1,18 +1,15 @@
 // Shared page-level header used by every marketing page other than Home
-// (Home keeps its own full-bleed hero). Keeps the eyebrow/title/lead
-// treatment identical across pages — see .section-head / .section-head h1
-// in index.css.
+// (Home keeps its own full-bleed hero). Same editorial treatment as the
+// Home hero and the Why UVAA page — small-caps tracked label, serif
+// "big statement" headline — so every page opens in the same visual
+// language instead of the old pill-badge eyebrow banner.
 export default function PageHeader({ eyebrow, title, lead }) {
   return (
-    <section>
+    <section className="editorial-hero">
       <div className="container">
-        <div className="section-head">
-          {eyebrow && (
-            <span className="eyebrow"><span className="dot"></span> {eyebrow}</span>
-          )}
-          <h1>{title}</h1>
-          {lead && <p>{lead}</p>}
-        </div>
+        {eyebrow && <p className="editorial-label center">{eyebrow}</p>}
+        <h1 className="editorial-statement">{title}</h1>
+        {lead && <p className="editorial-lead">{lead}</p>}
       </div>
     </section>
   )
