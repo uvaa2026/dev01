@@ -51,16 +51,8 @@
 
 html { scroll-behavior: smooth; }
 
-/* Site-wide atmospheric backdrop for every page other than Home (Home
-   carries its own full-bleed hero image instead — see Welcome.jsx) —
-   the same wave-pattern-over-mountains photo used across all the inner
-   pages. Fixed so it reads as one continuous backdrop behind scrolling
-   content rather than a texture that repeats per page; sections and
-   cards stay mostly opaque on top of it, so it mainly shows through the
-   gaps and margins. */
 body {
-  background:
-    var(--bg-base) url('./assets/sub-page-bg.jpg') no-repeat center bottom / cover fixed;
+  background: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
@@ -69,11 +61,27 @@ body {
   overflow-x: hidden;
 }
 
+/* Site-wide atmospheric backdrop for every page other than Home (Home
+   carries its own full-bleed hero image instead — see Welcome.jsx) —
+   the same wave-pattern-over-mountains photo used across all the inner
+   pages. Put on #main (the React route outlet in App.jsx) rather than
+   body: body's background wasn't painting on the deployed build, almost
+   certainly because something between body and #main (React's root
+   wrapper, likely) establishes its own containing block, which breaks
+   `background-attachment: fixed` from anchoring to the real viewport.
+   #main is the actual scrolling content box, so the fixed attachment
+   anchors correctly from there. Sections/cards inside stay mostly
+   opaque on top of it, so it mainly shows through the gaps and margins. */
+#main {
+  background:
+    var(--bg-base) url('./assets/sub-page-bg.jpg') no-repeat center bottom / cover fixed;
+}
+
 /* Fixed-attachment backgrounds are a common scroll/repaint cost on mobile
    browsers — fall back to normal scrolling attachment below the tablet
    breakpoint, same threshold used elsewhere in this file. */
 @media (max-width: 720px) {
-  body { background-attachment: scroll; }
+  #main { background-attachment: scroll; }
 }
 
 img, svg { display: block; max-width: 100%; }
