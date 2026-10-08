@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import heroImage from '../assets/hero-profile.jpg'
+import heroImage from '../assets/home-hero.jpg'
 
 export default function Welcome() {
   const { isAuthenticated, user } = useAuth()

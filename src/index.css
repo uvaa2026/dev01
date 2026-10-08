@@ -51,16 +51,16 @@
 
 html { scroll-behavior: smooth; }
 
-/* Site-wide atmospheric backdrop — the same wave-pattern-over-mountains
-   language as the Home hero image, minus the portrait, so every page
-   (not just Home) sits on dark layered ridges under a faint starfield
-   with cyan/amber/violet wave strands drifting across the sky. Fixed so
-   it reads as one continuous backdrop behind scrolling content rather
-   than a texture that repeats per page; sections and cards stay mostly
-   opaque on top of it, so it mainly shows through the gaps and margins. */
+/* Site-wide atmospheric backdrop for every page other than Home (Home
+   carries its own full-bleed hero image instead — see Welcome.jsx) —
+   the same wave-pattern-over-mountains photo used across all the inner
+   pages. Fixed so it reads as one continuous backdrop behind scrolling
+   content rather than a texture that repeats per page; sections and
+   cards stay mostly opaque on top of it, so it mainly shows through the
+   gaps and margins. */
 body {
   background:
-    var(--bg-base) url('./assets/page-bg.svg') no-repeat center bottom / cover fixed;
+    var(--bg-base) url('./assets/sub-page-bg.jpg') no-repeat center bottom / cover fixed;
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;

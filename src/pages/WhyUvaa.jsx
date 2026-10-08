@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom'
 // signals and the "what changes" language are carried over verbatim/near-
 // verbatim from the previous version) — restructured into:
 //
-//   WHY UVAA → big statement → THE HIDDEN GAP → calm/pressure spectrum →
-//   4 real-world signals → WHAT YOU SEE ↔ WHAT CHANGES →
-//   closing statement → Explore the Framework
+//   WHY UVAA → big statement → 4 real-world signals →
+//   WHAT YOU SEE ↔ WHAT CHANGES → closing statement → Explore the Framework
+//
+// (The Hidden Gap / calm-pressure spectrum section was dropped — it read
+// as repeating the big statement above it.)
 export default function WhyUvaa() {
   return (
     <>
@@ -25,33 +27,6 @@ export default function WhyUvaa() {
             The gap between what someone knows and what they do under pressure stays hidden
             until it costs you something. When it does, it rarely looks like a judgement problem.
           </p>
-        </div>
-      </section>
-
-      {/* ============ THE HIDDEN GAP ============ */}
-      <section>
-        <div className="container">
-          <p className="editorial-label center">The Hidden Gap</p>
-          <p className="editorial-body">
-            Judgement doesn't fail suddenly. It drifts under pressure — and the drift stays
-            invisible in exactly the moments someone is being watched.
-          </p>
-
-          <div className="gap-spectrum">
-            <div className="gap-spectrum-row">
-              <span className="gap-spectrum-end">Calm</span>
-              <div className="gap-spectrum-track">
-                <span className="gap-spectrum-marker" style={{ left: '68%' }}>
-                  <span className="gap-spectrum-marker-label">The gap</span>
-                </span>
-              </div>
-              <span className="gap-spectrum-end">Pressure</span>
-            </div>
-            <p className="gap-spectrum-caption">
-              Most assessments only ever measure the calm end. UVAA measures what happens as
-              the pressure rises.
-            </p>
-          </div>
         </div>
       </section>
 
