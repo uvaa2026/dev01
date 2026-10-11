@@ -25,13 +25,13 @@ export default function Header() {
           <span className="brand-logotype">
             UV<span className="brand-a1">A</span><span className="brand-a2">&Lambda;</span>
           </span>
-          <span className="brand-sub">Leadership Intelligence</span>
+          <span className="brand-sub">Decision Intelligence</span>
         </Link>
 
         <ul className={`nav-links${open ? ' open' : ''}`} id="navLinks">
-          <li><Link to="/why-uvaa" onClick={() => setOpen(false)}>Discover</Link></li>
-          <li><Link to="/framework" onClick={() => setOpen(false)}>Framework</Link></li>
-          <li><Link to="/the-assessment" onClick={() => setOpen(false)}>Experience</Link></li>
+          <li><Link to="/#discover" onClick={() => setOpen(false)}>Discover</Link></li>
+          <li><Link to="/#framework" onClick={() => setOpen(false)}>Framework</Link></li>
+          <li><Link to="/#assessment" onClick={() => setOpen(false)}>Experience</Link></li>
           <li><Link to="/what-you-get" onClick={() => setOpen(false)}>Insights</Link></li>
           <li><Link to="/for-organisations" onClick={() => setOpen(false)}>Organisations</Link></li>
         </ul>

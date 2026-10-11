@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import GrainOverlay from './components/GrainOverlay.jsx'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
@@ -24,9 +24,6 @@ import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
 import OrgRegister from './pages/OrgRegister.jsx'
 import OrgLogin from './pages/OrgLogin.jsx'
 import OrgAdminDashboard from './pages/org-admin/OrgAdminDashboard.jsx'
-import WhyUvaa from './pages/WhyUvaa.jsx'
-import Framework from './pages/Framework.jsx'
-import TheAssessment from './pages/TheAssessment.jsx'
 import WhatYouGet from './pages/WhatYouGet.jsx'
 import ForOrganisations from './pages/ForOrganisations.jsx'
 import PrivacyData from './pages/PrivacyData.jsx'
@@ -44,9 +41,12 @@ export default function App() {
         <main id="main">
           <Routes>
             <Route path="/" element={<Welcome />} />
-            <Route path="/why-uvaa" element={<WhyUvaa />} />
-            <Route path="/framework" element={<Framework />} />
-            <Route path="/the-assessment" element={<TheAssessment />} />
+            {/* Discover/Framework/Experience content now lives on Home as
+                anchor sections — these old routes redirect bookmarks and
+                external links there instead of 404-ing. */}
+            <Route path="/why-uvaa" element={<Navigate to="/#discover" replace />} />
+            <Route path="/framework" element={<Navigate to="/#framework" replace />} />
+            <Route path="/the-assessment" element={<Navigate to="/#assessment" replace />} />
             <Route path="/what-you-get" element={<WhatYouGet />} />
             <Route path="/for-organisations" element={<ForOrganisations />} />
             <Route path="/privacy-data" element={<PrivacyData />} />

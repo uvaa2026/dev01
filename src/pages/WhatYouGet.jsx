@@ -81,6 +81,44 @@ export default function WhatYouGet() {
           </div>
         </div>
       </section>
+
+      {/* ============ DEVELOPMENT PLAN ============ */}
+      <section>
+        <div className="container">
+          <div className="section-head">
+            <span className="eyebrow"><span className="dot"></span> Development Plan</span>
+            <h2>Development Plan</h2>
+          </div>
+
+          <div className="callout-bar" style={{ maxWidth: 820, margin: '0 auto 32px' }}>
+            The report says what needs attention. The plan says how, and the pattern decides
+            which layer carries the work.
+          </div>
+
+          <div className="triple-grid">
+            <div className="card">
+              <h3>Cognitive</h3>
+              <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>How you frame it</p>
+              <p>Seeing the situation accurately before responding to it. Where the understanding itself is the gap.</p>
+            </div>
+            <div className="card">
+              <h3>Behavioural</h3>
+              <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>What you do in the moment</p>
+              <p>The specific action at the point of pressure. Where the understanding is present and does not reach the decision.</p>
+            </div>
+            <div className="card">
+              <h3>Practice</h3>
+              <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>Sustained, over time</p>
+              <p>Contemplative practice that builds the capacity rather than the technique. The slowest layer, and the one that lasts.</p>
+            </div>
+          </div>
+
+          <div className="callout-bar callout-bar-accent" style={{ maxWidth: 820, margin: '32px auto 0' }}>
+            Targeting is what makes it a plan. Composed but unanchored gets no reframing &mdash;
+            the understanding is already there. Activated and reactive gets regulation first.
+          </div>
+        </div>
+      </section>
     </>
   )
 }

@@ -1091,6 +1091,111 @@ section { padding: 72px 0; position: relative; }
 .vertical-card li:first-of-type { border-top: none; }
 .vertical-card li span:last-child { color: var(--text-muted); font-size: 0.8rem; }
 
+/* ---- Stat circles (Home / Assessment — 47 / 0 / 9) ---- */
+.stat-circle-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.stat-circle { text-align: center; }
+.stat-circle-badge {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.9rem;
+  background: radial-gradient(circle at 35% 30%, var(--bg-surface-3), var(--bg-surface));
+  border: 1px solid var(--border-strong);
+}
+.stat-circle-row .stat-circle:nth-child(1) .stat-circle-badge { color: var(--accent-cyan); box-shadow: 0 0 0 1px rgba(77, 216, 255, 0.25) inset; }
+.stat-circle-row .stat-circle:nth-child(2) .stat-circle-badge { color: var(--accent-magenta); box-shadow: 0 0 0 1px rgba(232, 87, 155, 0.25) inset; }
+.stat-circle-row .stat-circle:nth-child(3) .stat-circle-badge { color: var(--accent-amber); box-shadow: 0 0 0 1px rgba(255, 180, 84, 0.25) inset; }
+.stat-circle h3 { font-family: var(--font-heading); font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
+.stat-circle p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; margin: 0; }
+
+/* ---- Outcome patterns matrix — headings visible, the 9 values
+   deliberately blurred (visual only; not meant as an accessibility
+   boundary) so a visitor sees the shape of the model, not the content
+   they'd be signing up to find out. ---- */
+.patterns-matrix-wrap {
+  overflow-x: auto;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.patterns-matrix {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.patterns-matrix th,
+.patterns-matrix td {
+  padding: 16px 14px;
+  text-align: center;
+  border: 1px solid var(--border-soft);
+  font-size: 0.86rem;
+}
+.patterns-matrix thead th {
+  color: var(--accent-cyan);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  background: var(--bg-surface-2);
+}
+.patterns-matrix tbody th {
+  text-align: left;
+  color: var(--text-primary);
+  font-weight: 700;
+  background: var(--bg-surface-2);
+  white-space: nowrap;
+}
+.patterns-matrix tbody th .sanskrit { display: block; font-weight: 400; margin-bottom: 0; }
+.patterns-matrix-value span {
+  display: inline-block;
+  filter: blur(5px);
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+/* ---- Callout bars (Insights — Development Plan) ---- */
+.callout-bar {
+  border-radius: var(--radius-md);
+  padding: 18px 26px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-align: center;
+  background: var(--accent-amber-soft);
+  border: 1px solid rgba(255, 180, 84, 0.3);
+  color: var(--text-primary);
+}
+.callout-bar-accent {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-strong);
+  color: var(--accent-amber);
+}
+
+/* ---- Journey callout (Home — "What UVAA does differently") ---- */
+.journey-note {
+  max-width: 640px;
+  margin: 28px auto 0;
+  border: 1px solid rgba(255, 180, 84, 0.35);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  background: var(--accent-amber-soft);
+}
+.journey-note h4 { font-family: var(--font-heading); font-size: 0.95rem; color: var(--accent-amber); margin-bottom: 8px; }
+.journey-note p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+
 /* ---- Org / trust band ---- */
 .trust-panel {
   background: linear-gradient(135deg, rgba(77,216,255,0.08), rgba(139,124,255,0.06));
@@ -1929,6 +2034,8 @@ fieldset legend {
   .guna-breakdown { grid-template-columns: 1fr; }
   .compare-grid { grid-template-columns: 1fr; }
   .compare-divider { transform: rotate(90deg); margin: 4px auto; }
+  .stat-circle-row { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .stat-circle-badge { width: 72px; height: 72px; font-size: 1.5rem; }
 }
 
 @media (max-width: 720px) {
@@ -1954,6 +2061,8 @@ fieldset legend {
   .gap-spectrum-row { gap: 12px; }
   .gap-spectrum-end { font-size: 0.68rem; }
   .gap-spectrum-marker-label { font-size: 0.68rem; padding: 3px 8px; top: -30px; }
+  .stat-circle-row { grid-template-columns: 1fr; gap: 24px; max-width: 280px; }
+  .callout-bar { padding: 16px 20px; font-size: 0.9rem; }
 }
 
 @media (max-width: 420px) {

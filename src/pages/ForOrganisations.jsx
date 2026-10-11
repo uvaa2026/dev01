@@ -12,7 +12,7 @@ export default function ForOrganisations() {
       <PageHeader
         eyebrow="For Organisations"
         title="Start with one cohort. Build only where the evidence supports it."
-        lead="One cohort at a time. Twelve to twenty people is the usual starting size, typically a leadership team or a delivery function."
+        lead="One cohort at a time. Twelve to twenty people is the usual starting size, typically grouped by years of work experience rather than role or team."
       />
 
       <section>
@@ -69,8 +69,8 @@ export default function ForOrganisations() {
       <section>
         <div className="container">
           <div className="section-head">
-            <h2>Who this tends to suit</h2>
-            <p>Suggested groupings — kept here only as a starting point, to confirm against your own commercial positioning.</p>
+            <h2>Where it creates impact</h2>
+            <p>Anyone and everyone who makes decisions under pressure. Cohorts tend to group more naturally by years of work experience than by role or team &mdash; suggested but not limited to:</p>
           </div>
           <div className="pill-row">
             <span className="pill">Leadership cohorts</span>
