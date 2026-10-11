@@ -423,6 +423,11 @@ body::after {
    and the exact 125px-row journey layout are desktop flourishes that are
    dropped (not squeezed) below 980px, so nothing needs rescuing on mobile.
    ========================================================================== */
+/* Opaque backdrop for everything below the Home hero — blocks the
+   site-wide fixed wave/mountain #main background (used on the other
+   marketing pages) from showing through here. */
+.home-body { background: var(--bg-base); }
+
 .hero-wide {
   position: relative;
   overflow: hidden;

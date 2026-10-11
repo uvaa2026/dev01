@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import useScrollToHash from '../lib/useScrollToHash.js'
+import heroImage from '../assets/home-hero.jpg'
 
 // Home is now the single long page: hero, then Assessment, Discover (why
 // UVAA) and Framework — the content that used to live on /the-assessment,
@@ -9,6 +10,11 @@ import useScrollToHash from '../lib/useScrollToHash.js'
 // Journey overview and a closing CTA. useScrollToHash() makes those links,
 // and the old page routes (which now redirect here with a hash), land on
 // the right section whether or not Home was already open.
+//
+// Everything below the hero is wrapped in an opaque .home-body so the
+// site-wide #main background (the fixed wave/mountain photo used on the
+// other marketing pages) doesn't show through here — Home keeps its own
+// flat dark backdrop under the hero photo.
 export default function Welcome() {
   useScrollToHash()
   const { isAuthenticated, user } = useAuth()
@@ -17,10 +23,13 @@ export default function Welcome() {
 
   return (
     <>
-      {/* ============ HERO — text only now; the full-bleed photo was
-          dropped. .hero-wide still falls back to its flat --bg-void, so no
-          CSS change was needed here beyond not setting backgroundImage. ============ */}
-      <section className="hero-wide">
+      {/* ============ HERO — full-bleed photo, narrow copy column, a
+          small note floating at the right, a numbered row along the
+          bottom. ============ */}
+      <section className="hero-wide" style={{ backgroundImage: `url(${heroImage})` }}>
+        <div className="hero-wide-art" aria-hidden="true"></div>
+        <div className="hero-wide-shade" aria-hidden="true"></div>
+
         <div className="container-wide hero-wide-stage">
           <div className="hero-wide-copy">
             <p className="hero-wide-kicker">Judgement doesn't fail suddenly.<br />It drifts under pressure.</p>
@@ -76,6 +85,10 @@ export default function Welcome() {
         </div>
       </section>
 
+      {/* ============ Everything below the hero sits on its own opaque
+          dark backdrop so the fixed wave/mountain page background doesn't
+          show through on Home. ============ */}
+      <div className="home-body">
       {/* ============ ASSESSMENT (was /the-assessment) ============ */}
       <section id="assessment" className="editorial-hero">
         <div className="container">
@@ -403,6 +416,7 @@ export default function Welcome() {
           )}
         </div>
       </section>
+      </div>
     </>
   )
 }
