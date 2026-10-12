@@ -71,7 +71,7 @@ export default function VerifyEmail() {
         <p>
           {isOrg
             ? "We ask every Admin to confirm their email address before we issue a cohort code — it keeps the code tied to a verified organisation."
-            : "We ask every respondent to confirm their email address before their first login — it keeps assessment results tied to a verified identity."}
+            : "We ask every respondent to confirm their email address before you begin the assessment."}
         </p>
         <ul className="auth-aside-list">
           <li>

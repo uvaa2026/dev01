@@ -55,7 +55,7 @@ export default function MyPage() {
       <div className="mypage-header">
         <div>
           <span className="eyebrow"><span className="dot"></span> Signed in</span>
-          <h1>Welcome back, {user.fullName.split(' ')[0]}</h1>
+          <h1>{user.lastLoginAt ? 'Welcome back, ' : 'Welcome, '}{user.fullName.split(' ')[0]}</h1>
           <p className="subtitle">{user.organisationName}</p>
         </div>
         <button type="button" className="btn btn-ghost" onClick={handleLogout}>Log out</button>
@@ -113,7 +113,7 @@ export default function MyPage() {
         </section>
 
         <section className="mypage-card">
-          <h3>1. Guna profiler</h3>
+          <h3>1. Core Orientation</h3>
           {gunaStatus === null && (
             <p style={{ color: 'var(--text-muted)' }}>Checking your assessment status…</p>
           )}
@@ -129,19 +129,19 @@ export default function MyPage() {
             <>
               <p>15 short situations to establish your baseline. Takes about five minutes — you can go back and forward, save your progress, and pick up where you left off (within 72 hours).</p>
               <Link to="/assessment/begin" className="btn btn-primary btn-block">
-                {gunaStatus.draft ? 'Continue the Guna profiler' : 'Start the Guna profiler'}
+                {gunaStatus.draft ? 'Continue the Core Orientation' : 'Start the Core Orientation'}
               </Link>
             </>
           )}
         </section>
 
         <section className={`mypage-card${constructLocked ? ' locked-card' : ''}`}>
-          <h3>2. Construct assessment</h3>
+          <h3>2. Decision Quality under Pressure</h3>
           {constructStatus === null && (
             <p style={{ color: 'var(--text-muted)' }}>Checking your assessment status…</p>
           )}
           {constructLocked && constructStatus && (
-            <p style={{ color: 'var(--text-muted)' }}>Unlocks once you've completed the Guna profiler above.</p>
+            <p style={{ color: 'var(--text-muted)' }}>Unlocks once you've completed the Core Orientation above.</p>
           )}
           {!constructLocked && constructSubmitted && (
             <>
@@ -154,9 +154,9 @@ export default function MyPage() {
           )}
           {!constructLocked && !constructSubmitted && constructStatus && (
             <>
-              <p>32 short scenarios covering the full picture. Takes about thirty minutes — same as the Guna profiler, you can save your progress and resume within 72 hours.</p>
+              <p>32 short scenarios covering the full picture. Takes about thirty minutes — same as Core Orientation, you can save your progress and resume within 72 hours.</p>
               <Link to="/assessment/construct" className="btn btn-primary btn-block">
-                {constructStatus.draft ? 'Continue the Construct assessment' : 'Start the Construct assessment'}
+                {constructStatus.draft ? 'Continue' : 'Start'}
               </Link>
             </>
           )}

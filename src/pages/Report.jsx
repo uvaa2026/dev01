@@ -333,6 +333,15 @@ export default function Report() {
               Your development plan sets out which layer carries the work for your pattern, and the
               practice that addresses each area.
             </p>
+            <p className="report-plan-footer">
+              A UVAA development plan can map the kind of work that will move each one for your
+              pattern: how you frame it, what you do in the moment, and sustained practice. Coaching,
+              one to one or in a group, can support you in doing it.
+            </p>
+            <p className="report-plan-footer">
+              To explore a plan or coaching, speak to your programme contact, or write to UVAA at{' '}
+              <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+            </p>
           </section>
         </>
       )}

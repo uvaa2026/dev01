@@ -205,19 +205,24 @@ export default function GunaProfiler() {
     return (
       <div className="assessment-shell container">
         <div className="result-panel">
-          <div className="eyebrow"><span className="dot"></span> Guna profiler complete</div>
+          <div className="eyebrow"><span className="dot"></span> Part one complete</div>
           <div className="result-badge" aria-hidden="true">✓</div>
           <h1>Your responses are recorded</h1>
           <p>
-            Thank you for completing the Guna profiler. There's nothing more to do here — scoring
-            and your personalised profile will be available a little later. You can now start the
-            Construct assessment from My Page.
+            Thank you. Fifteen situations answered, and nothing to see yet. Part two puts you in
+            work situations and asks what you would do. It takes about 30 minutes. Your results
+            from both parts come together in one report at the end. Nothing is shown in between,
+            and that is deliberate.
+          </p>
+          <p>
+            Your answers are saved. You can pause and return within 72 hours.
             {submittedAt && (
               <> Submitted {new Date(submittedAt).toLocaleString()}.</>
             )}
           </p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link to="/my-page" className="btn btn-primary btn-lg">Back to My Page</Link>
+            <Link to="/assessment/construct" className="btn btn-primary btn-lg">Start part two</Link>
+            <Link to="/my-page" className="btn btn-ghost btn-lg">Take a break</Link>
           </div>
         </div>
       </div>
@@ -265,7 +270,7 @@ export default function GunaProfiler() {
       </div>
 
       <div className="quiz-card" key={vignette.id}>
-        <div className="quiz-kicker">Guna profiler · Question {index + 1} of {total}</div>
+        <div className="quiz-kicker">Core Orientation · Question {index + 1} of {total}</div>
         <h1 className="quiz-question">{vignette.prompt}</h1>
 
         <div className="option-list" role="radiogroup" aria-label={vignette.prompt}>

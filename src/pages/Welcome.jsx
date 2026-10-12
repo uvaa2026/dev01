@@ -53,22 +53,13 @@ export default function Welcome() {
             <p className="hero-wide-note-list">Clarity<br />Composure<br />Confidence</p>
           </aside>
         </div>
-      </section>
 
-      {/* ============ Everything below the hero sits on its own opaque
-          dark backdrop so the fixed wave/mountain page background doesn't
-          show through on Home. ============ */}
-      <div className="home-body">
-      {/* ============ ASSESSMENT (was /the-assessment) — header and
-          content now live in one continuous section, not stitched-together
-          separate blocks. ============ */}
-      <section id="assessment" className="editorial-hero">
-        <div className="container">
-          <p className="editorial-label center">The Assessment</p>
-          <h2 className="editorial-statement">Real situations. Honest responses. One complete pattern.</h2>
-          <p className="editorial-lead">Two parts, one sitting.</p>
-
-          <div className="stat-circle-row" style={{ marginTop: 48 }}>
+        {/* ============ ASSESSMENT (was /the-assessment) — the four stat
+            circles and "The Assessment" heading now live inside the hero
+            itself, just below the Talk to Us CTA, instead of in a
+            separate section further down the page. ============ */}
+        <div className="container-wide hero-wide-metrics" id="assessment">
+          <div className="stat-circle-row hero-wide-metrics-row">
             <div className="stat-circle">
               <div className="stat-circle-badge">47</div>
               <h3>situations, scenario driven choices</h3>
@@ -92,35 +83,25 @@ export default function Welcome() {
             </div>
           </div>
 
-          <p className="overview-copy" style={{ marginTop: 20, textAlign: 'center' }}>
-            No result is returned between the two parts, deliberately. Knowing your own
-            orientation would change how you answer what follows, and the divergence between the
-            two is the thing worth measuring.
-          </p>
-
-          <div className="scenario-preview" style={{ textAlign: 'left' }}>
-            <span className="notice">Illustrative only &mdash; not scored, not part of the real item bank</span>
-            <h3>Sample situation</h3>
+          <div className="hero-wide-metrics-text">
+            <p className="editorial-label">The Assessment</p>
+            <h2 className="hero-wide-statement">Real situations. Honest responses. One complete pattern.</h2>
+            <p className="editorial-lead">Two parts, one sitting.</p>
             <p className="overview-copy">
-              A client asks for a commitment in the meeting, before you have had time to check
-              with the team doing the work. The room is waiting on your answer.
-            </p>
-            <div className="scenario-options">
-              <div>Give the date they are asking for, and work out how to hit it afterwards.</div>
-              <div>Tell them you will confirm by end of day, once you have checked with the team.</div>
-              <div>Give a date you know is safe, even though it is later than they wanted.</div>
-            </div>
-            <p style={{ marginTop: 16, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              This preview demonstrates the interaction only. It is not part of the actual
-              assessment and none of these responses is scored.
+              No result is returned between the two parts, deliberately. Knowing your own
+              orientation would change how you answer what follows, and the divergence between
+              the two is the thing worth measuring.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ============ DISCOVER / WHY UVAA (was /why-uvaa) — folded into
-          one continuous section with Four Real-World Signals, instead of
-          its own separate page-style intro. ============ */}
+      {/* ============ Everything below the hero sits on its own opaque
+          dark backdrop so the fixed wave/mountain page background doesn't
+          show through on Home. ============ */}
+      <div className="home-body">
+      {/* ============ DISCOVER / WHY UVAA (was /why-uvaa) — flows straight
+          from the "Why UVAA" statement into What You See / What Changes. ============ */}
       <section id="discover" style={{ paddingTop: 0 }}>
         <div className="container">
           <p className="editorial-label center">Why UVAA</p>
@@ -132,25 +113,6 @@ export default function Welcome() {
             The gap between what someone knows and what they do under pressure stays hidden
             until it costs you something. When it does, it rarely looks like a judgement problem.
           </p>
-
-          <p className="editorial-label center" style={{ marginTop: 56 }}>Four Real-World Signals</p>
-          <p className="editorial-intro">
-            None of these show up in performance data as a judgement problem:
-          </p>
-          <div className="dimension-grid">
-            <div className="card">
-              <p>A decision that had to be unwound three months later, made by someone who would have called it correctly in a calmer week.</p>
-            </div>
-            <div className="card">
-              <p>An escalation that reached you because the person closest to it could not hold the conversation.</p>
-            </div>
-            <div className="card">
-              <p>A commitment made in a meeting that nobody in the room believed was deliverable.</p>
-            </div>
-            <div className="card">
-              <p>Someone capable leaving, after a period where their judgement had quietly stopped matching their reputation.</p>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -1,7 +1,15 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
-import { CAREER_STAGES, EXPERIENCE_RANGES } from '../data/careerStages.js'
+import { CAREER_STAGES } from '../data/careerStages.js'
+
+// Overrides the browser's native "Please lengthen this text…" tooltip with
+// copy that matches the rest of the form's validation messaging.
+function handlePasswordInvalid(e) {
+  if (e.target.validity.tooShort || e.target.validity.valueMissing) {
+    e.target.setCustomValidity('Password should be minimum 8 character length.')
+  }
+}
 
 // Code-first participant registration, in three steps:
 //   1. Cohort code -> GET /org/lookup identifies the organisation.
@@ -50,7 +58,10 @@ export default function Register() {
   async function handleCodeSubmit(e) {
     e.preventDefault()
     setStatus(null)
-    if (!codeFormRef.current.reportValidity()) return
+    if (!cohortCode.trim()) {
+      setStatus({ type: 'error', message: 'Please enter your cohort code.' })
+      return
+    }
 
     setSubmitting(true)
     try {
@@ -70,6 +81,7 @@ export default function Register() {
 
   function handleProfileChange(e) {
     const { name, value } = e.target
+    if (e.target.setCustomValidity) e.target.setCustomValidity('')
     setProfile((f) => ({ ...f, [name]: value }))
   }
 
@@ -165,7 +177,7 @@ export default function Register() {
         <p>Your professional context shapes the scenarios you'll see — this is the only place you'll set it.</p>
         <ul className="auth-aside-list">
           <li><span className="ico" aria-hidden="true">1</span> Full assessment takes about 50 minutes, and your progress is saved as you go.</li>
-          <li><span className="ico" aria-hidden="true">2</span> No dimension names or scoring logic are shown before or during the assessment.</li>
+          <li><span className="ico" aria-hidden="true">2</span> There are no right answers. Choose what you would really do. If you have another option in mind, then choose the closest answer.</li>
           <li><span className="ico" aria-hidden="true">3</span> Your individual score stays private unless you explicitly consent to share it.</li>
         </ul>
       </aside>
@@ -185,17 +197,17 @@ export default function Register() {
             <form ref={codeFormRef} onSubmit={handleCodeSubmit} noValidate>
               <div className="form-note">
                 <span aria-hidden="true">ⓘ</span>
-                <span>Registration is by cohort code only — get this from your organisation's Admin.</span>
+                <span>Registration is by invitation. Use the cohort code you received.</span>
               </div>
 
               <div className="field">
                 <label htmlFor="cohortCode">Cohort code</label>
                 <input
                   className="input" type="text" id="cohortCode" name="cohortCode"
-                  placeholder="e.g. ABCD240926EF" required autoFocus
+                  placeholder="e.g. ABCD240926EF" autoFocus
                   value={cohortCode} onChange={(e) => setCohortCode(e.target.value)}
                 />
-                <span className="hint">Your organisation's Admin has this code.</span>
+                <span className="hint">Your organisation's SPOC has this code.</span>
               </div>
 
               <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={submitting}>
@@ -240,7 +252,9 @@ export default function Register() {
                     className="input" type="password" id="password" name="password"
                     autoComplete="new-password" required minLength={8}
                     value={profile.password} onChange={handleProfileChange}
+                    onInvalid={handlePasswordInvalid}
                   />
+                  <span className="hint">Minimum 8 characters.</span>
                 </div>
                 <div className="field">
                   <label htmlFor="confirmPassword">Confirm password</label>
@@ -248,19 +262,21 @@ export default function Register() {
                     className="input" type="password" id="confirmPassword" name="confirmPassword"
                     autoComplete="new-password" required minLength={8}
                     value={profile.confirmPassword} onChange={handleProfileChange}
+                    onInvalid={handlePasswordInvalid}
                   />
                 </div>
               </div>
 
               <div className="field">
-                <label htmlFor="vertical">Your professional context</label>
+                <label htmlFor="vertical">Industry</label>
                 <select
                   className="input" id="vertical" name="vertical" required
                   value={profile.vertical} onChange={handleVerticalChange}
                 >
-                  <option value="" disabled>Select your professional context</option>
+                  <option value="" disabled>Select your industry</option>
                   <option value="IT_TECH">IT and Technology Services</option>
                   <option value="EDUCATION">Education and Academic Institutions</option>
+                  <option value="OTHERS">Others</option>
                 </select>
               </div>
 
@@ -285,15 +301,11 @@ export default function Register() {
 
               <div className="field">
                 <label htmlFor="experience">Years of professional experience</label>
-                <select
-                  className="input" id="experience" name="experience" required
+                <input
+                  className="input" type="number" id="experience" name="experience"
+                  placeholder="e.g. 5" min={0} max={60} step={1} required
                   value={profile.experience} onChange={handleProfileChange}
-                >
-                  <option value="" disabled>Select a range</option>
-                  {EXPERIENCE_RANGES.map((opt) => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  ))}
-                </select>
+                />
               </div>
 
               <div className="field">
@@ -306,7 +318,7 @@ export default function Register() {
               </div>
 
               <div className="wizard-actions">
-                <button type="button" className="btn btn-ghost" onClick={() => setStep(STEP_CODE)}>Back</button>
+                <button type="button" className="btn btn-ghost btn-lg" onClick={() => setStep(STEP_CODE)}>Back</button>
                 <button type="submit" className="btn btn-primary btn-lg">Continue</button>
               </div>
             </form>
@@ -348,12 +360,12 @@ export default function Register() {
                 </div>
 
                 <p className="hint">
-                  Declining the facilitator or Admin consent above changes nothing about the report you receive yourself — it only controls who else can see it.
+                  Declining the facilitator or Admin consent above changes nothing about the report you receive yourself. It only controls who else can see it.
                 </p>
               </fieldset>
 
               <div className="wizard-actions">
-                <button type="button" className="btn btn-ghost" onClick={() => setStep(STEP_PROFILE)}>Back</button>
+                <button type="button" className="btn btn-ghost btn-lg" onClick={() => setStep(STEP_PROFILE)}>Back</button>
                 <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
                   {submitting ? 'Creating account…' : 'Create account & continue'}
                 </button>

@@ -181,13 +181,13 @@ export default function ConstructAssessment() {
       <div className="assessment-shell container">
         <div className="result-panel">
           <div className="eyebrow"><span className="dot"></span> Not yet available</div>
-          <h1>Finish the Guna profiler first</h1>
+          <h1>Finish Core Orientation first</h1>
           <p>
-            The Construct assessment opens up once you've completed the Guna profiler — that's stage
-            one of two.
+            Decision Quality under Pressure opens up once you've completed Core Orientation — that's
+            stage one of two.
           </p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link to="/assessment/guna" className="btn btn-primary btn-lg">Go to Guna profiler</Link>
+            <Link to="/assessment/guna" className="btn btn-primary btn-lg">Go to Core Orientation</Link>
             <Link to="/my-page" className="btn btn-ghost btn-lg">Back to My Page</Link>
           </div>
         </div>
@@ -214,16 +214,25 @@ export default function ConstructAssessment() {
     return (
       <div className="assessment-shell container">
         <div className="result-panel">
-          <div className="eyebrow"><span className="dot"></span> Construct assessment complete</div>
+          <div className="eyebrow"><span className="dot"></span> All done</div>
           <div className="result-badge" aria-hidden="true">✓</div>
-          <h1>Your responses are recorded</h1>
+          <h1>That's all 47. Thank you.</h1>
           <p>
-            Thank you for completing both parts of the assessment. There's nothing more for you to
-            do — your combined report will be available on My Page once it's ready.
-            {submittedAt && (
-              <> Submitted {new Date(submittedAt).toLocaleString()}.</>
-            )}
+            Your answers are saved and locked. Your report is being prepared and will be available
+            in My Page shortly. We'll email you when it's ready.
           </p>
+          <p>
+            It shows how you tend to operate, how your judgement holds under pressure, and what to
+            work on first. Knowing where you stand is useful.
+          </p>
+          <p>
+            The UVAA Development Plan and coaching are there to help you work on it. To find out
+            more, write to{' '}
+            <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+          </p>
+          {submittedAt && (
+            <p className="report-italic">Submitted {new Date(submittedAt).toLocaleString()}.</p>
+          )}
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <Link to="/my-page" className="btn btn-primary btn-lg">Back to My Page</Link>
           </div>
@@ -272,9 +281,9 @@ export default function ConstructAssessment() {
         <span className="progress-label">{answeredCount} of {total} answered</span>
       </div>
 
-      <div className="quiz-card" key={scenario.id}>
-        <div className="quiz-kicker">Construct assessment · Question {index + 1} of {total}</div>
-        <h1 className="quiz-question">{scenario.situation}</h1>
+      <div className="quiz-card quiz-card-wide" key={scenario.id}>
+        <div className="quiz-kicker">Decision Quality under Pressure · Question {index + 1} of {total}</div>
+        <h1 className="quiz-question quiz-question-wide">{scenario.situation}</h1>
 
         <div className="option-list" role="radiogroup" aria-label={scenario.situation}>
           {scenario.options.map((opt, i) => (

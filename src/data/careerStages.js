@@ -2,26 +2,32 @@
 // Mirrors FRD requirements FR-02A / FR-02B: the registration UI itself
 // never changes — only this configuration adapts per vertical, and Phase II
 // verticals can be added here without touching the form component.
+//
+// The four stage descriptions (Early/Mid/Senior/Leadership) are shared
+// verbatim across verticals per the product review deck — only the
+// label/hint framing above them still varies by vertical.
+const STANDARD_STAGE_OPTIONS = [
+  { value: 'EC', label: 'Early career — building your foundation, with or without a small team' },
+  { value: 'MC', label: 'Mid career — established in your field, a specialist or leading teams' },
+  { value: 'SP', label: 'Senior professional — shaping direction for a function or leading several teams' },
+  { value: 'LS', label: 'Leadership — accountable for a business unit or organisation' },
+]
+
 export const CAREER_STAGES = {
   IT_TECH: {
     label: 'Which best describes where you are in your career?',
     hint: 'Your pressure comes from task delivery, credibility, or the scope of decisions you own.',
-    options: [
-      { value: 'EC', label: 'Early Career — individual contributor (0–5 years)' },
-      { value: 'MC', label: 'Mid Career — 5–12 years, may or may not manage others' },
-      { value: 'SP', label: 'Senior Professional — 12+ years, budget or team accountability' },
-      { value: 'LS', label: 'Leadership — VP, Director, or equivalent' },
-    ],
+    options: STANDARD_STAGE_OPTIONS,
   },
   EDUCATION: {
-    label: 'Which best describes your current academic role?',
+    label: 'Which best describes where you are in your career?',
     hint: 'Your pressure comes from research, teaching, supervision, or institutional accountability.',
-    options: [
-      { value: 'EC', label: 'Student or Research Scholar — UG, PG, or doctoral' },
-      { value: 'MC', label: 'Faculty or Lecturer — early to mid academic career' },
-      { value: 'SP', label: 'Head of Department or Programme Director' },
-      { value: 'LS', label: 'Dean or Academic Leader' },
-    ],
+    options: STANDARD_STAGE_OPTIONS,
+  },
+  OTHERS: {
+    label: 'Which best describes where you are in your career?',
+    hint: 'Your pressure comes from the decisions and accountability that come with your role.',
+    options: STANDARD_STAGE_OPTIONS,
   },
 }
 

@@ -63,18 +63,27 @@ body {
 
 /* Site-wide atmospheric backdrop for every page other than Home (Home
    carries its own full-bleed hero image instead — see Welcome.jsx) —
-   the same wave-pattern-over-mountains photo used across all the inner
-   pages. Put on #main (the React route outlet in App.jsx) rather than
-   body: body's background wasn't painting on the deployed build, almost
-   certainly because something between body and #main (React's root
-   wrapper, likely) establishes its own containing block, which breaks
+   the same night-sky/waveform photo used across all the inner pages. Put
+   on #main (the React route outlet in App.jsx) rather than body: body's
+   background wasn't painting on the deployed build, almost certainly
+   because something between body and #main (React's root wrapper,
+   likely) establishes its own containing block, which breaks
    `background-attachment: fixed` from anchoring to the real viewport.
    #main is the actual scrolling content box, so the fixed attachment
    anchors correctly from there. Sections/cards inside stay mostly
-   opaque on top of it, so it mainly shows through the gaps and margins. */
+   opaque on top of it, so it mainly shows through the gaps and margins.
+   A dark scrim layers on top of the photo itself (rather than relying on
+   section cards alone) so small/light-coloured text stays readable
+   wherever the image underneath happens to be brighter. */
 #main {
-  background:
-    var(--bg-base) url('./assets/sub-page-bg.jpg') no-repeat center bottom / cover fixed;
+  background-image:
+    linear-gradient(180deg, rgba(5, 9, 18, 0.55), rgba(5, 9, 18, 0.72)),
+    url('./assets/sub-page-bg-v2.jpg');
+  background-color: var(--bg-base);
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center bottom;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
 }
 
 /* Fixed-attachment backgrounds are a common scroll/repaint cost on mobile
@@ -1093,36 +1102,88 @@ section { padding: 72px 0; position: relative; }
 .vertical-card li:first-of-type { border-top: none; }
 .vertical-card li span:last-child { color: var(--text-muted); font-size: 0.8rem; }
 
-/* ---- Stat circles (Home / Assessment — 47 / 0 / 9) ---- */
+/* ---- Stat circles — relocated into the Home hero, just below the
+   Talk to Us CTA. Glass cards + a conic glow ring per accent colour,
+   replacing the earlier flat/plain circles. ---- */
 .stat-circle-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  max-width: 1080px;
-  margin: 0 auto;
+  gap: 16px;
 }
-.stat-circle { text-align: center; }
+.stat-circle {
+  text-align: center;
+  padding: 26px 16px 22px;
+  border-radius: 18px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+.stat-circle:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
 .stat-circle-badge {
-  width: 86px;
-  height: 86px;
-  margin: 0 auto 18px;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 16px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 1.9rem;
-  background: radial-gradient(circle at 35% 30%, var(--bg-surface-3), var(--bg-surface));
-  border: 1px solid var(--border-strong);
+  font-size: 1.7rem;
+  background: rgba(5, 10, 20, 0.6);
+  border: 1px solid currentColor;
 }
-.stat-circle-badge-word { font-size: 0.92rem; letter-spacing: 0.01em; }
-.stat-circle-row .stat-circle:nth-child(1) .stat-circle-badge { color: var(--accent-cyan); box-shadow: 0 0 0 1px rgba(77, 216, 255, 0.25) inset; }
-.stat-circle-row .stat-circle:nth-child(2) .stat-circle-badge { color: var(--accent-magenta); box-shadow: 0 0 0 1px rgba(232, 87, 155, 0.25) inset; }
-.stat-circle-row .stat-circle:nth-child(3) .stat-circle-badge { color: var(--accent-amber); box-shadow: 0 0 0 1px rgba(255, 180, 84, 0.25) inset; }
-.stat-circle-row .stat-circle:nth-child(4) .stat-circle-badge { color: var(--accent-cyan); box-shadow: 0 0 0 1px rgba(77, 216, 255, 0.25) inset; }
-.stat-circle h3 { font-family: var(--font-heading); font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
-.stat-circle p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; margin: 0; }
+.stat-circle-badge-word { font-size: 0.82rem; letter-spacing: 0.01em; }
+.stat-circle-row .stat-circle:nth-child(1) .stat-circle-badge { color: var(--accent-cyan); box-shadow: 0 0 22px rgba(77, 216, 255, 0.45), inset 0 0 14px rgba(77, 216, 255, 0.15); }
+.stat-circle-row .stat-circle:nth-child(2) .stat-circle-badge { color: var(--accent-magenta); box-shadow: 0 0 22px rgba(232, 87, 155, 0.45), inset 0 0 14px rgba(232, 87, 155, 0.15); }
+.stat-circle-row .stat-circle:nth-child(3) .stat-circle-badge { color: var(--accent-amber); box-shadow: 0 0 22px rgba(255, 180, 84, 0.45), inset 0 0 14px rgba(255, 180, 84, 0.15); }
+.stat-circle-row .stat-circle:nth-child(4) .stat-circle-badge { color: var(--accent-violet); box-shadow: 0 0 22px rgba(139, 124, 255, 0.45), inset 0 0 14px rgba(139, 124, 255, 0.15); }
+.stat-circle h3 { font-family: var(--font-heading); font-size: 0.86rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+.stat-circle p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
+
+/* ---- Hero metrics block — the relocated stat circles plus "The
+   Assessment" heading, sitting inside the hero below the main stage. ---- */
+.hero-wide-metrics {
+  position: relative;
+  z-index: 2;
+  padding-top: 8px;
+  padding-bottom: 72px;
+}
+.hero-wide-metrics-row { margin-bottom: 44px; }
+.hero-wide-metrics-text {
+  max-width: 620px;
+  margin: 0 0 0 auto;
+  text-align: right;
+}
+.hero-wide-metrics-text .editorial-label { text-align: right; }
+.hero-wide-metrics-text .editorial-lead { margin: 0; max-width: none; }
+.hero-wide-metrics-text .overview-copy { margin: 14px 0 0 !important; max-width: none; text-align: right !important; }
+
+.hero-wide-statement {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3.3vw, 2.5rem);
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  background: linear-gradient(100deg, var(--text-primary) 30%, var(--accent-cyan) 75%, var(--accent-violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: 720px) {
+  .hero-wide-metrics-text { text-align: left; margin: 0; max-width: none; }
+  .hero-wide-metrics-text .editorial-label { text-align: left; }
+  .hero-wide-metrics-text .overview-copy { text-align: left !important; }
+}
 
 /* ---- Outcome patterns matrix — headings visible, the 9 values
    deliberately blurred (visual only; not meant as an accessibility
@@ -1670,6 +1731,12 @@ fieldset legend {
   margin-bottom: 32px;
 }
 
+/* Construct assessment scenarios run noticeably longer than Guna profiler
+   prompts — give them the extra horizontal room so a long passage doesn't
+   read as a narrow, hard-to-scan column. */
+.quiz-card-wide { max-width: 880px; }
+.quiz-question-wide { max-width: 72ch; }
+
 .option-list {
   display: grid;
   gap: 14px;
@@ -1745,16 +1812,16 @@ fieldset legend {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 96px;
-  height: 96px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   margin: 0 auto 28px;
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.5), var(--accent-cyan) 30%, transparent 75%);
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet) 120%);
   color: #04101a;
-  box-shadow: 0 0 60px rgba(77,216,255,0.4);
+  box-shadow: 0 8px 30px rgba(77, 216, 255, 0.35);
 }
 
 .result-panel h1 {

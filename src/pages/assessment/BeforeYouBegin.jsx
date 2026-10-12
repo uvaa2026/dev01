@@ -70,21 +70,21 @@ export default function BeforeYouBegin() {
 
         <div style={{ textAlign: 'left', marginTop: 8 }}>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 16 }}>
-            You’re about to complete a two-part assessment of how you tend to decide and respond when
-            things get difficult — deadlines, disagreements, ambiguity, setbacks. It takes about fifty
-            minutes in total, and you can save your progress and come back within 72 hours if you need to
-            step away.
+            <strong style={{ color: 'var(--text-primary)' }}>What you'll do.</strong> A two-part
+            assessment of how you tend to decide when things get difficult: deadlines, disagreements,
+            setbacks. Around 50 minutes in one sitting. Your answers are saved as you go, and you can
+            come back within 72 hours.
           </p>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 16 }}>
-            There are no right or wrong answers. Every option in every question is a genuine way people
-            respond — the value of your profile depends entirely on answering with what you’d actually
-            do, not what sounds best. Nothing about how this is scored is shown to you before or during
-            the assessment, so your responses stay honest and unprimed.
+            <strong style={{ color: 'var(--text-primary)' }}>How to answer.</strong> There are no
+            right answers. Choose what you would really do, not what sounds best. If none of the
+            options is exactly right, choose the closest one. You won't see scores as you go. Your
+            results come together in one report at the end.
           </p>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 16 }}>
-            Your individual results stay private. Your organisation's HR administrator can only see your
-            individual score if you explicitly consented to that when you registered — otherwise they see
-            aggregate patterns only, never your answers.
+            <strong style={{ color: 'var(--text-primary)' }}>Who sees what.</strong> Your report comes
+            to you. The organisation that invited you sees patterns across the group, not individual
+            answers. Your individual scores are shared only where you agreed when you registered.
           </p>
 
           {error && (
