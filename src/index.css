@@ -463,16 +463,13 @@ body::after {
   display: grid;
   grid-template-columns: 39% 61%;
   align-items: center;
-  /* Header (83px, measured) + this + the steps row below (96px + 16px
-     bottom buffer, see .hero-wide-steps) = one landscape screen, so the
-     hero lands with no page scrollbar on a typical laptop — with a little
-     breathing room at the very bottom instead of the steps row sitting
-     flush against the browser edge. Floors at 420px so stacked mobile
-     content (grid collapses to 1fr) never gets squeezed below what it
-     needs. */
-  min-height: max(420px, calc(100svh - 83px - 96px - 16px));
+  /* The numbered steps row that used to sit below this (and the height
+     math that reserved space for it) is gone — Home's hero is just this
+     stage now. Floors at 420px so stacked mobile content (grid collapses
+     to 1fr) never gets squeezed below what it needs. */
+  min-height: max(420px, calc(100svh - 83px));
   padding-top: 32px;
-  padding-bottom: 32px;
+  padding-bottom: 56px;
 }
 
 .hero-wide-copy { max-width: 560px; }
@@ -1099,9 +1096,9 @@ section { padding: 72px 0; position: relative; }
 /* ---- Stat circles (Home / Assessment — 47 / 0 / 9) ---- */
 .stat-circle-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  max-width: 900px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1080px;
   margin: 0 auto;
 }
 .stat-circle { text-align: center; }
@@ -1119,9 +1116,11 @@ section { padding: 72px 0; position: relative; }
   background: radial-gradient(circle at 35% 30%, var(--bg-surface-3), var(--bg-surface));
   border: 1px solid var(--border-strong);
 }
+.stat-circle-badge-word { font-size: 0.92rem; letter-spacing: 0.01em; }
 .stat-circle-row .stat-circle:nth-child(1) .stat-circle-badge { color: var(--accent-cyan); box-shadow: 0 0 0 1px rgba(77, 216, 255, 0.25) inset; }
 .stat-circle-row .stat-circle:nth-child(2) .stat-circle-badge { color: var(--accent-magenta); box-shadow: 0 0 0 1px rgba(232, 87, 155, 0.25) inset; }
 .stat-circle-row .stat-circle:nth-child(3) .stat-circle-badge { color: var(--accent-amber); box-shadow: 0 0 0 1px rgba(255, 180, 84, 0.25) inset; }
+.stat-circle-row .stat-circle:nth-child(4) .stat-circle-badge { color: var(--accent-cyan); box-shadow: 0 0 0 1px rgba(77, 216, 255, 0.25) inset; }
 .stat-circle h3 { font-family: var(--font-heading); font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; }
 .stat-circle p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; margin: 0; }
 
@@ -2039,7 +2038,7 @@ fieldset legend {
   .guna-breakdown { grid-template-columns: 1fr; }
   .compare-grid { grid-template-columns: 1fr; }
   .compare-divider { transform: rotate(90deg); margin: 4px auto; }
-  .stat-circle-row { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .stat-circle-row { grid-template-columns: repeat(2, 1fr); gap: 24px 18px; }
   .stat-circle-badge { width: 72px; height: 72px; font-size: 1.5rem; }
 }
 

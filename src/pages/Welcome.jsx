@@ -53,36 +53,6 @@ export default function Welcome() {
             <p className="hero-wide-note-list">Clarity<br />Composure<br />Confidence</p>
           </aside>
         </div>
-
-        <div className="container-wide hero-wide-steps">
-          <div className="hero-step">
-            <span className="hero-step-no">01</span>
-            <p>47 situations<br />Not self-description</p>
-            <span className="hero-step-tick"></span>
-          </div>
-          <div className="hero-step">
-            <span className="hero-step-no">02</span>
-            <p>50 minutes<br />Two parts, one sitting</p>
-            <span className="hero-step-tick"></span>
-          </div>
-          <div className="hero-step">
-            <span className="hero-step-no">03</span>
-            <p>1 profile<br />A score, not a type</p>
-            <span className="hero-step-tick"></span>
-          </div>
-          <div className="hero-step">
-            <span className="hero-step-no">04</span>
-            <p>Ordered<br />Priorities, not a list</p>
-            <span className="hero-step-tick"></span>
-          </div>
-          <div className="hero-wide-sig">
-            {isAuthenticated ? (
-              <>A sharper<br />view of<br />judgement</>
-            ) : (
-              <>Worth a conversation<br />before it's worth<br />a cohort</>
-            )}
-          </div>
-        </div>
       </section>
 
       {/* ============ Everything below the hero sits on its own opaque
@@ -118,12 +88,11 @@ export default function Welcome() {
               <h3>patterns, not types</h3>
               <p>Orientation crossed with decision quality. A person is not placed in a box.</p>
             </div>
+            <div className="stat-circle">
+              <div className="stat-circle-badge stat-circle-badge-word">Minutes</div>
+              <p style={{ marginTop: 10 }}>Report &mdash; generated and emailed as a PDF. Available in the participant's account for ninety days.</p>
+            </div>
           </div>
-
-          <p className="overview-copy" style={{ marginTop: 32, textAlign: 'center', maxWidth: '50ch', marginLeft: 'auto', marginRight: 'auto' }}>
-            <strong>Report</strong> &mdash; generated and emailed as a PDF. Available in the
-            participant's account for ninety days.
-          </p>
 
           <p className="overview-copy" style={{ marginTop: 20, textAlign: 'center' }}>
             No result is returned between the two parts, deliberately. Knowing your own
