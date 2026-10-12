@@ -59,18 +59,16 @@ export default function Welcome() {
           dark backdrop so the fixed wave/mountain page background doesn't
           show through on Home. ============ */}
       <div className="home-body">
-      {/* ============ ASSESSMENT (was /the-assessment) ============ */}
+      {/* ============ ASSESSMENT (was /the-assessment) — header and
+          content now live in one continuous section, not stitched-together
+          separate blocks. ============ */}
       <section id="assessment" className="editorial-hero">
         <div className="container">
           <p className="editorial-label center">The Assessment</p>
           <h2 className="editorial-statement">Real situations. Honest responses. One complete pattern.</h2>
           <p className="editorial-lead">Two parts, one sitting.</p>
-        </div>
-      </section>
 
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <div className="stat-circle-row">
+          <div className="stat-circle-row" style={{ marginTop: 48 }}>
             <div className="stat-circle">
               <div className="stat-circle-badge">47</div>
               <h3>situations, scenario driven choices</h3>
@@ -100,7 +98,7 @@ export default function Welcome() {
             two is the thing worth measuring.
           </p>
 
-          <div className="scenario-preview">
+          <div className="scenario-preview" style={{ textAlign: 'left' }}>
             <span className="notice">Illustrative only &mdash; not scored, not part of the real item bank</span>
             <h3>Sample situation</h3>
             <p className="overview-copy">
@@ -120,24 +118,22 @@ export default function Welcome() {
         </div>
       </section>
 
-      {/* ============ DISCOVER / WHY UVAA (was /why-uvaa) ============ */}
-      <section id="discover" className="editorial-hero">
+      {/* ============ DISCOVER / WHY UVAA (was /why-uvaa) — folded into
+          one continuous section with Four Real-World Signals, instead of
+          its own separate page-style intro. ============ */}
+      <section id="discover" style={{ paddingTop: 0 }}>
         <div className="container">
           <p className="editorial-label center">Why UVAA</p>
-          <h2 className="editorial-statement">
+          <h2 className="editorial-statement" style={{ textAlign: 'center' }}>
             The judgement gap is usually invisible &mdash;<br />
             <span className="accent">until it costs you something.</span>
           </h2>
-          <p className="editorial-lead">
+          <p className="editorial-lead" style={{ textAlign: 'center' }}>
             The gap between what someone knows and what they do under pressure stays hidden
             until it costs you something. When it does, it rarely looks like a judgement problem.
           </p>
-        </div>
-      </section>
 
-      <section style={{ paddingTop: 0 }}>
-        <div className="container">
-          <p className="editorial-label center">Four Real-World Signals</p>
+          <p className="editorial-label center" style={{ marginTop: 56 }}>Four Real-World Signals</p>
           <p className="editorial-intro">
             None of these show up in performance data as a judgement problem:
           </p>
