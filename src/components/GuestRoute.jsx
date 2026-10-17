@@ -9,7 +9,14 @@ export default function GuestRoute({ children }) {
   const { isAuthenticated, isAuthLoading, user } = useAuth()
 
   if (isAuthLoading) {
-    return null // avoid a flash of the login/register form before the check resolves
+    // A brief loading state instead of a blank screen — avoids a flash of
+    // the login/register form before the check resolves, while still
+    // giving the visitor something to look at during the round trip.
+    return (
+      <div className="container" style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
+        Loading…
+      </div>
+    )
   }
 
   if (isAuthenticated) {

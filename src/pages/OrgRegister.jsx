@@ -1,10 +1,14 @@
 import { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
+import { ORGANISATION_TYPES } from '../data/organisationTypes.js'
+
+const ORG_TYPE_BY_LABEL = new Map(ORGANISATION_TYPES.map((t) => [t.label.toLowerCase(), t.value]))
 
 const INITIAL_FORM = {
   organisationName: '',
   organisationType: '',
+  organisationTypeLabel: '',
   emailDomain: '',
   seatCount: 10,
   approvalMode: 'AUTO',
@@ -35,6 +39,23 @@ export default function OrgRegister() {
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
+  // Type of organisation is a searchable picklist (native <input list>  +
+  // <datalist>, so it's keyboard-filterable without a new dependency) that
+  // still submits one of ORGANISATION_TYPES' stable codes, matching how
+  // every other enum-like field in this app is sent to the API. Typed text
+  // that doesn't match a listed label falls back to OTHERS — the broad
+  // catch-all — and the free text itself still goes to the API as
+  // organisationTypeOther so an admin can see what the org actually typed.
+  function handleOrganisationTypeChange(e) {
+    const label = e.target.value
+    const matchedValue = ORG_TYPE_BY_LABEL.get(label.trim().toLowerCase())
+    setForm((f) => ({
+      ...f,
+      organisationTypeLabel: label,
+      organisationType: matchedValue || (label.trim() ? 'OTHERS' : ''),
+    }))
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus(null)
@@ -52,9 +73,13 @@ export default function OrgRegister() {
 
     setSubmitting(true)
     try {
+      const matchedOrgType = ORG_TYPE_BY_LABEL.get(form.organisationTypeLabel.trim().toLowerCase())
       await api.orgRegister({
         organisationName: form.organisationName,
         organisationType: form.organisationType,
+        organisationTypeOther: !matchedOrgType && form.organisationTypeLabel.trim()
+          ? form.organisationTypeLabel.trim()
+          : undefined,
         emailDomain: form.emailDomain.trim() || undefined,
         seatCount: Number(form.seatCount),
         approvalMode: form.approvalMode,
@@ -143,7 +168,7 @@ export default function OrgRegister() {
                 <label htmlFor="organisationName">Organisation name</label>
                 <input
                   className="input" type="text" id="organisationName" name="organisationName"
-                  placeholder="e.g. Northwind Technologies" autoComplete="organization" required
+                  placeholder="e.g. Dheemer Consulting" autoComplete="organization" required
                   value={form.organisationName} onChange={handleChange}
                 />
               </div>
@@ -151,14 +176,17 @@ export default function OrgRegister() {
               <div className="field-row">
                 <div className="field">
                   <label htmlFor="organisationType">Type of organisation</label>
-                  <select
-                    className="input" id="organisationType" name="organisationType" required
-                    value={form.organisationType} onChange={handleChange}
-                  >
-                    <option value="" disabled>Select a type</option>
-                    <option value="IT_TECH">IT and Technology Services</option>
-                    <option value="EDUCATION">Education and Academic Institutions</option>
-                  </select>
+                  <input
+                    className="input" type="text" id="organisationType" name="organisationTypeLabel"
+                    list="organisationTypeOptions" autoComplete="off" required
+                    placeholder="Start typing to search…"
+                    value={form.organisationTypeLabel} onChange={handleOrganisationTypeChange}
+                  />
+                  <datalist id="organisationTypeOptions">
+                    {ORGANISATION_TYPES.map((t) => (
+                      <option key={t.value} value={t.label} />
+                    ))}
+                  </datalist>
                 </div>
                 <div className="field">
                   <label htmlFor="seatCount">Number of seats</label>
@@ -175,7 +203,7 @@ export default function OrgRegister() {
                 <label htmlFor="emailDomain">Work email domain <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span></label>
                 <input
                   className="input" type="text" id="emailDomain" name="emailDomain"
-                  placeholder="e.g. acme.com"
+                  placeholder="e.g. yourorg.com"
                   value={form.emailDomain} onChange={handleChange}
                 />
                 <span className="hint">If set, only emails on this domain can register with your code. If left blank, sharing the code responsibly is your responsibility.</span>
@@ -244,6 +272,7 @@ export default function OrgRegister() {
                     autoComplete="new-password" required minLength={8}
                     value={form.adminPassword} onChange={handleChange}
                   />
+                  <span className="hint">Minimum 8 characters.</span>
                 </div>
                 <div className="field">
                   <label htmlFor="adminConfirmPassword">Confirm password</label>

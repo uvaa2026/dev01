@@ -231,7 +231,7 @@ export default function Register() {
                 <label htmlFor="fullName">Full name</label>
                 <input
                   className="input" type="text" id="fullName" name="fullName"
-                  placeholder="e.g. Priya Raman" autoComplete="name" required
+                  placeholder="Your full name" autoComplete="name" required
                   value={profile.fullName} onChange={handleProfileChange}
                 />
               </div>

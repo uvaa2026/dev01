@@ -11,7 +11,11 @@ export default function OrgGuestRoute({ children }) {
   const { isOrgAuthenticated, isOrgAuthLoading } = useOrgAuth()
 
   if (isOrgAuthLoading) {
-    return null
+    return (
+      <div className="container" style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
+        Loading…
+      </div>
+    )
   }
 
   if (isOrgAuthenticated) {

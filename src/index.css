@@ -21,6 +21,8 @@
   --accent-violet: #8b7cff;
   --accent-magenta: #e8579b;
   --accent-magenta-soft: rgba(232, 87, 155, 0.14);
+  --accent-red: #ff5c5c;
+  --accent-red-soft: rgba(255, 92, 92, 0.16);
 
   /* ---- Text ---- */
   --text-primary: #f5f7fb;
@@ -39,7 +41,7 @@
   /* ---- Status colours (results/quiz UI) ---- */
   --status-good: #4dd8ff;
   --status-warn: #ffb454;
-  --status-bad: #e8579b;
+  --status-bad: #ff5c5c;
 
   --max-width: 1180px;
   --font-heading: "Sora", "Segoe UI", system-ui, sans-serif;
@@ -1438,9 +1440,9 @@ section { padding: 72px 0; position: relative; }
   font-family: var(--font-heading);
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   margin-bottom: 18px;
-  max-width: 18ch;
+  max-width: 100%;
 }
-.auth-aside p { color: var(--text-secondary); max-width: 42ch; margin-bottom: 28px; }
+.auth-aside p { color: var(--text-secondary); max-width: 90%; margin-bottom: 28px; }
 
 .auth-aside-list { display: grid; gap: 16px; position: relative; z-index: 1; }
 .auth-aside-list li {
@@ -1540,10 +1542,11 @@ select.input {
 
 fieldset { border: none; margin-bottom: 18px; }
 fieldset legend {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 10px;
+  font-family: var(--font-heading);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 14px;
   padding: 0;
 }
 
@@ -1608,9 +1611,10 @@ fieldset legend {
   color: var(--accent-cyan);
 }
 .status-msg.error {
-  background: rgba(232, 87, 155, 0.1);
-  border-color: rgba(232, 87, 155, 0.35);
-  color: var(--accent-magenta);
+  background: var(--accent-red-soft);
+  border-color: rgba(255, 92, 92, 0.55);
+  color: var(--accent-red);
+  font-weight: 600;
 }
 
 /* ==========================================================================
