@@ -4,7 +4,6 @@ import { useAssessment } from '../../context/AssessmentContext.jsx'
 import { GUNA_VIGNETTES } from '../../data/gunaVignettes.js'
 import { api, ApiError } from '../../lib/api.js'
 
-const AUTO_ADVANCE_MS = 450
 const DRAFT_SAVE_DEBOUNCE_MS = 600
 
 export default function GunaProfiler() {
@@ -19,7 +18,6 @@ export default function GunaProfiler() {
   // draft was found and discarded server-side (FR-17), starting fresh.
   const [resumeNotice, setResumeNotice] = useState(null)
   const [draftSaveState, setDraftSaveState] = useState('idle') // idle | saving | saved | error
-  const advanceTimer = useRef(null)
   const draftSaveTimer = useRef(null)
   // Guards the auto-save effect against firing during the initial load (the
   // resume-restore itself touches gunaAnswers/index and must not be mistaken
@@ -69,7 +67,6 @@ export default function GunaProfiler() {
   }, [])
 
   useEffect(() => () => {
-    clearTimeout(advanceTimer.current)
     clearTimeout(draftSaveTimer.current)
   }, [])
 
@@ -102,16 +99,10 @@ export default function GunaProfiler() {
     return () => clearTimeout(draftSaveTimer.current)
   }, [gunaAnswers, index, phase, persistDraft])
 
-  // Accepts an optional answers-map override so the very last answer can be
-  // submitted correctly even though it hasn't round-tripped through context
-  // state yet (see handleSelect below) — without this, submitting on the
-  // final question would race the state update and go out missing that
-  // last answer.
-  const submit = useCallback(async (answersMapOverride) => {
+  const submit = useCallback(async () => {
     setPhase('submitting')
     setSubmitError(null)
-    const map = answersMapOverride || gunaAnswers
-    const answers = GUNA_VIGNETTES.map((v) => ({ vignetteId: v.id, optionKey: map[v.id] }))
+    const answers = GUNA_VIGNETTES.map((v) => ({ vignetteId: v.id, optionKey: gunaAnswers[v.id] }))
     try {
       const data = await api.submitGunaAssessment(answers)
       setSubmittedAt(data.submittedAt)
@@ -122,25 +113,21 @@ export default function GunaProfiler() {
     }
   }, [gunaAnswers])
 
+  // Navigation (Next/Back/stepper dots) is the single source of truth for
+  // where the respondent left off, so it persists the draft immediately —
+  // no debounce — rather than relying on the idle-autosave effect below,
+  // which could otherwise keep getting reset by a respondent moving through
+  // questions faster than its debounce window and never actually save.
   const goToIndex = useCallback((next) => {
-    clearTimeout(advanceTimer.current)
-    setIndex(Math.max(0, Math.min(total - 1, next)))
-  }, [total])
+    const clamped = Math.max(0, Math.min(total - 1, next))
+    setIndex(clamped)
+    clearTimeout(draftSaveTimer.current)
+    persistDraft(gunaAnswers, clamped)
+  }, [total, gunaAnswers, persistDraft])
 
   const handleSelect = useCallback((optionKey) => {
     answerGuna(vignette.id, optionKey)
-    clearTimeout(advanceTimer.current)
-    advanceTimer.current = setTimeout(() => {
-      if (index === total - 1) {
-        // Merge the just-picked answer directly rather than trusting
-        // `gunaAnswers` from context — that update may not have landed in
-        // this closure yet (see the comment on `submit`).
-        submit({ ...gunaAnswers, [vignette.id]: optionKey })
-      } else {
-        setIndex((i) => Math.min(total - 1, i + 1))
-      }
-    }, AUTO_ADVANCE_MS)
-  }, [answerGuna, vignette, index, total, submit, gunaAnswers])
+  }, [answerGuna, vignette])
 
   function handleBack() {
     if (index === 0) {
@@ -148,6 +135,15 @@ export default function GunaProfiler() {
       return
     }
     goToIndex(index - 1)
+  }
+
+  function handleNext() {
+    if (!selected || phase === 'submitting') return
+    if (index === total - 1) {
+      submit()
+    } else {
+      goToIndex(index + 1)
+    }
   }
 
   function handleSaveDraft() {
@@ -172,6 +168,7 @@ export default function GunaProfiler() {
         return
       }
       if (e.key === 'ArrowLeft') handleBack()
+      if (e.key === 'Enter' || e.key === 'ArrowRight') handleNext()
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -206,7 +203,9 @@ export default function GunaProfiler() {
       <div className="assessment-shell container">
         <div className="result-panel">
           <div className="eyebrow"><span className="dot"></span> Part one complete</div>
-          <div className="result-badge" aria-hidden="true">✓</div>
+          <div className="result-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="4 13 9 18 20 6" /></svg>
+          </div>
           <h1>Your responses are recorded</h1>
           <p>
             Thank you. Fifteen situations answered, and nothing to see yet. Part two puts you in
@@ -306,15 +305,18 @@ export default function GunaProfiler() {
           >
             {draftSaveState === 'saving' ? 'Saving…' : 'Save draft'}
           </button>
-          {phase === 'submitting' && (
-            <span className="btn btn-primary" aria-disabled="true" style={{ pointerEvents: 'none', opacity: 0.7 }}>
-              Saving…
-            </span>
-          )}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleNext}
+            disabled={!selected || phase === 'submitting'}
+          >
+            {phase === 'submitting' ? 'Saving…' : index === total - 1 ? 'Finish' : 'Next'}
+          </button>
         </div>
         <p className="quiz-hint">
-          There are no right or wrong answers — answer with what you'd actually do. Selecting an answer moves you
-          on automatically — no need to click anything else. Tip: press 1, 2, or 3 to answer quickly.
+          There are no right or wrong answers — answer with what you'd actually do. Tip: press 1, 2, or 3 to
+          choose, then Enter for Next.
           {draftSaveState === 'saved' && ' Draft saved.'}
         </p>
       </div>

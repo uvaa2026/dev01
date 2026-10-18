@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
 import { GunaOrientationBar, DqiGauge, CapacityBars, PatternGrid } from '../components/reportCharts.jsx'
+import { downloadElementAsPdf } from '../lib/pdf.js'
 
 // The single, full-page, read-only report — only reachable in any meaningful
 // sense once both stages are scored (GET /assessment/report returns
@@ -20,6 +21,24 @@ export default function Report() {
   const [phase, setPhase] = useState('loading') // loading | not-ready | ready | error
   const [report, setReport] = useState(null)
   const [error, setError] = useState(null)
+  const [pdfState, setPdfState] = useState('idle') // idle | generating | error
+  const reportContentRef = useRef(null)
+
+  // "Print / Save as PDF" below just opens the browser's print dialog —
+  // useful, but it's not a one-click download and its output depends on
+  // the browser's own print-to-PDF renderer. This generates an actual PDF
+  // file client-side (html2canvas + jsPDF, lazy-loaded from a CDN only
+  // when asked for) and triggers a direct download, no dialog involved.
+  async function handleDownloadPdf() {
+    if (!reportContentRef.current || pdfState === 'generating') return
+    setPdfState('generating')
+    try {
+      await downloadElementAsPdf(reportContentRef.current, 'UVAA-Report.pdf')
+      setPdfState('idle')
+    } catch (err) {
+      setPdfState('error')
+    }
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -96,9 +115,18 @@ export default function Report() {
           <button type="button" className="btn btn-ghost" onClick={() => window.print()}>
             Print / Save as PDF
           </button>
+          <button type="button" className="btn btn-primary" onClick={handleDownloadPdf} disabled={pdfState === 'generating'}>
+            {pdfState === 'generating' ? 'Generating PDF…' : 'Download PDF'}
+          </button>
         </div>
+        {pdfState === 'error' && (
+          <div className="status-msg error" style={{ display: 'block' }} role="alert">
+            Could not generate the PDF. Please try again, or use Print / Save as PDF instead.
+          </div>
+        )}
       </div>
 
+      <div ref={reportContentRef} className="uvaa-report-content">
       {/* Section 1 — About this assessment. Fixed text, prints on every report. */}
       <section className="report-section" id="section-1">
         <h2 className="report-section-title">1. About this assessment</h2>
@@ -345,6 +373,7 @@ export default function Report() {
           </section>
         </>
       )}
+      </div>
 
       <div className="results-actions">
         <Link to="/my-page" className="btn btn-primary btn-lg">Back to My Page</Link>

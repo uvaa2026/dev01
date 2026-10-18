@@ -4,7 +4,6 @@ import { useAssessment } from '../../context/AssessmentContext.jsx'
 import { CONSTRUCT_SCENARIOS } from '../../data/constructScenarios.js'
 import { api, ApiError } from '../../lib/api.js'
 
-const AUTO_ADVANCE_MS = 450
 const DRAFT_SAVE_DEBOUNCE_MS = 600
 
 // Stage 2 of the assessment ("TCM" in product shorthand — the Construct/ECM
@@ -24,7 +23,6 @@ export default function ConstructAssessment() {
   const [submittedAt, setSubmittedAt] = useState(null)
   const [resumeNotice, setResumeNotice] = useState(null) // 'resumed' | 'expired' | null
   const [draftSaveState, setDraftSaveState] = useState('idle') // idle | saving | saved | error
-  const advanceTimer = useRef(null)
   const draftSaveTimer = useRef(null)
   const hasLoadedRef = useRef(false)
 
@@ -74,7 +72,6 @@ export default function ConstructAssessment() {
   }, [])
 
   useEffect(() => () => {
-    clearTimeout(advanceTimer.current)
     clearTimeout(draftSaveTimer.current)
   }, [])
 
@@ -99,13 +96,10 @@ export default function ConstructAssessment() {
     return () => clearTimeout(draftSaveTimer.current)
   }, [constructAnswers, index, phase, persistDraft])
 
-  // Accepts an optional answers-map override for the same reason as
-  // GunaProfiler's submit — avoids a state-race on the final question.
-  const submit = useCallback(async (answersMapOverride) => {
+  const submit = useCallback(async () => {
     setPhase('submitting')
     setSubmitError(null)
-    const map = answersMapOverride || constructAnswers
-    const answers = CONSTRUCT_SCENARIOS.map((s) => ({ scenarioId: s.id, optionKey: map[s.id] }))
+    const answers = CONSTRUCT_SCENARIOS.map((s) => ({ scenarioId: s.id, optionKey: constructAnswers[s.id] }))
     try {
       const data = await api.submitConstructAssessment(answers)
       setSubmittedAt(data.submittedAt)
@@ -116,22 +110,21 @@ export default function ConstructAssessment() {
     }
   }, [constructAnswers])
 
+  // Navigation (Next/Back/stepper dots) is the single source of truth for
+  // where the respondent left off, so it persists the draft immediately —
+  // no debounce — rather than relying on the idle-autosave effect below,
+  // which could otherwise keep getting reset by a respondent moving through
+  // questions faster than its debounce window and never actually save.
   const goToIndex = useCallback((next) => {
-    clearTimeout(advanceTimer.current)
-    setIndex(Math.max(0, Math.min(total - 1, next)))
-  }, [total])
+    const clamped = Math.max(0, Math.min(total - 1, next))
+    setIndex(clamped)
+    clearTimeout(draftSaveTimer.current)
+    persistDraft(constructAnswers, clamped)
+  }, [total, constructAnswers, persistDraft])
 
   const handleSelect = useCallback((optionKey) => {
     answerConstruct(scenario.id, optionKey)
-    clearTimeout(advanceTimer.current)
-    advanceTimer.current = setTimeout(() => {
-      if (index === total - 1) {
-        submit({ ...constructAnswers, [scenario.id]: optionKey })
-      } else {
-        setIndex((i) => Math.min(total - 1, i + 1))
-      }
-    }, AUTO_ADVANCE_MS)
-  }, [answerConstruct, scenario, index, total, submit, constructAnswers])
+  }, [answerConstruct, scenario])
 
   function handleBack() {
     if (index === 0) {
@@ -139,6 +132,15 @@ export default function ConstructAssessment() {
       return
     }
     goToIndex(index - 1)
+  }
+
+  function handleNext() {
+    if (!selected || phase === 'submitting') return
+    if (index === total - 1) {
+      submit()
+    } else {
+      goToIndex(index + 1)
+    }
   }
 
   function handleSaveDraft() {
@@ -162,6 +164,7 @@ export default function ConstructAssessment() {
         return
       }
       if (e.key === 'ArrowLeft') handleBack()
+      if (e.key === 'Enter' || e.key === 'ArrowRight') handleNext()
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -183,7 +186,7 @@ export default function ConstructAssessment() {
           <div className="eyebrow"><span className="dot"></span> Not yet available</div>
           <h1>Finish Core Orientation first</h1>
           <p>
-            Decision Quality under Pressure opens up once you've completed Core Orientation — that's
+            Decision Quality Index opens up once you've completed Core Orientation — that's
             stage one of two.
           </p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
@@ -215,7 +218,9 @@ export default function ConstructAssessment() {
       <div className="assessment-shell container">
         <div className="result-panel">
           <div className="eyebrow"><span className="dot"></span> All done</div>
-          <div className="result-badge" aria-hidden="true">✓</div>
+          <div className="result-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><polyline points="4 13 9 18 20 6" /></svg>
+          </div>
           <h1>That's all 47. Thank you.</h1>
           <p>
             Your answers are saved and locked. Your report is being prepared and will be available
@@ -282,7 +287,7 @@ export default function ConstructAssessment() {
       </div>
 
       <div className="quiz-card quiz-card-wide" key={scenario.id}>
-        <div className="quiz-kicker">Decision Quality under Pressure · Question {index + 1} of {total}</div>
+        <div className="quiz-kicker">Decision Quality Index · Question {index + 1} of {total}</div>
         <h1 className="quiz-question quiz-question-wide">{scenario.situation}</h1>
 
         <div className="option-list" role="radiogroup" aria-label={scenario.situation}>
@@ -318,15 +323,18 @@ export default function ConstructAssessment() {
           >
             {draftSaveState === 'saving' ? 'Saving…' : 'Save draft'}
           </button>
-          {phase === 'submitting' && (
-            <span className="btn btn-primary" aria-disabled="true" style={{ pointerEvents: 'none', opacity: 0.7 }}>
-              Saving…
-            </span>
-          )}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleNext}
+            disabled={!selected || phase === 'submitting'}
+          >
+            {phase === 'submitting' ? 'Saving…' : index === total - 1 ? 'Finish' : 'Next'}
+          </button>
         </div>
         <p className="quiz-hint">
-          There are no right or wrong answers — answer with what you'd actually do. Selecting an answer moves you
-          on automatically — no need to click anything else. Tip: press 1, 2, or 3 to answer quickly.
+          There are no right or wrong answers — answer with what you'd actually do. Tip: press 1, 2, or 3 to
+          choose, then Enter for Next.
           {draftSaveState === 'saved' && ' Draft saved.'}
         </p>
       </div>

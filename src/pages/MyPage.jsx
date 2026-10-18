@@ -55,7 +55,7 @@ export default function MyPage() {
       <div className="mypage-header">
         <div>
           <span className="eyebrow"><span className="dot"></span> Signed in</span>
-          <h1>{user.lastLoginAt ? 'Welcome back, ' : 'Welcome, '}{user.fullName.split(' ')[0]}</h1>
+          <h1>Hi, {user.fullName.split(' ')[0]}</h1>
           <p className="subtitle">{user.organisationName}</p>
         </div>
         <button type="button" className="btn btn-ghost" onClick={handleLogout}>Log out</button>
@@ -136,7 +136,7 @@ export default function MyPage() {
         </section>
 
         <section className={`mypage-card${constructLocked ? ' locked-card' : ''}`}>
-          <h3>2. Decision Quality under Pressure</h3>
+          <h3>2. Decision Quality Index</h3>
           {constructStatus === null && (
             <p style={{ color: 'var(--text-muted)' }}>Checking your assessment status…</p>
           )}
