@@ -99,7 +99,7 @@ export default function Login() {
                 />
                 Remember me
               </label>
-              <a href="#" className="link-accent">Forgot password?</a>
+              <Link to="/forgot-password" className="link-accent">Forgot password?</Link>
             </div>
 
             <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={submitting}>

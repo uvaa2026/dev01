@@ -69,6 +69,16 @@ export const api = {
   verifyEmail: (token) =>
     request('/auth/verify', { method: 'POST', body: JSON.stringify({ token }) }),
 
+  // POST /auth/forgot-password { email } — always resolves with a generic
+  // success message, whether or not the email matches an account.
+  requestPasswordReset: (email) =>
+    request('/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+
+  // POST /auth/reset-password { token, password } — from the link in the
+  // password reset email.
+  resetPassword: (token, password) =>
+    request('/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }) }),
+
   // GET /auth/me — the signed-in respondent's profile, via session cookie
   me: () => request('/auth/me', { method: 'GET' }),
 

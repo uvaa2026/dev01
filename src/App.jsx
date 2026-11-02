@@ -14,6 +14,8 @@ import Welcome from './pages/Welcome.jsx'
 import Register from './pages/Register.jsx'
 import Login from './pages/Login.jsx'
 import VerifyEmail from './pages/VerifyEmail.jsx'
+import ForgotPassword from './pages/ForgotPassword.jsx'
+import ResetPassword from './pages/ResetPassword.jsx'
 import MyPage from './pages/MyPage.jsx'
 import Report from './pages/Report.jsx'
 import BeforeYouBegin from './pages/assessment/BeforeYouBegin.jsx'
@@ -69,6 +71,8 @@ export default function App() {
               }
             />
             <Route path="/verify" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route
               path="/my-page"
               element={
