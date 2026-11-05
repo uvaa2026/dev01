@@ -1805,6 +1805,72 @@ fieldset legend {
 .option-text { font-size: 0.96rem; color: var(--text-secondary); line-height: 1.55; padding-top: 4px; }
 .option.selected .option-text { color: var(--text-primary); }
 
+/* Registration's "what do you lead?" 3-card picker (Register.jsx) — same
+   selected/hover language as .option above, laid out as a vertical stack of
+   cards with a bold leading sentence over a muted description instead of a
+   numbered list of short answers. */
+.scope-picker {
+  display: grid;
+  gap: 12px;
+  margin: 6px 0 4px;
+}
+
+.scope-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--bg-glass-blur));
+  -webkit-backdrop-filter: blur(var(--bg-glass-blur));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+.scope-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.scope-card:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 2px; }
+
+.scope-card.selected {
+  border-color: var(--accent-cyan);
+  background: linear-gradient(180deg, rgba(77,216,255,0.08), var(--bg-glass));
+  box-shadow: 0 0 0 1px rgba(77,216,255,0.3);
+}
+
+.scope-card-lead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+}
+.scope-card-lead::before {
+  content: '';
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+.scope-card.selected .scope-card-lead::before {
+  border-color: var(--accent-cyan);
+  background: var(--accent-cyan);
+  box-shadow: inset 0 0 0 3px var(--bg-glass);
+}
+
+.scope-card-desc {
+  display: block;
+  margin-top: 6px;
+  margin-left: 28px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.scope-card.selected .scope-card-desc { color: var(--text-primary); }
+
 .quiz-nav {
   display: flex;
   align-items: center;

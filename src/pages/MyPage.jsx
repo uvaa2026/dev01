@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import { CAREER_STAGES } from '../data/careerStages.js'
+import { LEADERSHIP_SCOPE_OPTIONS } from '../data/leadershipScope.js'
 import { api } from '../lib/api.js'
 
 const VERTICAL_LABELS = {
@@ -9,9 +9,11 @@ const VERTICAL_LABELS = {
   EDUCATION: 'Education and Academic Institutions',
 }
 
-function careerStageLabel(vertical, code) {
-  const config = vertical ? CAREER_STAGES[vertical] : null
-  return config?.options.find((opt) => opt.value === code)?.label || code
+// null covers any respondent registered before the leadership-scope question
+// existed (migration 024) — shown the same way the app treats them
+// everywhere else: as if they'd picked "Leading a team."
+function leadershipScopeLabel(value) {
+  return LEADERSHIP_SCOPE_OPTIONS.find((opt) => opt.value === value)?.lead || LEADERSHIP_SCOPE_OPTIONS[0].lead
 }
 
 export default function MyPage() {
@@ -92,8 +94,8 @@ export default function MyPage() {
               <dd>{VERTICAL_LABELS[user.vertical] || user.vertical}</dd>
             </div>
             <div className="info-row">
-              <dt>Career stage</dt>
-              <dd>{careerStageLabel(user.vertical, user.careerStage)}</dd>
+              <dt>What you lead</dt>
+              <dd>{leadershipScopeLabel(user.leadershipScope)}</dd>
             </div>
             <div className="info-row">
               <dt>Experience</dt>

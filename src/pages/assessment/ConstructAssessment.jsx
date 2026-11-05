@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAssessment } from '../../context/AssessmentContext.jsx'
-import { CONSTRUCT_SCENARIOS } from '../../data/constructScenarios.js'
+import { useAuth } from '../../context/AuthContext.jsx'
+import { getConstructScenarios } from '../../data/constructScenarioVariants.js'
 import { api, ApiError } from '../../lib/api.js'
 
 const DRAFT_SAVE_DEBOUNCE_MS = 600
@@ -16,6 +17,14 @@ const DRAFT_SAVE_DEBOUNCE_MS = 600
 export default function ConstructAssessment() {
   const navigate = useNavigate()
   const { constructAnswers, answerConstruct } = useAssessment()
+  const { user } = useAuth()
+  // Which of the three 32-scenario content sets this respondent sees and is
+  // scored against — driven by their registration answer to "what do you
+  // lead?" (see data/constructScenarioVariants.js). user.leadershipScope is
+  // null for any respondent registered before that question existed; the
+  // registry falls back to the original TEAM content in that case, same as
+  // the backend's scoring does (see uvaa-api/src/lib/scoring.js).
+  const CONSTRUCT_SCENARIOS = useMemo(() => getConstructScenarios(user?.leadershipScope), [user])
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState('loading') // loading | locked | quiz | submitting | done | error
   const [loadError, setLoadError] = useState(null)

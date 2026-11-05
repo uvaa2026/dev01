@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { DIMENSION_LABELS } from '../../data/constructScenarios.js'
+import { LEADERSHIP_SCOPE_OPTIONS } from '../../data/leadershipScope.js'
 import { api, ApiError } from '../../lib/api.js'
+
+// null covers any respondent registered before the leadership-scope
+// question existed (migration 024) — shown the same way the app treats
+// them everywhere else: as if they'd picked "Leading a team."
+function leadershipScopeLabel(value) {
+  return LEADERSHIP_SCOPE_OPTIONS.find((opt) => opt.value === value)?.lead || LEADERSHIP_SCOPE_OPTIONS[0].lead
+}
 
 const VERTICAL_LABELS = {
   IT_TECH: 'IT and Technology Services',
@@ -109,7 +117,7 @@ export default function AdminUserDetail() {
           <dl className="info-list">
             <div className="info-row"><dt>Organisation</dt><dd>{respondent.organisationName}</dd></div>
             <div className="info-row"><dt>Professional context</dt><dd>{VERTICAL_LABELS[respondent.vertical] || respondent.vertical}</dd></div>
-            <div className="info-row"><dt>Career stage</dt><dd>{respondent.careerStage}</dd></div>
+            <div className="info-row"><dt>What they lead</dt><dd>{leadershipScopeLabel(respondent.leadershipScope)}</dd></div>
             <div className="info-row"><dt>Experience</dt><dd>{respondent.experience}</dd></div>
             {respondent.department && (
               <div className="info-row"><dt>Department</dt><dd>{respondent.department}</dd></div>

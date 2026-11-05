@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
-import { CAREER_STAGES } from '../data/careerStages.js'
+import { LEADERSHIP_SCOPE_QUESTION, LEADERSHIP_SCOPE_OPTIONS } from '../data/leadershipScope.js'
 
 // Overrides the browser's native "Please lengthen this text…" tooltip with
 // copy that matches the rest of the form's validation messaging.
@@ -30,7 +30,7 @@ const INITIAL_PROFILE = {
   password: '',
   confirmPassword: '',
   vertical: '',
-  careerStage: '',
+  leadershipScope: '',
   experience: '',
   department: '',
 }
@@ -50,7 +50,6 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
 
-  const careerStageConfig = profile.vertical ? CAREER_STAGES[profile.vertical] : null
   const emailDomainHint = orgInfo?.requiresDomainMatch
     ? "This organisation requires your organisation's work email address to register."
     : null
@@ -87,13 +86,22 @@ export default function Register() {
 
   function handleVerticalChange(e) {
     const value = e.target.value
-    setProfile((f) => ({ ...f, vertical: value, careerStage: '' }))
+    setProfile((f) => ({ ...f, vertical: value }))
+  }
+
+  function handleScopeSelect(value) {
+    setProfile((f) => ({ ...f, leadershipScope: value }))
   }
 
   function handleProfileSubmit(e) {
     e.preventDefault()
     setStatus(null)
     if (!profileFormRef.current.reportValidity()) return
+
+    if (!profile.leadershipScope) {
+      setStatus({ type: 'error', message: `Select an option for "${LEADERSHIP_SCOPE_QUESTION}"` })
+      return
+    }
 
     if (profile.password !== profile.confirmPassword) {
       setStatus({ type: 'error', message: 'Passwords do not match.' })
@@ -125,7 +133,7 @@ export default function Register() {
         email: profile.email,
         password: profile.password,
         vertical: profile.vertical,
-        careerStage: profile.careerStage,
+        leadershipScope: profile.leadershipScope,
         experience: profile.experience,
         department: profile.department || undefined,
         consent: {
@@ -281,22 +289,26 @@ export default function Register() {
               </div>
 
               <div className="field">
-                <label htmlFor="careerStage">
-                  {careerStageConfig ? careerStageConfig.label : 'Which best describes where you are in your career?'}
-                </label>
-                <select
-                  className="input" id="careerStage" name="careerStage" required
-                  disabled={!careerStageConfig}
-                  value={profile.careerStage} onChange={handleProfileChange}
+                <label id="leadershipScopeLabel">{LEADERSHIP_SCOPE_QUESTION}</label>
+                <div
+                  className="scope-picker"
+                  role="radiogroup"
+                  aria-labelledby="leadershipScopeLabel"
                 >
-                  <option value="" disabled>
-                    {careerStageConfig ? 'Select an option' : 'Select your professional context first'}
-                  </option>
-                  {careerStageConfig?.options.map((opt) => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  {LEADERSHIP_SCOPE_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={profile.leadershipScope === opt.value}
+                      className={`scope-card${profile.leadershipScope === opt.value ? ' selected' : ''}`}
+                      onClick={() => handleScopeSelect(opt.value)}
+                    >
+                      <span className="scope-card-lead">{opt.lead}</span>
+                      <span className="scope-card-desc">{opt.description}</span>
+                    </button>
                   ))}
-                </select>
-                {careerStageConfig && <span className="hint">{careerStageConfig.hint}</span>}
+                </div>
               </div>
 
               <div className="field">
