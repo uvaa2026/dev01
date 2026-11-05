@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { DIMENSION_LABELS } from '../../data/constructScenarios.js'
+import { DIMENSION_LABELS } from '../../data/dimensionLabels.js'
 import { LEADERSHIP_SCOPE_OPTIONS } from '../../data/leadershipScope.js'
 import { api, ApiError } from '../../lib/api.js'
 

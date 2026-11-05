@@ -92,6 +92,13 @@ export const api = {
   // POST /assessment/briefing — records the "I understand, begin" click.
   acknowledgeBriefing: () => request('/assessment/briefing', { method: 'POST' }),
 
+  // GET /assessment/guna/content — the 15 vignettes' question text only
+  // (id, title, prompt, option key+text). No `guna`/`score` — that's the
+  // scoring key and it never leaves the API; see uvaa-api's
+  // lib/scoring.js#getGunaContent for why this replaced a static frontend
+  // data file.
+  getGunaContent: () => request('/assessment/guna/content', { method: 'GET' }),
+
   // GET /assessment/guna — { submitted, answers, submittedAt, draft, expired }.
   // `draft` (when present) is { answers, currentIndex, startedAt } for a
   // resumable in-progress attempt; `expired` is true for exactly one
@@ -109,6 +116,15 @@ export const api = {
   // all 15 required. Upserts, so resubmitting replaces the previous answers.
   submitGunaAssessment: (answers) =>
     request('/assessment/guna', { method: 'POST', body: JSON.stringify({ answers }) }),
+
+  // GET /assessment/construct/content — this respondent's 32 scenarios'
+  // question text only (id, situation, option key+text). The backend
+  // resolves which of the three content variants from the respondent's own
+  // leadership_scope, so the frontend never needs to know or send it. No
+  // `dimension`/`score` — see getConstructContent in uvaa-api's
+  // lib/scoring.js. 403s the same way the submit/draft endpoints do if
+  // Guna hasn't been submitted yet.
+  getConstructContent: () => request('/assessment/construct/content', { method: 'GET' }),
 
   // GET /assessment/construct — same shape as getGunaAssessment, plus a
   // `locked` flag when the Guna profiler hasn't been submitted yet.

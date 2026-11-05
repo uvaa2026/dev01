@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAssessment } from '../../context/AssessmentContext.jsx'
-import { GUNA_VIGNETTES } from '../../data/gunaVignettes.js'
 import { api, ApiError } from '../../lib/api.js'
 
 const DRAFT_SAVE_DEBOUNCE_MS = 600
@@ -9,6 +8,14 @@ const DRAFT_SAVE_DEBOUNCE_MS = 600
 export default function GunaProfiler() {
   const navigate = useNavigate()
   const { gunaAnswers, answerGuna } = useAssessment()
+  // Question content (id/title/prompt/options — no scoring key) fetched
+  // from the API rather than a static import. Previously this page imported
+  // GUNA_VIGNETTES directly from a frontend-bundled data file that also
+  // carried each option's `guna`/`score` — anyone could read the full
+  // answer key out of the shipped JS without logging in. GET
+  // /assessment/guna/content strips that server-side; see lib/scoring.js's
+  // getGunaContent().
+  const [vignettes, setVignettes] = useState([])
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState('loading') // loading | quiz | submitting | done | error
   const [loadError, setLoadError] = useState(null)
@@ -24,8 +31,8 @@ export default function GunaProfiler() {
   // for a real edit that needs saving straight back to the server).
   const hasLoadedRef = useRef(false)
 
-  const total = GUNA_VIGNETTES.length
-  const vignette = GUNA_VIGNETTES[index]
+  const total = vignettes.length
+  const vignette = vignettes[index]
   const selected = gunaAnswers[vignette?.id]
   const answeredIds = useMemo(() => new Set(Object.keys(gunaAnswers)), [gunaAnswers])
   const answeredCount = answeredIds.size
@@ -37,10 +44,11 @@ export default function GunaProfiler() {
   // out and was discarded.
   useEffect(() => {
     let cancelled = false
-    api
-      .getGunaAssessment()
-      .then((data) => {
+    Promise.all([api.getGunaContent(), api.getGunaAssessment()])
+      .then(([contentData, data]) => {
         if (cancelled) return
+        const loadedVignettes = contentData.vignettes
+        setVignettes(loadedVignettes)
         if (data.submitted) {
           setSubmittedAt(data.submittedAt)
           setPhase('done')
@@ -49,7 +57,7 @@ export default function GunaProfiler() {
         if (data.draft && data.draft.answers?.length) {
           for (const a of data.draft.answers) answerGuna(a.vignetteId, a.optionKey)
           const savedIndex = typeof data.draft.currentIndex === 'number' ? data.draft.currentIndex : 0
-          setIndex(Math.max(0, Math.min(total - 1, savedIndex)))
+          setIndex(Math.max(0, Math.min(loadedVignettes.length - 1, savedIndex)))
           setResumeNotice('resumed')
         } else if (data.expired) {
           setResumeNotice('expired')
@@ -102,7 +110,7 @@ export default function GunaProfiler() {
   const submit = useCallback(async () => {
     setPhase('submitting')
     setSubmitError(null)
-    const answers = GUNA_VIGNETTES.map((v) => ({ vignetteId: v.id, optionKey: gunaAnswers[v.id] }))
+    const answers = vignettes.map((v) => ({ vignetteId: v.id, optionKey: gunaAnswers[v.id] }))
     try {
       const data = await api.submitGunaAssessment(answers)
       setSubmittedAt(data.submittedAt)
@@ -111,7 +119,7 @@ export default function GunaProfiler() {
       setSubmitError(err instanceof ApiError ? err.message : 'Could not save your responses. Please try again.')
       setPhase('quiz')
     }
-  }, [gunaAnswers])
+  }, [gunaAnswers, vignettes])
 
   // Navigation (Next/Back/stepper dots) is the single source of truth for
   // where the respondent left off, so it persists the draft immediately —
@@ -245,7 +253,7 @@ export default function GunaProfiler() {
 
       <div className="assessment-topbar">
         <div className="guna-stepper" role="tablist" aria-label="Question progress">
-          {GUNA_VIGNETTES.map((v, i) => {
+          {vignettes.map((v, i) => {
             const isAnswered = answeredIds.has(v.id)
             const isCurrent = i === index
             const isReachable = isAnswered || isCurrent

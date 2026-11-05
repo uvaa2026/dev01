@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAssessment } from '../../context/AssessmentContext.jsx'
-import { useAuth } from '../../context/AuthContext.jsx'
-import { getConstructScenarios } from '../../data/constructScenarioVariants.js'
 import { api, ApiError } from '../../lib/api.js'
 
 const DRAFT_SAVE_DEBOUNCE_MS = 600
@@ -17,14 +15,16 @@ const DRAFT_SAVE_DEBOUNCE_MS = 600
 export default function ConstructAssessment() {
   const navigate = useNavigate()
   const { constructAnswers, answerConstruct } = useAssessment()
-  const { user } = useAuth()
-  // Which of the three 32-scenario content sets this respondent sees and is
-  // scored against — driven by their registration answer to "what do you
-  // lead?" (see data/constructScenarioVariants.js). user.leadershipScope is
-  // null for any respondent registered before that question existed; the
-  // registry falls back to the original TEAM content in that case, same as
-  // the backend's scoring does (see uvaa-api/src/lib/scoring.js).
-  const CONSTRUCT_SCENARIOS = useMemo(() => getConstructScenarios(user?.leadershipScope), [user])
+  // Question content (id/situation/options — no dimension/score) fetched
+  // from the API rather than a static import. Previously this page picked
+  // one of three frontend-bundled data files via getConstructScenarios(),
+  // each carrying the full per-option `score` answer key — anyone could
+  // read it out of the shipped JS without logging in. GET
+  // /assessment/construct/content resolves the respondent's own
+  // leadership_scope and strips the scoring fields server-side; see
+  // lib/scoring.js's getConstructContent(). The frontend no longer needs to
+  // know or send the scope itself.
+  const [scenarios, setScenarios] = useState([])
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState('loading') // loading | locked | quiz | submitting | done | error
   const [loadError, setLoadError] = useState(null)
@@ -35,8 +35,8 @@ export default function ConstructAssessment() {
   const draftSaveTimer = useRef(null)
   const hasLoadedRef = useRef(false)
 
-  const total = CONSTRUCT_SCENARIOS.length
-  const scenario = CONSTRUCT_SCENARIOS[index]
+  const total = scenarios.length
+  const scenario = scenarios[index]
   const selected = constructAnswers[scenario?.id]
   const answeredIds = useMemo(() => new Set(Object.keys(constructAnswers)), [constructAnswers])
   const answeredCount = answeredIds.size
@@ -47,14 +47,25 @@ export default function ConstructAssessment() {
   // submitted/draft/fresh handling as GunaProfiler.
   useEffect(() => {
     let cancelled = false
+    // Status first, content second: a respondent who hasn't finished Guna
+    // yet (`locked`) never needs the construct content at all — GET
+    // /assessment/construct/content enforces the same Guna-first gate, but
+    // checking `locked` here first avoids firing a request that would just
+    // 403 and skips straight to the existing "locked" screen.
     api
       .getConstructAssessment()
-      .then((data) => {
+      .then(async (data) => {
         if (cancelled) return
         if (data.locked) {
           setPhase('locked')
           return
         }
+
+        const contentData = await api.getConstructContent()
+        if (cancelled) return
+        const loadedScenarios = contentData.scenarios
+        setScenarios(loadedScenarios)
+
         if (data.submitted) {
           setSubmittedAt(data.submittedAt)
           setPhase('done')
@@ -63,7 +74,7 @@ export default function ConstructAssessment() {
         if (data.draft && data.draft.answers?.length) {
           for (const a of data.draft.answers) answerConstruct(a.scenarioId, a.optionKey)
           const savedIndex = typeof data.draft.currentIndex === 'number' ? data.draft.currentIndex : 0
-          setIndex(Math.max(0, Math.min(total - 1, savedIndex)))
+          setIndex(Math.max(0, Math.min(loadedScenarios.length - 1, savedIndex)))
           setResumeNotice('resumed')
         } else if (data.expired) {
           setResumeNotice('expired')
@@ -108,7 +119,7 @@ export default function ConstructAssessment() {
   const submit = useCallback(async () => {
     setPhase('submitting')
     setSubmitError(null)
-    const answers = CONSTRUCT_SCENARIOS.map((s) => ({ scenarioId: s.id, optionKey: constructAnswers[s.id] }))
+    const answers = scenarios.map((s) => ({ scenarioId: s.id, optionKey: constructAnswers[s.id] }))
     try {
       const data = await api.submitConstructAssessment(answers)
       setSubmittedAt(data.submittedAt)
@@ -117,7 +128,7 @@ export default function ConstructAssessment() {
       setSubmitError(err instanceof ApiError ? err.message : 'Could not save your responses. Please try again.')
       setPhase('quiz')
     }
-  }, [constructAnswers])
+  }, [constructAnswers, scenarios])
 
   // Navigation (Next/Back/stepper dots) is the single source of truth for
   // where the respondent left off, so it persists the draft immediately —
@@ -272,7 +283,7 @@ export default function ConstructAssessment() {
 
       <div className="assessment-topbar">
         <div className="guna-stepper" role="tablist" aria-label="Question progress">
-          {CONSTRUCT_SCENARIOS.map((s, i) => {
+          {scenarios.map((s, i) => {
             const isAnswered = answeredIds.has(s.id)
             const isCurrent = i === index
             const isReachable = isAnswered || isCurrent
