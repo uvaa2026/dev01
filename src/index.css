@@ -2346,6 +2346,16 @@ fieldset legend {
      ghost link (Explore a Pilot, Admin, Org Dashboard, My Page) still
      reaches the user through .nav-mobile-actions inside the panel. */
   .nav-actions .btn-ghost { display: none; }
+  /* Mobile mode drops the tagline and signal too — per the redesign spec,
+     mobile shows just "UVAA logo on the left, Begin button and menu icon
+     on the right". These used to only hide below 420px, which left a
+     wide dead zone (421-880px — most real phones, including iPhone Pro
+     Max/Plus and most Android widths) where the full brand block plus
+     the button plus the hamburger didn't fit and the header overflowed
+     past the screen edge (word "Begin Assessment" clipped, hamburger
+     pushed out of view). Hiding them at the same breakpoint the layout
+     actually changes removes that dead zone entirely. */
+  .brand-sub, .brand-signal { display: none; }
 }
 
 @media (max-width: 1040px) {
@@ -2419,10 +2429,21 @@ fieldset legend {
 }
 
 @media (max-width: 420px) {
-  .brand-sub { display: none; }
-  .brand-signal { display: none; }
+  /* .brand-sub/.brand-signal already hidden from 880px down — see that
+     breakpoint. This just tightens spacing further for the smallest
+     phones. */
   .nav-actions { gap: 6px; }
   .nav-actions .btn { padding: 8px 12px; font-size: 0.8rem; }
+}
+
+@media (max-width: 360px) {
+  /* The very smallest phones still in use (iPhone SE 1st-gen class, 320px
+     CSS width) — logo + "Begin Assessment →" + hamburger needed a bit
+     more room shaved off to fit without overflowing. */
+  .site-header { padding: 12px 10px 0; }
+  .nav-float { gap: 8px; padding: 8px 12px; }
+  .nav-toggle { width: 34px; height: 34px; }
+  .nav-actions .btn { padding: 7px 10px; font-size: 0.74rem; }
 }
 
 /* Focus visibility for accessibility (WCAG 2.1 AA) */
