@@ -29,10 +29,12 @@ export default function Header() {
         </Link>
 
         <ul className={`nav-links${open ? ' open' : ''}`} id="navLinks">
-          <li><Link to="/#discover" onClick={() => setOpen(false)}>Discover</Link></li>
-          <li><Link to="/#framework" onClick={() => setOpen(false)}>Framework</Link></li>
-          <li><Link to="/what-you-get" onClick={() => setOpen(false)}>Insights</Link></li>
-          <li><Link to="/for-organisations" onClick={() => setOpen(false)}>Organisations</Link></li>
+          <li><Link to="/#challenge" onClick={() => setOpen(false)}>The Challenge</Link></li>
+          <li><Link to="/#about-uvaa" onClick={() => setOpen(false)}>About UVAA</Link></li>
+          <li><Link to="/#assessment" onClick={() => setOpen(false)}>The Assessment</Link></li>
+          <li><Link to="/#what-you-receive" onClick={() => setOpen(false)}>What You Receive</Link></li>
+          <li><Link to="/#how-it-works" onClick={() => setOpen(false)}>How It Works</Link></li>
+          <li><Link to="/#about-us" onClick={() => setOpen(false)}>About Us</Link></li>
         </ul>
 
         <div className="nav-actions">
@@ -58,6 +60,7 @@ export default function Header() {
             </>
           ) : (
             <>
+              <Link to="/#pilot" className="btn btn-ghost" onClick={() => setOpen(false)}>Explore a Pilot</Link>
               <Link to="/register" className="btn btn-ghost" onClick={() => setOpen(false)}>Register</Link>
               <Link to="/login" className="btn btn-primary" onClick={() => setOpen(false)}>Begin &rarr;</Link>
             </>

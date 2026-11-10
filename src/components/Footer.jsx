@@ -80,8 +80,7 @@ export default function Footer() {
         <Link to="/register" onClick={closeNow}>Register</Link>
         <Link to="/login" onClick={closeNow}>Login</Link>
         <a href="#" onClick={closeNow}>Social</a>
-        <Link to="/privacy-data" onClick={closeNow}>Privacy &amp; Data</Link>
-        <Link to="/what-uvaa-does-not-claim" onClick={closeNow}>What UVAA does not claim</Link>
+        <Link to="/#privacy" onClick={closeNow}>Privacy &amp; Data</Link>
         <a href="#" onClick={closeNow}>Terms</a>
         <span className="footer-fab-legal">
           © 2026 UVAA Leadership Intelligence &amp; Dheemer Consulting · Indian Patent Application No. 202641076718

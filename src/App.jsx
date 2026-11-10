@@ -26,11 +26,6 @@ import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
 import OrgRegister from './pages/OrgRegister.jsx'
 import OrgLogin from './pages/OrgLogin.jsx'
 import OrgAdminDashboard from './pages/org-admin/OrgAdminDashboard.jsx'
-import WhatYouGet from './pages/WhatYouGet.jsx'
-import ForOrganisations from './pages/ForOrganisations.jsx'
-import PrivacyData from './pages/PrivacyData.jsx'
-import WhatUvaaDoesNotClaim from './pages/WhatUvaaDoesNotClaim.jsx'
-import TalkToUs from './pages/TalkToUs.jsx'
 
 export default function App() {
   return (
@@ -43,17 +38,22 @@ export default function App() {
         <main id="main">
           <Routes>
             <Route path="/" element={<Welcome />} />
-            {/* Discover/Framework/Experience content now lives on Home as
-                anchor sections — these old routes redirect bookmarks and
-                external links there instead of 404-ing. */}
-            <Route path="/why-uvaa" element={<Navigate to="/#discover" replace />} />
-            <Route path="/framework" element={<Navigate to="/#framework" replace />} />
+            {/* The whole marketing site is one page now (Welcome.jsx) —
+                every old standalone route redirects bookmarks and external
+                links to the matching anchor section there instead of
+                404-ing. The retired page components themselves
+                (WhyUvaa/Framework/TheAssessment/WhatYouGet/
+                ForOrganisations/PrivacyData/WhatUvaaDoesNotClaim/TalkToUs)
+                are left on disk — delete them whenever convenient, this
+                session can't delete files on your machine. */}
+            <Route path="/why-uvaa" element={<Navigate to="/#about-uvaa" replace />} />
+            <Route path="/framework" element={<Navigate to="/#framework-story" replace />} />
             <Route path="/the-assessment" element={<Navigate to="/#assessment" replace />} />
-            <Route path="/what-you-get" element={<WhatYouGet />} />
-            <Route path="/for-organisations" element={<ForOrganisations />} />
-            <Route path="/privacy-data" element={<PrivacyData />} />
-            <Route path="/what-uvaa-does-not-claim" element={<WhatUvaaDoesNotClaim />} />
-            <Route path="/talk-to-us" element={<TalkToUs />} />
+            <Route path="/what-you-get" element={<Navigate to="/#what-you-receive" replace />} />
+            <Route path="/for-organisations" element={<Navigate to="/#who-for" replace />} />
+            <Route path="/privacy-data" element={<Navigate to="/#privacy" replace />} />
+            <Route path="/what-uvaa-does-not-claim" element={<Navigate to="/#faq" replace />} />
+            <Route path="/talk-to-us" element={<Navigate to="/#contact" replace />} />
             <Route
               path="/register"
               element={

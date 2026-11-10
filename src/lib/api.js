@@ -153,6 +153,12 @@ export const api = {
   adminGetUserConstruct: (id) => request(`/admin/users/${id}/construct`, { method: 'GET' }),
   adminGetUserReport: (id) => request(`/admin/users/${id}/report`, { method: 'GET' }),
 
+  // POST /contact { fullName, workEmail, organisation, role, interest,
+  //   message } — public, unauthenticated. Home's "Let's start a
+  // conversation" form (Welcome.jsx #contact).
+  submitContactForm: (payload) =>
+    request('/contact', { method: 'POST', body: JSON.stringify(payload) }),
+
   // --- Organisation registration (OrgRegister.jsx) ---------------------
 
   // POST /org/register { organisationName, organisationType, emailDomain,
