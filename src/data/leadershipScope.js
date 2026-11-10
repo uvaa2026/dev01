@@ -10,21 +10,22 @@
 // respondents.leadership_scope's CHECK constraint (migration 024) if this
 // ever changes.
 export const LEADERSHIP_SCOPE_QUESTION = 'What do you lead?'
+export const LEADERSHIP_SCOPE_HINT = 'Pick what matches your current scope, not your title or years.'
 
 export const LEADERSHIP_SCOPE_OPTIONS = [
   {
     value: 'TEAM',
-    lead: 'Leading a team.',
-    description: 'You lead a team or a project. The pressure is delivering through others and building trust sideways and upward.',
+    lead: 'Leading a team',
+    description: 'You lead a team or a project. The pressure is delivering through others, and managing peers and seniors you do not control.',
   },
   {
     value: 'FUNCTION',
-    lead: 'Leading a function.',
-    description: 'You lead several teams or a function, with budget or headcount. The pressure is competing demands and choices that affect people and clients.',
+    lead: 'Leading a function',
+    description: 'You lead several teams or a function, with budget or headcount. The pressure is competing demands, and choices that affect people and stakeholders.',
   },
   {
     value: 'BUSINESS_UNIT',
-    lead: 'Leading a business unit(s).',
-    description: 'You own the outcomes for a business or unit(s). The pressure is setting direction and deciding where nobody else will catch it.',
+    lead: 'Leading business unit(s)',
+    description: 'You own the outcomes for one unit or several. The pressure is setting direction, and deciding where nobody else will catch it.',
   },
 ]

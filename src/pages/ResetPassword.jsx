@@ -2,6 +2,17 @@ import { useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
 
+// Mirrors Register.jsx's password rule: minimum 8 characters, at least one
+// capital letter, at least one number.
+const PASSWORD_PATTERN = '(?=.*[A-Z])(?=.*[0-9]).{8,}'
+const PASSWORD_HINT = 'Minimum 8 characters, with at least one capital letter and one number.'
+
+function handlePasswordInvalid(e) {
+  if (e.target.validity.tooShort || e.target.validity.valueMissing || e.target.validity.patternMismatch) {
+    e.target.setCustomValidity(PASSWORD_HINT)
+  }
+}
+
 export default function ResetPassword() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token')
@@ -16,6 +27,7 @@ export default function ResetPassword() {
 
   function handleChange(e) {
     const { name, value } = e.target
+    if (e.target.setCustomValidity) e.target.setCustomValidity('')
     setForm((f) => ({ ...f, [name]: value }))
   }
 
@@ -92,18 +104,22 @@ export default function ResetPassword() {
                   <label htmlFor="password">New password</label>
                   <input
                     className="input" type="password" id="password" name="password"
-                    autoComplete="new-password" required minLength={8}
+                    autoComplete="new-password" required minLength={8} pattern={PASSWORD_PATTERN}
+                    title={PASSWORD_HINT}
                     value={form.password} onChange={handleChange}
+                    onInvalid={handlePasswordInvalid}
                   />
-                  <p className="hint">Minimum 8 characters.</p>
+                  <p className="hint">{PASSWORD_HINT}</p>
                 </div>
 
                 <div className="field">
                   <label htmlFor="confirmPassword">Confirm new password</label>
                   <input
                     className="input" type="password" id="confirmPassword" name="confirmPassword"
-                    autoComplete="new-password" required minLength={8}
+                    autoComplete="new-password" required minLength={8} pattern={PASSWORD_PATTERN}
+                    title={PASSWORD_HINT}
                     value={form.confirmPassword} onChange={handleChange}
+                    onInvalid={handlePasswordInvalid}
                   />
                 </div>
 

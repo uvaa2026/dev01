@@ -23,7 +23,7 @@ export default function Header() {
       <nav className="nav container" aria-label="Primary">
         <Link to="/" className="brand" aria-label="UVAA home" onClick={() => setOpen(false)}>
           <span className="brand-logotype">
-            UV<span className="brand-a1">A</span><span className="brand-a2">&Lambda;</span>
+            UV<span className="brand-a1">A</span><span className="brand-a2">&Lambda;</span><sup className="brand-tm">&trade;</sup>
           </span>
           <span className="brand-sub">Decision Intelligence</span>
         </Link>

@@ -90,7 +90,7 @@ export default function MyPage() {
               <dd>{user.organisationName}</dd>
             </div>
             <div className="info-row">
-              <dt>Professional context</dt>
+              <dt>Work Experience</dt>
               <dd>{VERTICAL_LABELS[user.vertical] || user.vertical}</dd>
             </div>
             <div className="info-row">

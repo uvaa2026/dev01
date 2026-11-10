@@ -241,14 +241,15 @@ export default function ConstructAssessment() {
           <div className="result-badge" aria-hidden="true">
             <svg viewBox="0 0 24 24"><polyline points="4 13 9 18 20 6" /></svg>
           </div>
-          <h1>That's all 47. Thank you.</h1>
+          <h1>That's everything. Thank you</h1>
           <p>
             Your answers are saved and locked. Your report is being prepared and will be available
             in My Page shortly. We'll email you when it's ready.
           </p>
           <p>
             It shows how you tend to operate, how your judgement holds under pressure, and what to
-            work on first. Knowing where you stand is useful.
+            work on first. Knowing where you stand is useful. Doing what it takes to fix may need a
+            helping hand.
           </p>
           <p>
             The UVAA Development Plan and coaching are there to help you work on it. To find out

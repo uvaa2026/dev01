@@ -5,6 +5,18 @@ import { ORGANISATION_TYPES } from '../data/organisationTypes.js'
 
 const ORG_TYPE_BY_LABEL = new Map(ORGANISATION_TYPES.map((t) => [t.label.toLowerCase(), t.value]))
 
+// Mirrors Register.jsx's password rule: minimum 8 characters, at least one
+// capital letter, at least one number.
+const PASSWORD_PATTERN = '(?=.*[A-Z])(?=.*[0-9]).{8,}'
+const PASSWORD_HINT = 'Minimum 8 characters, with at least one capital letter and one number.'
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function handlePasswordInvalid(e) {
+  if (e.target.validity.tooShort || e.target.validity.valueMissing || e.target.validity.patternMismatch) {
+    e.target.setCustomValidity(PASSWORD_HINT)
+  }
+}
+
 const INITIAL_FORM = {
   organisationName: '',
   organisationType: '',
@@ -36,6 +48,7 @@ export default function OrgRegister() {
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target
+    if (e.target.setCustomValidity) e.target.setCustomValidity('')
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
   }
 
@@ -59,6 +72,20 @@ export default function OrgRegister() {
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus(null)
+
+    // Same reasoning as Register.jsx: the native email-format tooltip from
+    // reportValidity() below isn't reliably visible, so check explicitly
+    // and surface it in the same status-msg banner as every other error.
+    if (form.adminEmail.trim() && !EMAIL_PATTERN.test(form.adminEmail.trim())) {
+      setStatus({ type: 'error', message: "Enter a valid email address for the Admin, e.g. you@company.com." })
+      document.getElementById('adminEmail')?.focus()
+      return
+    }
+    if (form.hasFacilitator && form.facilitatorEmail.trim() && !EMAIL_PATTERN.test(form.facilitatorEmail.trim())) {
+      setStatus({ type: 'error', message: "Enter a valid email address for the Facilitator, e.g. you@company.com." })
+      document.getElementById('facilitatorEmail')?.focus()
+      return
+    }
 
     if (!formRef.current.reportValidity()) return
 
@@ -141,7 +168,7 @@ export default function OrgRegister() {
       <aside className="auth-aside">
         <span className="eyebrow"><span className="dot"></span> For organisations</span>
         <h2>Bring UVAA to your organisation</h2>
-        <p>Purchase seats, set how participants join, and get a single cohort code to share — your people register in minutes.</p>
+        <p>Purchase seats, set how participants join, and get a single cohort code to share. Your people register in minutes.</p>
         <ul className="auth-aside-list">
           <li><span className="ico" aria-hidden="true">1</span> Restrict registration to your own work email domain, or let anyone with the code join.</li>
           <li><span className="ico" aria-hidden="true">2</span> Choose whether every registration needs your approval, or approves automatically.</li>
@@ -269,17 +296,21 @@ export default function OrgRegister() {
                   <label htmlFor="adminPassword">Password</label>
                   <input
                     className="input" type="password" id="adminPassword" name="adminPassword"
-                    autoComplete="new-password" required minLength={8}
+                    autoComplete="new-password" required minLength={8} pattern={PASSWORD_PATTERN}
+                    title={PASSWORD_HINT}
                     value={form.adminPassword} onChange={handleChange}
+                    onInvalid={handlePasswordInvalid}
                   />
-                  <span className="hint">Minimum 8 characters.</span>
+                  <span className="hint">{PASSWORD_HINT}</span>
                 </div>
                 <div className="field">
                   <label htmlFor="adminConfirmPassword">Confirm password</label>
                   <input
                     className="input" type="password" id="adminConfirmPassword" name="adminConfirmPassword"
-                    autoComplete="new-password" required minLength={8}
+                    autoComplete="new-password" required minLength={8} pattern={PASSWORD_PATTERN}
+                    title={PASSWORD_HINT}
                     value={form.adminConfirmPassword} onChange={handleChange}
+                    onInvalid={handlePasswordInvalid}
                   />
                 </div>
               </div>

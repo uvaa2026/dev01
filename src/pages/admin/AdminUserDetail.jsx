@@ -116,7 +116,7 @@ export default function AdminUserDetail() {
           <h3>Profile</h3>
           <dl className="info-list">
             <div className="info-row"><dt>Organisation</dt><dd>{respondent.organisationName}</dd></div>
-            <div className="info-row"><dt>Professional context</dt><dd>{VERTICAL_LABELS[respondent.vertical] || respondent.vertical}</dd></div>
+            <div className="info-row"><dt>Work Experience</dt><dd>{VERTICAL_LABELS[respondent.vertical] || respondent.vertical}</dd></div>
             <div className="info-row"><dt>What they lead</dt><dd>{leadershipScopeLabel(respondent.leadershipScope)}</dd></div>
             <div className="info-row"><dt>Experience</dt><dd>{respondent.experience}</dd></div>
             {respondent.department && (

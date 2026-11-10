@@ -35,6 +35,24 @@ async function ensurePdfLibs() {
   }
 }
 
+// Content blocks a page break should never land inside. html2canvas renders
+// the whole report as one tall image and jsPDF used to slice it at a fixed
+// pixel height per page, with no awareness of what was underneath that
+// line — so a heading or a line of a paragraph could land exactly on a
+// slice boundary and come out visibly cut in two, with the line above and
+// below it both rendered half-height (reported: the "Anuvigna, Pressure
+// Non-Reactivity" paragraph splitting mid-sentence across a page break).
+// Keeping this selector in sync with the @media print break-inside: avoid
+// rules in index.css is good practice but not required for correctness —
+// this walks the live DOM itself rather than relying on the print
+// stylesheet, which @media print doesn't even apply to this image-based
+// path.
+const UNSPLITTABLE_SELECTOR = [
+  'h2', 'h3', 'p', 'li', 'blockquote',
+  '.orientation-dominance-block', '.dqi-callout', '.pattern-text-block',
+  '.capacity-line-row', '.capacity-bar-row', '.report-margin-note',
+].join(', ')
+
 // Renders `element` to a multi-page A4 PDF and triggers a download named
 // `filename`. A fixed, solid background colour is passed to html2canvas
 // rather than relying on the page's own fixed-position backdrop image and
@@ -43,6 +61,11 @@ async function ensurePdfLibs() {
 // colour is what you want in a document meant to be read/printed anyway.
 export async function downloadElementAsPdf(element, filename) {
   await ensurePdfLibs()
+
+  // Measured before the page is torn down to an image — these are CSS-pixel
+  // offsets relative to `element`'s own top, which stay valid regardless of
+  // how far the page happens to be scrolled.
+  const elementRect = element.getBoundingClientRect()
 
   const canvas = await window.html2canvas(element, {
     backgroundColor: '#0d1220',
@@ -59,17 +82,52 @@ export async function downloadElementAsPdf(element, filename) {
   const imgHeight = (canvas.height * imgWidth) / canvas.width
   const imgData = canvas.toDataURL('image/jpeg', 0.92)
 
-  let heightLeft = imgHeight
-  let position = 0
+  // Convert each unsplittable block's live CSS-pixel extent into the same
+  // top-to-bottom point space as imgHeight (i.e. "where it ends up in the
+  // rendered image"), so it can be compared against candidate page-break
+  // positions below.
+  const scaleToPt = imgWidth / (elementRect.width || imgWidth)
+  const blocks = Array.from(element.querySelectorAll(UNSPLITTABLE_SELECTOR))
+    .map((el) => {
+      const rect = el.getBoundingClientRect()
+      return {
+        top: (rect.top - elementRect.top) * scaleToPt,
+        bottom: (rect.bottom - elementRect.top) * scaleToPt,
+      }
+    })
+    // A block taller than a full page can never be kept whole no matter
+    // where the boundary falls — leave those out so they can't force an
+    // unmovable (and therefore infinitely-looping) boundary.
+    .filter((b) => b.bottom - b.top < pageHeight)
+    .sort((a, b) => a.top - b.top)
 
-  pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight)
-  heightLeft -= pageHeight
+  // Given a candidate boundary (in image-point space), pull it back to the
+  // top of whichever block it would otherwise cut through.
+  function clearOfBlocks(candidate) {
+    for (const b of blocks) {
+      if (candidate > b.top && candidate < b.bottom) return b.top
+    }
+    return candidate
+  }
 
-  while (heightLeft > 0) {
-    position -= pageHeight
-    pdf.addPage()
-    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight)
-    heightLeft -= pageHeight
+  let pageTop = 0 // how far into the full image (pt) the current page starts
+  let page = 0
+  while (pageTop < imgHeight) {
+    let pageBottom = Math.min(imgHeight, pageTop + pageHeight)
+    const adjusted = clearOfBlocks(pageBottom)
+    // Guard against an adjustment that makes no progress (shouldn't happen
+    // given the height filter above, but never loop forever over it).
+    pageBottom = adjusted > pageTop ? adjusted : pageBottom
+
+    if (page > 0) pdf.addPage()
+    // jsPDF draws the full image every time and the page itself clips
+    // whatever falls outside its bounds — so "showing" just this slice is
+    // simply a matter of shifting the whole image up by pageTop before
+    // drawing, same technique the previous fixed-height version used.
+    pdf.addImage(imgData, 'JPEG', 0, -pageTop, imgWidth, imgHeight)
+
+    pageTop = pageBottom
+    page += 1
   }
 
   pdf.save(filename)

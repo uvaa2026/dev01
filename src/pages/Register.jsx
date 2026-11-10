@@ -1,13 +1,19 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, ApiError } from '../lib/api.js'
-import { LEADERSHIP_SCOPE_QUESTION, LEADERSHIP_SCOPE_OPTIONS } from '../data/leadershipScope.js'
+import { LEADERSHIP_SCOPE_QUESTION, LEADERSHIP_SCOPE_HINT, LEADERSHIP_SCOPE_OPTIONS } from '../data/leadershipScope.js'
 
-// Overrides the browser's native "Please lengthen this text…" tooltip with
-// copy that matches the rest of the form's validation messaging.
+// Minimum 8 characters, at least one capital letter, at least one number.
+const PASSWORD_PATTERN = '(?=.*[A-Z])(?=.*[0-9]).{8,}'
+const PASSWORD_HINT = 'Minimum 8 characters, with at least one capital letter and one number.'
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Overrides the browser's native "Please lengthen this text…" / "Please
+// match the requested format" tooltip with copy that matches the rest of
+// the form's validation messaging.
 function handlePasswordInvalid(e) {
-  if (e.target.validity.tooShort || e.target.validity.valueMissing) {
-    e.target.setCustomValidity('Password should be minimum 8 character length.')
+  if (e.target.validity.tooShort || e.target.validity.valueMissing || e.target.validity.patternMismatch) {
+    e.target.setCustomValidity(PASSWORD_HINT)
   }
 }
 
@@ -96,6 +102,19 @@ export default function Register() {
   function handleProfileSubmit(e) {
     e.preventDefault()
     setStatus(null)
+
+    // The browser's native "Please include an '@' …" tooltip from
+    // reportValidity() below isn't a reliable signal on its own — in some
+    // browser/OS combinations it never becomes visible, so an invalid
+    // email just silently refocuses the field with no indication of why.
+    // Checking email format explicitly first guarantees a clear, app-styled
+    // error (same status-msg banner every other error on this form uses).
+    if (profile.email.trim() && !EMAIL_PATTERN.test(profile.email.trim())) {
+      setStatus({ type: 'error', message: 'Enter a valid email address, e.g. you@company.com.' })
+      document.getElementById('email')?.focus()
+      return
+    }
+
     if (!profileFormRef.current.reportValidity()) return
 
     if (!profile.leadershipScope) {
@@ -181,7 +200,7 @@ export default function Register() {
     <div className="auth-shell">
       <aside className="auth-aside">
         <span className="eyebrow"><span className="dot"></span> Step {step} of 3</span>
-        <h2>Begin your Emotional Stability Under Pressure profile</h2>
+        <h2>Begin your UVAA assessment</h2>
         <p>Your professional context shapes the scenarios you'll see — this is the only place you'll set it.</p>
         <ul className="auth-aside-list">
           <li><span className="ico" aria-hidden="true">1</span> Full assessment takes about 50 minutes, and your progress is saved as you go.</li>
@@ -258,17 +277,19 @@ export default function Register() {
                   <label htmlFor="password">Password</label>
                   <input
                     className="input" type="password" id="password" name="password"
-                    autoComplete="new-password" required minLength={8}
+                    autoComplete="new-password" required minLength={8} pattern={PASSWORD_PATTERN}
+                    title={PASSWORD_HINT}
                     value={profile.password} onChange={handleProfileChange}
                     onInvalid={handlePasswordInvalid}
                   />
-                  <span className="hint">Minimum 8 characters.</span>
+                  <span className="hint">{PASSWORD_HINT}</span>
                 </div>
                 <div className="field">
                   <label htmlFor="confirmPassword">Confirm password</label>
                   <input
                     className="input" type="password" id="confirmPassword" name="confirmPassword"
-                    autoComplete="new-password" required minLength={8}
+                    autoComplete="new-password" required minLength={8} pattern={PASSWORD_PATTERN}
+                    title={PASSWORD_HINT}
                     value={profile.confirmPassword} onChange={handleProfileChange}
                     onInvalid={handlePasswordInvalid}
                   />
@@ -290,6 +311,7 @@ export default function Register() {
 
               <div className="field">
                 <label id="leadershipScopeLabel">{LEADERSHIP_SCOPE_QUESTION}</label>
+                <span className="hint" style={{ display: 'block', marginBottom: 2 }}>{LEADERSHIP_SCOPE_HINT}</span>
                 <div
                   className="scope-picker"
                   role="radiogroup"

@@ -212,6 +212,13 @@ body::after {
 }
 .brand-a1 { color: var(--accent-cyan); }
 .brand-a2 { color: #8fe3ff; font-weight: 400; }
+.brand-tm {
+  font-size: 0.5em;
+  font-weight: 400;
+  margin-left: 1px;
+  color: var(--text-muted);
+  vertical-align: super;
+}
 
 .brand-sub {
   display: block;
@@ -1845,6 +1852,8 @@ fieldset legend {
   font-weight: 700;
   font-size: 0.98rem;
   color: var(--text-primary);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .scope-card-lead::before {
   content: '';
@@ -1868,6 +1877,8 @@ fieldset legend {
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.55;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .scope-card.selected .scope-card-desc { color: var(--text-primary); }
 
@@ -2825,6 +2836,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .capacity-line-row {
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  /* Keep a subhead on the same page as the paragraph that follows it —
+     without this a heading can be stranded alone at the bottom of a page
+     with its text starting fresh on the next. */
+  .report-subhead {
+    break-after: avoid;
+    page-break-after: avoid;
   }
 
   .pattern-grid-scroll { overflow: visible; }
