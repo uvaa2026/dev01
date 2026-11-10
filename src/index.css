@@ -193,9 +193,17 @@ body::after {
 
 .nav {
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 24px;
+}
+
+.nav-top {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  flex-wrap: wrap;
+  gap: 12px 16px;
 }
 
 .brand {
@@ -238,7 +246,11 @@ body::after {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-soft);
 }
 
 .nav-links a {
@@ -246,6 +258,7 @@ body::after {
   color: var(--text-secondary);
   transition: color 0.2s ease;
   position: relative;
+  white-space: nowrap;
 }
 .nav-links a:hover,
 .nav-links a:focus-visible { color: var(--text-primary); }
@@ -253,6 +266,8 @@ body::after {
 .nav-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 12px;
 }
 
@@ -262,17 +277,6 @@ body::after {
   padding: 0 2px;
 }
 .nav-text-link:hover, .nav-text-link:focus-visible { color: var(--text-primary); }
-
-.nav-toggle {
-  display: none;
-  background: none;
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-sm);
-  width: 40px;
-  height: 40px;
-  color: var(--text-primary);
-  font-size: 1.2rem;
-}
 
 /* ==========================================================================
    Buttons
@@ -2170,16 +2174,11 @@ fieldset legend {
    Responsive
    ========================================================================== */
 
-/* Nav collapses to the hamburger well before the 980px/720px content
-   breakpoints below. Between ~720-980px the five nav-links plus the three
-   nav-actions buttons don't fit on one row — with no flex-wrap they spilled
-   past the container, and body's overflow-x:hidden then clipped the page
-   (truncated link text on the right, and — because the overflow could push
-   the scroll position — a cut-off look on the left too). Collapsing earlier
-   removes the overflow at its source instead of patching the symptom. */
+/* The nav-links row wraps onto as many lines as it needs at any width
+   (flex-wrap, see .nav-links above), so unlike the old single-row nav it
+   never needs to collapse behind a hamburger to avoid overflowing — this
+   just tightens spacing progressively instead. */
 @media (max-width: 1040px) {
-  .nav-links { display: none; }
-  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
   .nav-actions { gap: 10px; }
   .nav-actions .btn { padding: 10px 16px; font-size: 0.86rem; }
 }
@@ -2235,6 +2234,8 @@ fieldset legend {
   .nav { padding: 14px 16px; }
   .nav-actions { gap: 8px; }
   .nav-actions .btn { padding: 9px 14px; font-size: 0.84rem; }
+  .nav-links { gap: 6px 16px; }
+  .nav-links a { font-size: 0.86rem; }
   .journey { grid-template-columns: 1fr 1fr; }
   .dimension-grid { grid-template-columns: 1fr; }
   .guna-grid { grid-template-columns: 1fr; }
@@ -2253,20 +2254,8 @@ fieldset legend {
   .brand-sub { display: none; }
   .nav-text-link { display: none; }
   .nav-actions { gap: 6px; }
-}
-
-/* Mobile nav panel */
-.nav-links.open {
-  display: flex;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  flex-direction: column;
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border-soft);
-  padding: 20px 24px;
-  gap: 18px;
+  .nav-links { gap: 6px 12px; }
+  .nav-links a { font-size: 0.8rem; }
 }
 
 /* Focus visibility for accessibility (WCAG 2.1 AA) */
