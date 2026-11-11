@@ -1288,6 +1288,18 @@ section { padding: 72px 0; position: relative; }
 .vertical-card li:first-of-type { border-top: none; }
 .vertical-card li span:last-child { color: var(--text-muted); font-size: 0.8rem; }
 
+/* "The report includes:" breakdown inside a vertical-card — a short bold
+   sub-heading per item followed by its one-line explanation, so the card
+   reads as a scan-able list rather than one dense paragraph. */
+.vertical-card .item-label {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.92rem;
+  margin: 16px 0 4px;
+}
+.vertical-card .item-label:first-of-type { margin-top: 18px; }
+
 /* ---- Stat circles — relocated into the Home hero, just below the
    Talk to Us CTA. Glass cards + a conic glow ring per accent colour,
    replacing the earlier flat/plain circles. ---- */
