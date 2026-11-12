@@ -106,20 +106,13 @@ export default function Welcome() {
               Decision-Making Under Pressure.
             </h1>
             <p className="hero-wide-desc">
-              <strong>Knowing what to do is not always the same as doing it when it matters.</strong>{' '}
-              A leader can understand the right course of action, yet respond differently when
-              pressure, uncertainty, emotion and competing demands enter the picture.
+              <strong>Knowing what to do isn't the same as doing it when it matters.</strong>{' '}
+              Pressure, uncertainty and emotion change how even good leaders respond.
             </p>
             <p className="hero-wide-desc">
-              <strong>UVAA is a development-focused leadership decision assessment</strong> that
-              examines core orientation and decision quality separately through structured,
-              scenario-based choices rather than rating scales. By exploring four decision
-              capacities, UVAA provides individuals and organizations with insight into decision
-              tendencies and potential areas for leadership development.
-            </p>
-            <p className="hero-wide-desc">
-              UVAA provides individuals and organizations with insight into decision tendencies,
-              provides a pattern, the capacity to work on first, and a development plan for both.
+              UVAA is a scenario-based leadership assessment that separates{' '}
+              <strong>core orientation</strong> from <strong>decision quality</strong> &mdash;
+              giving you a pattern, a development focus, and a plan.
             </p>
             <div className="hero-actions" style={{ justifyContent: 'flex-start' }}>
               {isAuthenticated ? (
@@ -177,40 +170,31 @@ export default function Welcome() {
             Knowing Is Not the Same as Doing.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            Leadership is tested not only by what people know, but by the choices they make when
-            circumstances become difficult. The right decision can be delayed. Emotions can
-            outweigh evidence. Previous commitments can become difficult to reverse. And problems
-            can escalate when pressure clouds the situation. Consider four familiar leadership
-            challenges.
+            Leadership is tested by the choices people make when things get difficult &mdash;
+            not just by what they know. Four familiar ways that goes wrong:
           </p>
 
           <div className="dimension-grid">
             <div className="card">
               <h3>01 &mdash; Decisions That Arrive Too Late</h3>
-              <p>A decision that was right in principle but lose its value because it comes after
-                the moment when it could have made a difference.</p>
+              <p>Right in principle, but it loses its value once the moment has passed.</p>
             </div>
             <div className="card">
               <h3>02 &mdash; Wrong Calls Under Emotion</h3>
-              <p>A decision that went wrong because how the moment felt weighed more than what the
-                evidence said.</p>
+              <p>How the moment felt outweighed what the evidence said.</p>
             </div>
             <div className="card">
               <h3>03 &mdash; Positions Held Too Long</h3>
-              <p>Leaders often double down on bad decisions despite new evidence to avoid admitting
-                a mistake or not letting go of a commitment.</p>
+              <p>Doubling down on a bad call rather than admitting it.</p>
             </div>
             <div className="card">
               <h3>04 &mdash; Escalations Under Pressure</h3>
-              <p>A challenging situation can escalate when the people involved react to the pressure
-                without clearly identifying the underlying problem.</p>
+              <p>Reacting to the pressure instead of the actual problem.</p>
             </div>
           </div>
 
           <p className="closing-statement" style={{ marginTop: 32 }}>
-            The question is not simply what a leader knows. It is how they approach judgment when
-            pressure rises. And understanding that requires looking beyond personality or outward
-            behaviours alone.
+            It's not what a leader knows &mdash; it's how they judge when pressure rises.
           </p>
         </div>
       </section>
@@ -223,9 +207,8 @@ export default function Welcome() {
           <p className="editorial-label center">A DIFFERENT PERSPECTIVE ON LEADERSHIP ASSESSMENT</p>
           <h2 className="editorial-statement">What Is UVAA?</h2>
           <p className="editorial-lead">
-            UVAA is a structured, scenario-based leadership decision assessment designed to
-            examine decision tendencies relevant to judgment under pressure. Unlike broad
-            personality profiling, UVAA focuses on two distinct dimensions.
+            A structured, scenario-based assessment of judgment under pressure &mdash; not
+            another personality profile. UVAA focuses on two distinct dimensions:
           </p>
         </div>
       </section>
@@ -245,10 +228,8 @@ export default function Welcome() {
           </div>
 
           <p className="overview-copy" style={{ margin: '32px auto', textAlign: 'center' }}>
-            UVAA examines these dimensions separately and interprets their relationship through a
-            nine-pattern framework. The objective is not to place people into fixed personality
-            categories. It is to show where composure and judgement come apart and which
-            capacities may deserve developmental attention.
+            UVAA reads these two dimensions together through a nine-pattern framework &mdash;
+            showing where composure and judgment come apart, and what to develop first.
           </p>
 
           <div className="section-head">
@@ -256,24 +237,19 @@ export default function Welcome() {
           </div>
           <div className="dimension-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
             <div className="card">
-              <p>Someone may appear composed while their assessed decision choices show
-                inconsistencies.</p>
+              <p>Composed on the surface, inconsistent in the choices that matter.</p>
             </div>
             <div className="card">
-              <p>Someone who is highly driven may approach certain situations quickly without
-                adequately examining competing information.</p>
+              <p>Highly driven, but quick to skip past the evidence.</p>
             </div>
             <div className="card">
-              <p>Someone who is reserved may demonstrate steady judgment despite appearing less
-                immediately decisive.</p>
+              <p>Reserved in style, yet steady where it counts.</p>
             </div>
           </div>
 
           <p className="closing-statement" style={{ marginTop: 32 }}>
-            UVAA's framework is designed to make these distinctions visible through assessment,
-            rather than assuming outward orientation tells the entire story. Core orientation
-            describes one aspect of the person. Decision quality examines another. The
-            relationship is where UVAA looks for additional insight.
+            Orientation is one part of the story. Decision quality is another. UVAA looks at the
+            relationship between them.
           </p>
 
           <div className="hero-actions" style={{ justifyContent: 'center', marginTop: 32 }}>
@@ -292,11 +268,8 @@ export default function Welcome() {
             47 Situations. Three Choices. A Structured View of Judgment. No Rating Scales.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            UVAA uses a scenario-based self-report assessment. Each question presents a situation
-            and three possible courses of action. Participants select the response closest to how
-            they would approach the situation. There are no traditional agree/disagree statements
-            or rating sliders &mdash; the instrument examines the choices participants make within
-            structured scenarios.
+            Every question presents a situation and three possible responses &mdash; no
+            agree/disagree statements, no rating sliders. Just the choice you'd actually make.
           </p>
 
           <div className="section-head">
@@ -320,11 +293,8 @@ export default function Welcome() {
           <div className="section-head">
             <h2>What happens after the assessment?</h2>
             <p>
-              UVAA applies its defined scoring model to produce a Decision Quality Index,
-              capacity-level results and an interpretation of the participant's core orientation
-              and decision pattern. The result is an individual assessment profile intended to
-              provide a structured starting point for understanding decision tendencies and
-              considering development priorities.
+              Your Decision Quality Index, four capacity scores and a decision pattern &mdash;
+              a structured starting point for understanding your tendencies and what to develop.
             </p>
           </div>
 
@@ -344,9 +314,8 @@ export default function Welcome() {
             Four Capacities. One More Complete View of Decision Tendencies.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            UVAA examines decision quality through four complementary capacities. Together, they
-            explore different ways emotion, uncertainty, pressure and attachment to outcomes may
-            influence judgment.
+            Four complementary capacities &mdash; how emotion, uncertainty, pressure and
+            attachment shape judgment.
           </p>
 
           <div className="dimension-grid">
@@ -355,10 +324,8 @@ export default function Welcome() {
               <h3>01 &mdash; Upeksha</h3>
               <span className="sanskrit">Emotional Balance</span>
               <p className="card-question">When the stakes are emotional, can the evidence still be weighed fairly?</p>
-              <p>Measures how good news and bad news are weighted when both are present.
-                Setbacks can feel more significant than equivalent gains. Recent
-                successes can also influence expectations. The question is whether the emotional
-                weight of an outcome is distorting the evaluation of the situation.</p>
+              <p>Measures whether the emotional weight of good or bad news distorts how fairly
+                a situation gets evaluated.</p>
               <p className="card-focus"><strong>Assessment focus:</strong> Balanced consideration of positive and negative signals.</p>
             </div>
             <div className="card">
@@ -366,10 +333,8 @@ export default function Welcome() {
               <h3>02 &mdash; Viveka</h3>
               <span className="sanskrit">Clarity in Complexity</span>
               <p className="card-question">When the answer is uncertain, can what matters most still be recognized?</p>
-              <p>Examines how individuals approach uncertainty, competing information and
-                difficult trade-offs. Leadership frequently requires choices without complete
-                information. The capacity concerns remaining with uncertainty long enough to reach
-                a considered judgment rather than rushing toward the most familiar answer.</p>
+              <p>Examines whether someone sits with uncertainty long enough to reach a considered
+                judgment, rather than rushing to the familiar answer.</p>
               <p className="card-focus"><strong>Assessment focus:</strong> Discernment amid complexity and uncertainty.</p>
             </div>
             <div className="card">
@@ -377,10 +342,8 @@ export default function Welcome() {
               <h3>03 &mdash; Anuvigna</h3>
               <span className="sanskrit">Pressure Non-Reactivity</span>
               <p className="card-question">When the pressure rises, is the response directed at the problem or the immediate reaction?</p>
-              <p>Examines how individuals approach situations that provoke emotional or
-                interpersonal pressure. Criticism, conflict and perceived threats can generate
-                immediate responses. The capacity concerns responding to the substance of the
-                challenge rather than being dominated by the initial reaction.</p>
+              <p>Examines whether criticism, conflict or threat triggers a reaction &mdash; or a
+                response to what's actually being asked.</p>
               <p className="card-focus"><strong>Assessment focus:</strong> Responding to the crux, not the reaction.</p>
             </div>
             <div className="card">
@@ -388,17 +351,15 @@ export default function Welcome() {
               <h3>04 &mdash; Anasakti</h3>
               <span className="sanskrit">Detached Decision-Making</span>
               <p className="card-question">When the evidence changes, can the decision change with it?</p>
-              <p>Examines the influence of attachment to existing opinions, previous commitments
-                and preferred outcomes. Past effort and personal investment can make changing
-                direction difficult, even when the circumstances call for reassessment.</p>
+              <p>Examines whether past effort and personal investment make it harder to change
+                course when the evidence calls for it.</p>
               <p className="card-focus"><strong>Assessment focus:</strong> Reconsidering prior positions without excessive attachment.</p>
             </div>
           </div>
 
           <p className="overview-copy" style={{ margin: '32px auto 0', textAlign: 'center' }}>
-            <strong>Together, the four capacities examine how judgment may be influenced by:</strong>{' '}
-            Emotional weight. Complexity. Immediate reaction. Attachment to outcomes. UVAA brings
-            these perspectives together to provide a structured picture of decision tendencies.
+            <strong>Together:</strong> emotional weight, complexity, reaction and attachment
+            &mdash; one structured picture of how you decide.
           </p>
         </div>
       </section>
@@ -433,25 +394,20 @@ export default function Welcome() {
           </div>
 
           <p className="overview-copy" style={{ margin: '28px auto', textAlign: 'center' }}>
-            These three broad orientations are not intended to define a person's complete
-            personality or determine their leadership worth. Everyone has all three. What
-            differs is the proportion, and which one a person most often works from. None is
-            better than another. Decision quality is assessed separately across the four UVAA
-            capacities and summarized through the Decision Quality Index.
+            Everyone has all three &mdash; what differs is the proportion, and which one a
+            person works from most. None is better. Decision quality is scored separately,
+            through the Decision Quality Index.
           </p>
 
           <div className="callout-bar" style={{ maxWidth: 780, margin: '0 auto' }}>
-            <strong>Why assess them separately?</strong> Because the framework does not assume
-            that an individual's underlying orientation fully explains the quality of their
-            responses to decision scenarios. A composed orientation does not guarantee sound
-            judgment, and a driven one does not rule it out. By examining the two dimensions
-            independently, UVAA can interpret their relationship rather than relying on either
-            one alone.
+            <strong>Why separately?</strong> A composed orientation doesn't guarantee sound
+            judgment, and a driven one doesn't rule it out. Examining both independently is what
+            lets UVAA read the relationship between them.
           </div>
 
           <p className="closing-statement" style={{ marginTop: 32 }}>
-            The result is not a fixed personality type. It is an assessment pattern intended to
-            support reflection and development.
+            Not a fixed personality type &mdash; a pattern meant to support reflection and
+            development.
           </p>
         </div>
       </section>
@@ -466,18 +422,15 @@ export default function Welcome() {
             From Individual Choices to Interpretable Patterns.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            UVAA brings the four capacity scores together into a composite measure called the{' '}
-            <strong>Decision Quality Index (DQI)</strong>, presented on a scale from 0 to 100.
-            Within the UVAA framework, scores are grouped into developmental bands. They describe
-            classifications within UVAA's assessment model. They are not clinical diagnoses or
-            judgments of a person's overall competence.
+            The four capacity scores combine into a single{' '}
+            <strong>Decision Quality Index (DQI)</strong>, 0&ndash;100, grouped into
+            developmental bands &mdash; not clinical diagnoses or a verdict on competence.
           </p>
 
           <div className="section-head">
             <h2>Beyond a Single Score</h2>
-            <p>A composite score provides one perspective. The four capacity scores provide
-              additional detail. UVAA also interprets the relationship between core orientation
-              and decision quality through nine patterns.</p>
+            <p>The composite score is one view; the four capacity scores add detail. UVAA then
+              reads orientation against decision quality through nine patterns.</p>
           </div>
 
           <p className="editorial-label center" style={{ marginBottom: 16 }}>The Nine UVAA Patterns</p>
@@ -515,16 +468,14 @@ export default function Welcome() {
           </div>
 
           <p className="overview-copy" style={{ margin: '24px auto 0', textAlign: 'center', maxWidth: '64ch' }}>
-            Each pattern combines the assessed core orientation with the corresponding
-            decision-quality band. The purpose is to examine differences between orientation and
-            decision choices and identify potential areas for further development.
+            Each pattern pairs an orientation with a decision-quality band &mdash; surfacing
+            where the two diverge, and where to develop next.
           </p>
 
           <div className="callout-bar callout-bar-accent" style={{ maxWidth: 780, margin: '32px auto 0' }}>
-            <strong>Patterns, Not Permanent Labels.</strong> A UVAA pattern is an interpretation of
-            assessment responses, not a permanent classification of the person. Responses can be
-            influenced by workload, recent events and individual circumstances. Read the pattern
-            alongside the four capacity scores. Together they say where to start.
+            <strong>Patterns, Not Permanent Labels.</strong> An interpretation of responses on
+            the day &mdash; not a fixed classification. Read it alongside the capacity scores to
+            see where to start.
           </div>
         </div>
       </section>
@@ -547,55 +498,39 @@ export default function Welcome() {
             <div className="vertical-card">
               <h3>01 &mdash; Individual Assessment Report</h3>
               <p style={{ fontWeight: 700, color: 'var(--text-primary)' }}>A clearer view of your decision-making tendencies under pressure.</p>
-              <p>Each participant receives an individual report designed to explain their
-                assessment results in an understandable and structured way.</p>
               <p className="item-label" style={{ marginTop: 18 }}>The report includes:</p>
               <p className="item-label">Core Orientation</p>
-              <p>The orientation reflected in the assessment, including what it may support and
-                where limitations may arise.</p>
+              <p>What it supports, and where its limits are.</p>
               <p className="item-label">Decision Quality Index</p>
-              <p>A composite score, its corresponding band and an explanation of the result
-                within UVAA's framework.</p>
+              <p>A composite score and band, explained.</p>
               <p className="item-label">Four Capacity Scores</p>
-              <p>A breakdown of Emotional Balance, Clarity in Complexity, Pressure Non-Reactivity
-                and Detached Decision-Making.</p>
+              <p>Emotional Balance, Clarity, Pressure Non-Reactivity, Detachment.</p>
               <p className="item-label">UVAA Decision Pattern</p>
-              <p>One of nine patterns, interpreted in relation to the individual's core
-                orientation and decision-quality index.</p>
+              <p>One of nine, read against your orientation and DQI.</p>
               <p className="item-label">Development Focus</p>
-              <p>An indication of which capacity may deserve attention first and why.</p>
-              <p style={{ marginTop: 16 }}>Individual results are intended for personal understanding and development, with
-                the participant retaining control over whether their scores are shared with the
-                employer.</p>
+              <p>Which capacity to work on first, and why.</p>
+              <p style={{ marginTop: 16 }}>Yours to keep &mdash; you decide whether to share it with your employer.</p>
             </div>
             <div className="vertical-card">
               <h3>02 &mdash; Organizational Cohort Report</h3>
               <p style={{ fontWeight: 700, color: 'var(--text-primary)' }}>Understand the group without losing sight of the individual.</p>
-              <p>Organizations receive a cohort-level view designed to support leadership
-                development discussions.</p>
               <p className="item-label" style={{ marginTop: 18 }}>The report includes:</p>
               <p className="item-label">Decision Quality Distribution</p>
-              <p>An overview of how DQI scores are distributed across the participating group.</p>
+              <p>How DQI scores spread across the group.</p>
               <p className="item-label">Pattern Distribution</p>
-              <p>A view of how the nine UVAA patterns are represented across the cohort.</p>
+              <p>How the nine patterns show up across the cohort.</p>
               <p className="item-label">Capacity-Level Insights</p>
-              <p>A perspective on areas that may warrant attention across the group.</p>
+              <p>Where the group, as a whole, may need attention.</p>
               <p className="item-label">Participation Dashboard</p>
-              <p>A view of assessment completion status.</p>
-              <p style={{ marginTop: 16 }}>The cohort report is intended to help the organization explore potential
-                development needs without automatically disclosing participants' individual
-                scores. Individual-level information is shared only with the participant's
-                explicit consent.</p>
+              <p>Who's completed the assessment.</p>
+              <p style={{ marginTop: 16 }}>Group patterns only &mdash; individual scores are shared only with that
+                participant's consent.</p>
             </div>
           </div>
 
           <div className="callout-bar" style={{ maxWidth: 820, margin: '32px auto 0' }}>
-            <strong>One assessment. Two perspectives.</strong>
-            <br /><br />
-            <strong>For the individual:</strong> Insight into personal decision tendencies.
-            <br /><br />
-            <strong>For the organization:</strong> A structured view of cohort-level patterns and
-            possible development priorities.
+            <strong>One assessment. Two perspectives.</strong> Personal insight for the
+            individual; structured, cohort-level patterns for the organization.
           </div>
         </div>
       </section>
@@ -610,52 +545,46 @@ export default function Welcome() {
             Assessment Is the Starting Point. Development Is the Opportunity.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            An assessment can identify potential areas for attention. What happens next depends on
-            how those insights are interpreted and used. UVAA offers a development pathway that
-            can extend beyond initial assessment and reporting.
+            An assessment identifies what to pay attention to. What happens next is a five-step
+            pathway.
           </p>
 
           <div className="journey">
             <div className="step">
               <div className="step-num">1</div>
               <h4>Assess</h4>
-              <p>Participants complete the structured scenario-based assessment. UVAA evaluates
-                core orientation and decision quality through its scoring framework.</p>
+              <p>The structured, scenario-based assessment &mdash; scored for orientation and
+                decision quality.</p>
             </div>
             <div className="step">
               <div className="step-num">2</div>
               <h4>Report</h4>
-              <p>Participants receive their individual assessment results. Organizations receive
-                cohort-level reporting, with individual-score sharing governed by consent.</p>
+              <p>Individual results to the participant; cohort-level reporting to the
+                organization.</p>
             </div>
             <div className="step">
               <div className="step-num">3</div>
               <h4>Plan</h4>
-              <p>A targeted development plan, built around the capacities and patterns identified
-                in the assessment. The development plan is customized based on each individual's
-                report, rather than providing the same intervention to everyone.</p>
+              <p>A development plan built around your own capacities and pattern &mdash; not a
+                generic one.</p>
             </div>
             <div className="step">
               <div className="step-num">4</div>
               <h4>Coach</h4>
-              <p>Optional individual or group coaching focuses on the selected capacities, driven
-                by the development plan based on the report rather than a general coaching
-                conversation.</p>
+              <p>Optional coaching, focused on the capacities the plan identifies.</p>
             </div>
             <div className="step">
               <div className="step-num">5</div>
               <h4>Reassess</h4>
-              <p>At a defined interval, a short assessment is administered to measure the
-                movements by capacity first. The comparison can inform a review of development
-                priorities.</p>
+              <p>A later check-in measures movement, capacity by capacity.</p>
             </div>
           </div>
 
           <div className="journey-note">
             <h4>A Development Pathway, Not a One-Size-Fits-All Program.</h4>
             <p>
-              Most assessments end with a report and no way to tell whether anything moved. A
-              repeatable instrument is the difference between a programme and an impression.
+              Most assessments end at the report, with no way to tell if anything moved. A
+              repeatable instrument is what turns that into a programme.
             </p>
           </div>
         </div>
@@ -676,30 +605,24 @@ export default function Welcome() {
             <div className="card">
               <h3>Cognitive</h3>
               <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>How You Understand</p>
-              <p>Focuses on how an individual frames a situation, interprets information and
-                reaches an understanding of the problem. This layer is relevant when the
-                difficulty lies in how the situation itself is understood.</p>
+              <p>How you frame a situation and read the information in it.</p>
             </div>
             <div className="card">
               <h3>Behavioural</h3>
               <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>How You Respond</p>
-              <p>Focuses on the actions taken at the point of pressure. This layer is relevant when
-                understanding is present but the response does not reflect that understanding.</p>
+              <p>What you actually do at the point of pressure.</p>
             </div>
             <div className="card">
               <h3>Practice</h3>
               <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>What You Strengthen Over Time</p>
-              <p>Focuses on sustained development of the underlying capacity through continued
-                practice. The purpose is to work beyond a single technique or immediate response.</p>
+              <p>Building the underlying capacity through sustained practice, not a one-off
+                technique.</p>
             </div>
           </div>
 
           <div className="callout-bar callout-bar-accent" style={{ maxWidth: 820, margin: '32px auto 0' }}>
-            <strong>Development Begins with Understanding the Pattern.</strong> The intended
-            approach is to match developmental attention to the capacity and pattern identified,
-            rather than assuming every participant needs the same kind of support. The
-            relationship between these activities, changes in assessment scores and real-world
-            decision outcomes is an area for continued evaluation.
+            <strong>Development Begins with Understanding the Pattern.</strong> Attention goes
+            where the pattern points &mdash; not the same support for everyone.
           </div>
         </div>
       </section>
@@ -712,9 +635,8 @@ export default function Welcome() {
           <div className="section-head">
             <span className="eyebrow"><span className="dot"></span> DESIGNED FOR LEADERSHIP DEVELOPMENT</span>
             <h2>For Those Who Lead. And Those Who Develop Leaders</h2>
-            <p>UVAA doesn't count the years, it focuses on the weight of the choices you made and
-              who they impacted.</p>
-            <p>UVAA comes in three versions, matched to scope.</p>
+            <p>UVAA doesn't count the years &mdash; it weighs the choices you made and who they
+              affected. Three versions, matched to scope:</p>
           </div>
 
           <div className="triple-grid">
@@ -735,15 +657,14 @@ export default function Welcome() {
           </div>
 
           <div className="callout-bar" style={{ maxWidth: 820, margin: '32px auto 0' }}>
-            <strong>For Business Sponsors, HR and L&amp;D Teams</strong> &mdash; UVAA provides a structured assessment
-            perspective that can support conversations about leadership development priorities.
-            Its individual and cohort reports are designed to make decision tendencies more
-            visible while respecting participant control over individual results.
+            <strong>For Business Sponsors, HR and L&amp;D Teams</strong> &mdash; a structured way
+            to talk about leadership development priorities, with participants in control of
+            their own results.
           </div>
 
           <p className="closing-statement" style={{ marginTop: 32 }}>
-            Whether the responsibility is a team, a function or a business unit, decision-making
-            under pressure remains a relevant leadership challenge.
+            Team, function or business unit &mdash; decision-making under pressure is the same
+            challenge.
           </p>
         </div>
       </section>
@@ -769,24 +690,21 @@ export default function Welcome() {
             </div>
             <div className="card">
               <h3>Sharing Is a Choice</h3>
-              <p>Individual scores are not automatically disclosed to the employer. Participants
-                control whether they agree to share their results. Declining to share individual
-                scores does not change their access to their own report.</p>
+              <p>Scores aren't automatically shared with your employer. Declining doesn't limit
+                your own access to your report.</p>
             </div>
             <div className="card">
               <h3>Consent Is Specific</h3>
-              <p>Access to individual information is governed by explicit consent, including
-                whether facilitators may view an individual profile.</p>
+              <p>Explicit consent governs access to your information, facilitators included.</p>
             </div>
             <div className="card">
               <h3>Organizations Receive Cohort Insights</h3>
-              <p>Organizational reporting is designed to present group-level patterns without
-                requiring disclosure of every participant's individual results.</p>
+              <p>Group-level patterns, without requiring every individual result.</p>
             </div>
             <div className="card">
               <h3>Minimal Employee Data Transfer</h3>
-              <p>UVAA's access process is designed around group size and participant tokens rather
-                than requiring an employer to transfer its complete employee roster.</p>
+              <p>Access runs on group size and participant tokens &mdash; not a full employee
+                roster.</p>
             </div>
             <div className="card">
               <h3>Intended for Development</h3>
@@ -811,17 +729,14 @@ export default function Welcome() {
             An Old Question. A New Approach.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            The question of how people maintain sound judgment under changing circumstances has
-            been explored through philosophy, psychology and decision research.
+            Sound judgment under pressure is an old question &mdash; explored through philosophy,
+            psychology and decision research.
           </p>
 
           <p className="overview-copy" style={{ margin: '0 auto 24px', textAlign: 'center', maxWidth: '68ch' }}>
-            UVAA draws conceptual inspiration from the Indian philosophical idea of{' '}
-            <em>Sthitaprajna</em>, a description of steady judgment found in the Bhagavad Gita.
-            The framework also draws on ideas from decision research and neuroeconomics,
-            including loss aversion, ambiguity aversion, the endowment effect and sunk-cost
-            considerations. UVAA translates these conceptual foundations into a structured
-            scenario-based assessment framework.
+            UVAA draws on <em>Sthitaprajna</em>, the Bhagavad Gita's description of steady
+            judgment, alongside decision research on loss aversion, ambiguity aversion and
+            sunk-cost thinking &mdash; translated into a structured, scenario-based assessment.
           </p>
 
           <div className="guna-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
@@ -844,12 +759,9 @@ export default function Welcome() {
           </div>
 
           <div className="callout-bar" style={{ maxWidth: 820, margin: '32px auto 0' }}>
-            <strong>Grounded in Research. Being Tested in Practice.</strong> The
-            philosophical and theoretical origins explain the thinking behind UVAA. The
-            assessment's measurement reliability, validity and relationship to actual workplace
-            behavior require empirical evaluation. UVAA is being introduced through pilot
-            engagements to examine how its results are understood, how useful they are to
-            organizations and how the framework performs in practice.
+            <strong>Grounded in Research. Being Tested in Practice.</strong> The theory explains
+            the thinking; reliability and real-world relevance are still being evaluated through
+            pilot engagements.
           </div>
 
           <p className="overview-copy" style={{ margin: '20px auto 0', textAlign: 'center', fontSize: '0.85rem' }}>
@@ -874,19 +786,14 @@ export default function Welcome() {
               <h3>Dr. Sayee Bhuvaneswari</h3>
               <span className="founder-credential">Founder, Dheemer Consulting &middot; Author of the UVAA Framework</span>
               <p>
-                Dr. Sayee Bhuvaneswari brings together experience in corporate leadership,
-                psychology, economics and Indian philosophical traditions. An engineer turned
-                researcher and practitioner, she holds PhDs in Psychology and Economics and in
-                Yogic Sciences.
+                An engineer turned researcher, Dr. Sayee holds PhDs in Psychology and Economics
+                and in Yogic Sciences, bringing together corporate leadership, psychology and
+                Indian philosophical traditions.
               </p>
               <p>
-                Her background includes 27 years of corporate leadership experience, including
-                global roles with Hitachi and HCL, alongside work as a startup advisor, leadership
-                coach and counselling psychologist.
-              </p>
-              <p>
-                UVAA brings together these areas of inquiry in an assessment framework focused on
-                orientation, decision quality and judgment under pressure.
+                27 years of corporate leadership, including global roles at Hitachi and HCL,
+                alongside work as a startup advisor, leadership coach and counselling
+                psychologist &mdash; the foundation UVAA is built on.
               </p>
               <div className="hero-actions" style={{ justifyContent: 'flex-start', marginTop: 20 }}>
                 <a href="mailto:sayee@dheemerconsulting.com" className="btn btn-primary">Connect With Dr. Sayee</a>
@@ -909,10 +816,9 @@ export default function Welcome() {
           <div className="faq-list" style={{ marginTop: 32 }}>
             <details className="faq-item">
               <summary>Is UVAA a personality test?</summary>
-              <p>No. UVAA is not designed to assign broad or permanent personality types. It
-                examines responses to structured decision scenarios, evaluates core orientation
-                and decision quality separately, and interprets their relationship through the
-                four-capacity and nine-pattern framework.</p>
+              <p>No. UVAA doesn't assign fixed personality types. It evaluates core orientation
+                and decision quality separately, then reads the relationship through the
+                four-capacity, nine-pattern framework.</p>
             </details>
             <details className="faq-item">
               <summary>How long does the assessment take?</summary>
@@ -921,17 +827,15 @@ export default function Welcome() {
             </details>
             <details className="faq-item">
               <summary>What does UVAA measure?</summary>
-              <p>UVAA evaluates core orientation and responses across four decision capacities:
-                Emotional Balance, Clarity in Complexity, Pressure Non-Reactivity and Detached
-                Decision-Making. The assessment produces a composite Decision Quality Index and
-                one of nine interpretive patterns.</p>
+              <p>Core orientation, plus four decision capacities: Emotional Balance, Clarity,
+                Pressure Non-Reactivity and Detachment &mdash; combined into a Decision Quality
+                Index and one of nine patterns.</p>
             </details>
             <details className="faq-item">
               <summary>Does UVAA measure how someone actually behaves at work?</summary>
-              <p>No. UVAA examines choices made in structured scenarios. These can offer insight into
-                decision tendencies, but they are not equivalent to directly observing a person's
-                behavior in the workplace. The relationship between scenario-based assessment
-                results and real-world decision behavior requires further validation.</p>
+              <p>No. It examines choices in structured scenarios, which offer insight into
+                tendencies &mdash; but aren't the same as observing real workplace behavior. That
+                link requires further validation.</p>
             </details>
             <details className="faq-item">
               <summary>What does an organization receive?</summary>
@@ -957,10 +861,9 @@ export default function Welcome() {
             </details>
             <details className="faq-item">
               <summary>Can UVAA track changes over time?</summary>
-              <p>UVAA offers reassessment using the instrument at a defined interval,
-                allowing later scores to be compared with a participant's baseline. Changes in
-                assessment scores should not automatically be interpreted as proof of improved
-                workplace decision-making.</p>
+              <p>Yes, through reassessment at a defined interval, compared against your
+                baseline &mdash; though a score change isn't automatic proof of improved
+                real-world decision-making.</p>
             </details>
             <details className="faq-item">
               <summary>How do we get started?</summary>
@@ -982,8 +885,8 @@ export default function Welcome() {
             Worth a Conversation Before It Is Worth a Cohort.
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            You do not need to commit to a full assessment program to understand whether UVAA may
-            be relevant to your organization. Start by exploring the instrument and its outputs.
+            You don't need to commit to a full program to see whether UVAA fits. Start by
+            exploring the instrument and its outputs.
           </p>
 
           <div className="section-head">
@@ -1024,9 +927,8 @@ export default function Welcome() {
             Curious About What UVAA Could Reveal?
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            Whether you lead a business, HR, work in leadership development or want to understand
-            the assessment framework, we'd welcome a conversation. Tell us a little about your
-            organization and what you would like to explore.
+            Lead a business, HR or L&amp;D? We'd welcome a conversation &mdash; tell us a little
+            about your organization and what you'd like to explore.
           </p>
 
           <div className="result-card" style={{ maxWidth: 640, margin: '32px auto 0' }}>
