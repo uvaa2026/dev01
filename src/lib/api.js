@@ -3,11 +3,47 @@
 // Set VITE_API_BASE_URL in a local .env file (see .env.example) to point
 // this app at a running uvaa-api instance — the register/login/verify
 // pages below hit it automatically, no other code changes required.
-// `credentials: 'include'` is required on every call so the httpOnly
-// session cookie the API sets on login is sent back on subsequent
-// requests (e.g. GET /auth/me) — without it the browser silently drops
-// the cookie on cross-origin requests (localhost:5173 -> localhost:4000
-// counts as cross-origin).
+//
+// Auth travels as an `Authorization: Bearer <token>` header, not a cookie.
+// The frontend and API live on different domains (this app on uvaa.pro,
+// the API on azurewebsites.net), and Safari (ITP), Firefox strict mode,
+// Brave, and an increasing share of Chrome block third-party cookies
+// outright — that silently broke login for anyone on those browsers no
+// matter how the cookie was configured (SameSite=None doesn't help; it
+// only satisfies the minimum for a cross-site cookie to be sendable at
+// all, it doesn't stop a browser from blocking third-party cookies on
+// principle). Storing the token ourselves and sending it as a header
+// sidesteps that entirely, in every browser, present or future.
+// `credentials: 'include'` is kept so the API's fallback cookie (see
+// uvaa-api/src/routes/auth.js) still works for anyone it happens to reach.
+const TOKEN_STORAGE_KEY = 'uvaa_token'
+
+export function getStoredToken() {
+  try {
+    return localStorage.getItem(TOKEN_STORAGE_KEY)
+  } catch {
+    // Storage disabled/unavailable (private mode, some lockdown policy) —
+    // the user just won't stay signed in across a refresh; same failure
+    // mode the old cookie approach had in a browser blocking all cookies.
+    return null
+  }
+}
+
+function setStoredToken(token) {
+  try {
+    if (token) localStorage.setItem(TOKEN_STORAGE_KEY, token)
+  } catch {
+    // ignore — see getStoredToken
+  }
+}
+
+function clearStoredToken() {
+  try {
+    localStorage.removeItem(TOKEN_STORAGE_KEY)
+  } catch {
+    // ignore
+  }
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
@@ -27,10 +63,15 @@ async function request(path, options = {}) {
     )
   }
 
+  const token = getStoredToken()
   let res
   try {
     res = await fetch(`${API_BASE_URL}${path}`, {
-      headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.headers || {}),
+      },
       credentials: 'include',
       ...options,
     })
@@ -61,9 +102,14 @@ export const api = {
   register: (payload) =>
     request('/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
 
-  // POST /auth/login { email, password, rememberMe } -> sets session cookie
-  login: (payload) =>
-    request('/auth/login', { method: 'POST', body: JSON.stringify(payload) }),
+  // POST /auth/login { email, password, rememberMe } -> { token, respondent }
+  // Stores the token so later requests can send it as an Authorization
+  // header — see the comment at the top of this file.
+  login: async (payload) => {
+    const data = await request('/auth/login', { method: 'POST', body: JSON.stringify(payload) })
+    if (data?.token) setStoredToken(data.token)
+    return data
+  },
 
   // POST /auth/verify { token } — from the link in the verification email
   verifyEmail: (token) =>
@@ -82,8 +128,15 @@ export const api = {
   // GET /auth/me — the signed-in respondent's profile, via session cookie
   me: () => request('/auth/me', { method: 'GET' }),
 
-  // POST /auth/logout — clears the session cookie
-  logout: () => request('/auth/logout', { method: 'POST' }),
+  // POST /auth/logout — clears the fallback cookie server-side; always
+  // clears the locally stored token too, even if the request itself fails.
+  logout: async () => {
+    try {
+      return await request('/auth/logout', { method: 'POST' })
+    } finally {
+      clearStoredToken()
+    }
+  },
 
   // GET /assessment/briefing — { acknowledged, acknowledgedAt }. Gates entry
   // to the Guna profiler (BeforeYouBegin.jsx).
@@ -165,9 +218,13 @@ export const api = {
       )
     }
 
+    const token = getStoredToken()
     let res
     try {
-      res = await fetch(`${API_BASE_URL}/admin/export`, { credentials: 'include' })
+      res = await fetch(`${API_BASE_URL}/admin/export`, {
+        credentials: 'include',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      })
     } catch {
       throw new ApiError('Could not reach the UVAA API. Check your connection or backend URL.', 0)
     }
@@ -224,9 +281,14 @@ export const api = {
   // POST /org/login { email, password, rememberMe } — a separate login for
   // the Org Admin, independent of the respondent/participant session. Used
   // by an Org Admin who declined to take the assessment themselves and so
-  // has no respondent account at all.
-  orgLogin: (payload) =>
-    request('/org/login', { method: 'POST', body: JSON.stringify(payload) }),
+  // has no respondent account at all. Stores the token the same way
+  // api.login above does — it's the same shared token slot, since only one
+  // of these two login kinds is ever active at a time.
+  orgLogin: async (payload) => {
+    const data = await request('/org/login', { method: 'POST', body: JSON.stringify(payload) })
+    if (data?.token) setStoredToken(data.token)
+    return data
+  },
 
   // GET /org/me — resolves only for a direct Org Admin session (see
   // orgLogin above). 404s for a participant/respondent session or when
