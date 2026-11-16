@@ -4,43 +4,39 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { useOrgAuth } from '../context/OrgAuthContext.jsx'
 
 // "Floating Intelligence Navigation" — a single floating glass pill
-// (.nav-float) instead of the previous full-width two-row bar. The six
-// section links fold into four hover/tap dropdowns so the bar reads as
-// four words wide on desktop; on narrow screens the dropdowns disappear
-// entirely in favour of a full-screen panel (.nav-mobile-panel) listing
-// every link flat.
+// (.nav-float) instead of the previous full-width two-row bar. Links fold
+// into hover/tap dropdowns so the bar reads as a handful of words wide on
+// desktop; on narrow screens the dropdowns disappear entirely in favour of
+// a full-screen panel (.nav-mobile-panel) listing every link flat.
 //
-// Register is deliberately gone from here — "Begin Assessment" sends a
-// guest to /login, which already offers both "Create an account" and
-// "Register your organisation" (see Login.jsx) — so what were three
-// competing top-level buttons (Explore a Pilot / Register / Begin) are
-// down to two.
+// Rebuilt for the corporate-refresh 7-section Home (see Welcome.jsx) —
+// most of the old anchors this pointed at no longer exist, now that the
+// page folds 18 sections down to 7. Three groups instead of four, since
+// there's simply less to group with a shorter page.
+//
+// Register is deliberately gone from here too — "Request a walkthrough"
+// is the one primary call to action the brief asks for; a respondent who
+// already has an account still reaches /login via Footer.jsx's floating
+// link menu.
 const NAV_GROUPS = [
   {
     label: 'Discover',
     items: [
-      { to: '/#challenge', label: 'The Challenge' },
-      { to: '/#about-uvaa', label: 'About UVAA' },
+      { to: '/#problem', label: 'The Problem' },
+      { to: '/#what-uvaa-measures', label: 'What UVAA Measures' },
     ],
   },
   {
     label: 'The Assessment',
     items: [
-      { to: '/#assessment', label: 'Assessment Overview' },
-      { to: '/#what-you-receive', label: 'What You Receive' },
-    ],
-  },
-  {
-    label: 'How It Works',
-    items: [
-      { to: '/#how-it-works', label: 'The Development Journey' },
-      { to: '/#development-approach', label: 'Development Approach' },
+      { to: '/#what-you-get', label: 'What You Get' },
+      { to: '/#how-it-works', label: 'From Insight to Practice' },
     ],
   },
   {
     label: 'About',
     items: [
-      { to: '/#about-us', label: 'About Us' },
+      { to: '/#privacy', label: 'Trust & Privacy' },
       { to: '/#faq', label: 'FAQ' },
     ],
   },
@@ -138,8 +134,8 @@ export default function Header() {
     </>
   ) : (
     <>
-      <Link to="/#pilot" className="btn btn-ghost" onClick={closeMobile}>Explore a Pilot</Link>
-      <Link to="/login" className="btn btn-primary" onClick={closeMobile}>Begin Assessment &rarr;</Link>
+      <Link to="/#how-it-works" className="btn btn-ghost" onClick={closeMobile}>How it works</Link>
+      <Link to="/#pilot" className="btn btn-primary" onClick={closeMobile}>Request a walkthrough</Link>
     </>
   )
 

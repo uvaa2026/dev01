@@ -153,6 +153,51 @@ export const api = {
   adminGetUserConstruct: (id) => request(`/admin/users/${id}/construct`, { method: 'GET' }),
   adminGetUserReport: (id) => request(`/admin/users/${id}/report`, { method: 'GET' }),
 
+  // GET /admin/export — streams an .xlsx workbook (every respondent's
+  // profile, final scores, and raw Guna/Construct answers). Not run through
+  // the JSON `request()` helper above since the response is a binary file;
+  // this reads it as a blob and triggers a normal browser download.
+  adminExportUsers: async () => {
+    if (!API_BASE_URL) {
+      throw new ApiError(
+        'No backend is configured yet. Set VITE_API_BASE_URL in your .env file to connect this app to the UVAA API.',
+        0,
+      )
+    }
+
+    let res
+    try {
+      res = await fetch(`${API_BASE_URL}/admin/export`, { credentials: 'include' })
+    } catch {
+      throw new ApiError('Could not reach the UVAA API. Check your connection or backend URL.', 0)
+    }
+
+    if (!res.ok) {
+      let message = `Request failed with status ${res.status}`
+      try {
+        const body = await res.json()
+        if (body?.message) message = body.message
+      } catch {
+        // error response wasn't JSON — keep the generic message above
+      }
+      throw new ApiError(message, res.status)
+    }
+
+    const blob = await res.blob()
+    const disposition = res.headers.get('Content-Disposition') || ''
+    const match = disposition.match(/filename="([^"]+)"/)
+    const filename = match ? match[1] : 'uvaa-respondent-export.xlsx'
+
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  },
+
   // POST /contact { fullName, workEmail, organisation, role, interest,
   //   message } — public, unauthenticated. Home's "Let's start a
   // conversation" form (Welcome.jsx #contact).

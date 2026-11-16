@@ -45,12 +45,18 @@ export default function App() {
                 (WhyUvaa/Framework/TheAssessment/WhatYouGet/
                 ForOrganisations/PrivacyData/WhatUvaaDoesNotClaim/TalkToUs)
                 are left on disk — delete them whenever convenient, this
-                session can't delete files on your machine. */}
-            <Route path="/why-uvaa" element={<Navigate to="/#about-uvaa" replace />} />
-            <Route path="/framework" element={<Navigate to="/#framework-story" replace />} />
-            <Route path="/the-assessment" element={<Navigate to="/#assessment" replace />} />
-            <Route path="/what-you-get" element={<Navigate to="/#what-you-receive" replace />} />
-            <Route path="/for-organisations" element={<Navigate to="/#who-for" replace />} />
+                session can't delete files on your machine.
+                Targets updated for the corporate-refresh 7-section Home —
+                #about-uvaa/#assessment/#framework-story/#who-for/
+                #what-you-receive no longer exist; the content that used
+                to live at each now lives in #what-uvaa-measures or
+                #what-you-get instead (see the anchor map comment atop
+                Welcome.jsx). */}
+            <Route path="/why-uvaa" element={<Navigate to="/#what-uvaa-measures" replace />} />
+            <Route path="/framework" element={<Navigate to="/#what-uvaa-measures" replace />} />
+            <Route path="/the-assessment" element={<Navigate to="/#what-uvaa-measures" replace />} />
+            <Route path="/what-you-get" element={<Navigate to="/#what-you-get" replace />} />
+            <Route path="/for-organisations" element={<Navigate to="/#what-you-get" replace />} />
             <Route path="/privacy-data" element={<Navigate to="/#privacy" replace />} />
             <Route path="/what-uvaa-does-not-claim" element={<Navigate to="/#faq" replace />} />
             <Route path="/talk-to-us" element={<Navigate to="/#contact" replace />} />

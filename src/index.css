@@ -60,10 +60,13 @@
 
 html { scroll-behavior: smooth; }
 
-/* Home's anchor-addressed sections (#assessment, #faq, #contact, …) need
-   room so their heading doesn't land under the sticky .site-header when
-   useScrollToHash.js scrolls to them. */
-main section[id] { scroll-margin-top: 92px; }
+/* Home's anchor-addressed sections and nested anchor targets (#pilot,
+   #faq, #contact, …) need room so they don't land under the sticky
+   .site-header when useScrollToHash.js scrolls to them. Broadened from
+   `section[id]` to `[id]` since the 7-section refresh nests a couple of
+   anchors (#faq, #contact) inside a parent section rather than giving
+   every one its own top-level <section>. */
+main [id] { scroll-margin-top: 92px; }
 
 body {
   background: var(--bg-base);
@@ -1012,6 +1015,43 @@ section { padding: 72px 0; position: relative; }
 .dimension-grid .card:nth-child(2) .card-icon { background: var(--accent-magenta-soft); color: var(--accent-magenta); }
 .dimension-grid .card:nth-child(3) .card-icon { background: rgba(139,124,255,0.15); color: var(--accent-violet); }
 .dimension-grid .card:nth-child(4) .card-icon { background: var(--accent-amber-soft); color: var(--accent-amber); }
+
+/* Corporate-refresh line icons (Welcome.jsx's <LineIcon>) — one stroke
+   weight everywhere, replacing the old mixed glyph characters. `.card-icon`
+   already sizes/colours the circle behind a 4-card grid via the nth-child
+   rules above; `.icon-circle` is the same visual treatment for anywhere
+   else an icon needs one circle (not part of a 4-up rainbow grid) — a
+   single neutral accent rather than per-item colour. */
+.line-icon { width: 24px; height: 24px; display: block; }
+.icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-cyan-soft);
+  color: var(--accent-cyan);
+  margin-bottom: 14px;
+}
+
+/* Toggle link for "See all nine patterns" (Welcome.jsx #what-uvaa-measures)
+   — a text link's look on a <button>, so the 3x3 table can expand in
+   place instead of adding a whole extra section. */
+.toggle-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--accent-cyan);
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+.toggle-link:hover { text-decoration: underline; }
 
 .card h3 { font-family: var(--font-heading); font-size: 1.08rem; margin-bottom: 4px; }
 .card .sanskrit { display: block; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; font-style: italic; }
@@ -2561,7 +2601,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 .admin-shell { padding: 48px 24px 96px; }
 
-.admin-header { margin-bottom: 28px; }
+.admin-header { margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
 .admin-header h1 { font-family: var(--font-heading); font-size: 1.8rem; margin: 8px 0 4px; }
 
 .admin-back-link {

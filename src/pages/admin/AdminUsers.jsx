@@ -4,6 +4,20 @@ import { api, ApiError } from '../../lib/api.js'
 
 export default function AdminUsers() {
   const [state, setState] = useState({ status: 'loading', users: [], error: null })
+  const [exportState, setExportState] = useState({ status: 'idle', error: null })
+
+  const handleExport = async () => {
+    setExportState({ status: 'exporting', error: null })
+    try {
+      await api.adminExportUsers()
+      setExportState({ status: 'idle', error: null })
+    } catch (err) {
+      setExportState({
+        status: 'idle',
+        error: err instanceof ApiError ? err.message : 'Could not generate the export.',
+      })
+    }
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -31,7 +45,19 @@ export default function AdminUsers() {
             {state.status === 'ready' ? `${state.users.length} registered` : 'Loading…'}
           </p>
         </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleExport}
+          disabled={exportState.status === 'exporting'}
+        >
+          {exportState.status === 'exporting' ? 'Preparing export…' : 'Export to Excel'}
+        </button>
       </div>
+
+      {exportState.error && (
+        <div className="status-msg error" style={{ display: 'block' }} role="alert">{exportState.error}</div>
+      )}
 
       {state.status === 'error' && (
         <div className="status-msg error" style={{ display: 'block' }} role="alert">{state.error}</div>
