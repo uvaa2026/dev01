@@ -136,7 +136,7 @@ export default function Welcome() {
           <div className="hero-wide-copy">
             <p className="hero-wide-kicker">LEADERSHIP DECISION ASSESSMENT</p>
             <h1 className="hero-wide-title">
-              Decision-making under pressure.
+              Decision-making under pressure
             </h1>
             <p className="hero-wide-desc">
               <strong>Knowing what to do isn't the same as doing it when it matters.</strong>{' '}
@@ -195,7 +195,7 @@ export default function Welcome() {
         <div className="container">
           <p className="editorial-label center">THE LEADERSHIP CHALLENGE</p>
           <h2 className="editorial-statement" style={{ textAlign: 'center' }}>
-            Good leaders still get it wrong under pressure.
+            Good leaders still get it wrong under pressure
           </h2>
 
           <div className="dimension-grid">
@@ -234,7 +234,7 @@ export default function Welcome() {
         <div className="container">
           <p className="editorial-label center">THE UVAA FRAMEWORK</p>
           <h2 className="editorial-statement" style={{ textAlign: 'center' }}>
-            Four capacities of steady judgment.
+            Four capacities of steady judgment
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
             Scenario-based. Three choices each. No rating scales.
@@ -377,7 +377,7 @@ export default function Welcome() {
         <div className="container">
           <p className="editorial-label center">BEYOND THE REPORT</p>
           <h2 className="editorial-statement" style={{ textAlign: 'center' }}>
-            From insight to practice.
+            From insight to practice
           </h2>
 
           <div className="journey">
@@ -610,7 +610,7 @@ export default function Welcome() {
             between core orientation and decision quality.
           </p>
           <p className="brand-footer-caps">Upeksha &middot; Viveka &middot; Anuvigna &middot; Anasakti</p>
-          <p className="brand-footer-credit">Developed by Dr. Sayee Bhuvaneswari.</p>
+          <p className="brand-footer-credit">Developed by Dr. Sayee Bhuvaneswari</p>
 
           <nav className="brand-footer-nav" aria-label="Footer">
             <Link to="#problem">The Problem</Link>
@@ -620,9 +620,9 @@ export default function Welcome() {
             <Link to="#contact">Contact</Link>
           </nav>
 
-          <p className="brand-footer-legal-links">
+          {/* <p className="brand-footer-legal-links">
             <a href="#">Privacy Policy</a>{' · '}<a href="#">Terms of Use</a>
-          </p>
+          </p> */}
 
           <div className="brand-footer-notice">
             <strong>Important notice:</strong> UVAA is for leadership development. It is not a

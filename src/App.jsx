@@ -26,6 +26,7 @@ import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
 import OrgRegister from './pages/OrgRegister.jsx'
 import OrgLogin from './pages/OrgLogin.jsx'
 import OrgAdminDashboard from './pages/org-admin/OrgAdminDashboard.jsx'
+import TermsOfUse from './pages/TermsOfUse.jsx'
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
             <Route path="/privacy-data" element={<Navigate to="/#privacy" replace />} />
             <Route path="/what-uvaa-does-not-claim" element={<Navigate to="/#faq" replace />} />
             <Route path="/talk-to-us" element={<Navigate to="/#contact" replace />} />
+            <Route path="/terms" element={<TermsOfUse />} />
             <Route
               path="/register"
               element={
