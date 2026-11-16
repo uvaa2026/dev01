@@ -237,10 +237,7 @@ export default function ConstructAssessment() {
     return (
       <div className="assessment-shell container">
         <div className="result-panel">
-          <div className="eyebrow"><span className="dot"></span> All done</div>
-          <div className="result-badge" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><polyline points="4 13 9 18 20 6" /></svg>
-          </div>
+          <div className="eyebrow">All done</div>
           <h1>That's everything. Thank you</h1>
           <p>
             Your answers are saved and locked. Your report is being prepared and will be available
@@ -257,7 +254,7 @@ export default function ConstructAssessment() {
             <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
           </p>
           {submittedAt && (
-            <p className="report-italic">Submitted {new Date(submittedAt).toLocaleString()}.</p>
+            <p className="report-italic">Submitted {new Date(submittedAt).toLocaleString()}</p>
           )}
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <Link to="/my-page" className="btn btn-primary btn-lg">Back to My Page</Link>

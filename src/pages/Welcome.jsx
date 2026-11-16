@@ -201,22 +201,22 @@ export default function Welcome() {
           <div className="dimension-grid">
             <div className="card">
               <div className="card-icon"><LineIcon name="clock" /></div>
-              <h3>Too late.</h3>
+              <h3>Too late</h3>
               <p>The right call, after the moment has passed.</p>
             </div>
             <div className="card">
               <div className="card-icon"><LineIcon name="pulse" /></div>
-              <h3>Too emotional.</h3>
+              <h3>Too emotional</h3>
               <p>The mood of the moment outweighs the evidence.</p>
             </div>
             <div className="card">
               <div className="card-icon"><LineIcon name="lock" /></div>
-              <h3>Too stubborn.</h3>
+              <h3>Too stubborn</h3>
               <p>Doubling down instead of changing course.</p>
             </div>
             <div className="card">
               <div className="card-icon"><LineIcon name="bolt" /></div>
-              <h3>Too reactive.</h3>
+              <h3>Too reactive</h3>
               <p>Responding to the pressure, not the problem.</p>
             </div>
           </div>
@@ -630,10 +630,6 @@ export default function Welcome() {
           </div>
 
           <p className="brand-footer-copyright">&copy; 2026 UVAA. All rights reserved.</p>
-
-          <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link to="#contact" className="hero-wide-cta" style={{ display: 'inline-flex' }}>Request a walkthrough <b>&rarr;</b></Link>
-          </div>
         </div>
       </footer>
       </div>

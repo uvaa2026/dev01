@@ -62,10 +62,25 @@ const UNSPLITTABLE_SELECTOR = [
 export async function downloadElementAsPdf(element, filename) {
   await ensurePdfLibs()
 
-  // Measured before the page is torn down to an image — these are CSS-pixel
-  // offsets relative to `element`'s own top, which stay valid regardless of
-  // how far the page happens to be scrolled.
+  // Everything below must be measured BEFORE html2canvas runs, not after.
+  // html2canvas can scroll the page while it captures a tall element that
+  // doesn't fit in the viewport, and does not reliably restore the original
+  // scroll position before resolving. getBoundingClientRect() is relative
+  // to the viewport, so measuring `element` before that scroll and every
+  // block after it (as this used to do) silently mixed two different
+  // scroll baselines — the resulting top/bottom numbers were off by
+  // whatever the scroll had shifted, which could land anywhere relative to
+  // the real content. That's what produced the "lots of tiny pages" PDFs:
+  // clearOfBlocks kept yanking the page boundary back to a wrong,
+  // effectively arbitrary position instead of the nearby block it was
+  // actually supposed to avoid splitting. Reading element + every block's
+  // rect together, right here, means they share one scroll snapshot no
+  // matter what html2canvas does afterwards.
   const elementRect = element.getBoundingClientRect()
+  const rawBlocks = Array.from(element.querySelectorAll(UNSPLITTABLE_SELECTOR)).map((el) => {
+    const rect = el.getBoundingClientRect()
+    return { top: rect.top - elementRect.top, bottom: rect.bottom - elementRect.top }
+  })
 
   const canvas = await window.html2canvas(element, {
     backgroundColor: '#0d1220',
@@ -82,19 +97,13 @@ export async function downloadElementAsPdf(element, filename) {
   const imgHeight = (canvas.height * imgWidth) / canvas.width
   const imgData = canvas.toDataURL('image/jpeg', 0.92)
 
-  // Convert each unsplittable block's live CSS-pixel extent into the same
-  // top-to-bottom point space as imgHeight (i.e. "where it ends up in the
-  // rendered image"), so it can be compared against candidate page-break
-  // positions below.
+  // Convert each unsplittable block's live CSS-pixel extent (captured above,
+  // before html2canvas ran) into the same top-to-bottom point space as
+  // imgHeight (i.e. "where it ends up in the rendered image"), so it can be
+  // compared against candidate page-break positions below.
   const scaleToPt = imgWidth / (elementRect.width || imgWidth)
-  const blocks = Array.from(element.querySelectorAll(UNSPLITTABLE_SELECTOR))
-    .map((el) => {
-      const rect = el.getBoundingClientRect()
-      return {
-        top: (rect.top - elementRect.top) * scaleToPt,
-        bottom: (rect.bottom - elementRect.top) * scaleToPt,
-      }
-    })
+  const blocks = rawBlocks
+    .map((b) => ({ top: b.top * scaleToPt, bottom: b.bottom * scaleToPt }))
     // A block taller than a full page can never be kept whole no matter
     // where the boundary falls — leave those out so they can't force an
     // unmovable (and therefore infinitely-looping) boundary.

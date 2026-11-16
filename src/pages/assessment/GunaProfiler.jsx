@@ -210,10 +210,7 @@ export default function GunaProfiler() {
     return (
       <div className="assessment-shell container">
         <div className="result-panel">
-          <div className="eyebrow"><span className="dot"></span> Part one complete</div>
-          <div className="result-badge" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><polyline points="4 13 9 18 20 6" /></svg>
-          </div>
+          <div className="eyebrow">Part one complete</div>
           <h1>Your responses are recorded</h1>
           <p>
             Thank you. Fifteen situations answered, and nothing to see yet. Part two puts you in
@@ -224,7 +221,7 @@ export default function GunaProfiler() {
           <p>
             Your answers are saved. You can pause and return within 72 hours.
             {submittedAt && (
-              <> Submitted {new Date(submittedAt).toLocaleString()}.</>
+              <> Submitted {new Date(submittedAt).toLocaleString()}</>
             )}
           </p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
