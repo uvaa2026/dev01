@@ -165,19 +165,19 @@ export default function Welcome() {
           <div className="stat-circle-row hero-wide-metrics-row">
             <div className="stat-circle">
               <div className="stat-circle-badge">47</div>
-              <h3>scenarios</h3>
+              <h3>Scenarios</h3>
             </div>
             <div className="stat-circle">
               <div className="stat-circle-badge">4</div>
-              <h3>capacities</h3>
+              <h3>Capacities</h3>
             </div>
             <div className="stat-circle">
               <div className="stat-circle-badge">9</div>
-              <h3>patterns</h3>
+              <h3>Patterns</h3>
             </div>
             <div className="stat-circle">
               <div className="stat-circle-badge">45</div>
-              <h3>minutes</h3>
+              <h3>Minutes</h3>
             </div>
           </div>
         </div>
@@ -237,7 +237,7 @@ export default function Welcome() {
             Four capacities of steady judgment
           </h2>
           <p className="editorial-lead" style={{ textAlign: 'center' }}>
-            Scenario-based. Three choices each. No rating scales.
+            Situational Judgemental Tool with choices
           </p>
 
           <div className="dimension-grid">
@@ -276,7 +276,7 @@ export default function Welcome() {
             decision quality. The result is one of nine patterns.
           </p>
 
-          <div style={{ textAlign: 'center', marginTop: 20 }}>
+         {/*  <div style={{ textAlign: 'center', marginTop: 20 }}>
             <button type="button" className="toggle-link" onClick={() => setShowPatterns((v) => !v)}
               aria-expanded={showPatterns} aria-controls="ninePatternsPanel">
               {showPatterns ? 'Hide the nine patterns' : 'See all nine patterns'}
@@ -285,10 +285,13 @@ export default function Welcome() {
                 <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-          </div>
+          </div> */}
 
-          {showPatterns && (
-            <div id="ninePatternsPanel" style={{ marginTop: 24 }}>
+         {/*  {showPatterns && (
+            
+          )} */}
+
+          <div id="ninePatternsPanel" style={{ marginTop: 24 }}>
               <div className="patterns-matrix-wrap">
                 <table className="patterns-matrix">
                   <thead>
@@ -326,7 +329,6 @@ export default function Welcome() {
                 of responses on the day, not a fixed label.
               </p>
             </div>
-          )}
         </div>
       </section>
 
@@ -337,7 +339,7 @@ export default function Welcome() {
         <div className="container">
           <p className="editorial-label center">FROM ASSESSMENT TO INSIGHT</p>
           <h2 className="editorial-statement" style={{ textAlign: 'center' }}>
-            One assessment. Two views.
+            One assessment - Two views
           </h2>
 
           <div className="vertical-grid">
@@ -345,16 +347,15 @@ export default function Welcome() {
               <div className="icon-circle"><LineIcon name="person" /></div>
               <h3>Individual view</h3>
               <p>
-                A Decision Quality Index (0 to 100), four capacity scores, one pattern and a
-                development focus. The report belongs to the participant.
+                Core orientation with decision quality index , four capacity scores, one pattern and a development focus. 
+                The report belongs to the participant.
               </p>
             </div>
             <div className="vertical-card">
               <div className="icon-circle"><LineIcon name="group" /></div>
               <h3>Organisation view</h3>
               <p>
-                Cohort patterns, how scores are spread, and who has completed it. No individual
-                scores without consent.
+               Leading Team  or project, Leading a function, Leading Business unit (s).
               </p>
             </div>
           </div>
@@ -394,7 +395,7 @@ export default function Welcome() {
             <div className="step">
               <div className="step-num">3</div>
               <h4>Plan</h4>
-              <p>Built around your own pattern — what to understand, how to respond, what to practise.</p>
+              <p>Three layer plan build around your  pattern -what to understand, how to respond, what to practise.</p>
             </div>
             <div className="step">
               <div className="step-num">4</div>
@@ -403,7 +404,7 @@ export default function Welcome() {
             </div>
             <div className="step">
               <div className="step-num">5</div>
-              <h4>Reassess</h4>
+              <h4>Re-assess</h4>
               <p>Measure movement, capacity by capacity.</p>
             </div>
           </div>
@@ -440,7 +441,7 @@ export default function Welcome() {
           </p>
 
           <p className="overview-copy" style={{ margin: '14px auto 0', textAlign: 'center', fontSize: '0.85rem' }}>
-            Grounded in decision research and the Bhagavad Gita's idea of steady judgment{' '}
+            Grounded in neuro-economics, Decision research and the Bhagavad Gita's idea of steady judgment{' '}
             (<em>Sthitaprajna</em>). Reliability is being tested in pilot engagements.
           </p>
 
@@ -448,9 +449,17 @@ export default function Welcome() {
             <img src={founderPhoto} alt="Dr. Sayee Bhuvaneswari" className="founder-photo" />
             <div className="founder-body">
               <h3>Dr. Sayee Bhuvaneswari</h3>
-              <span className="founder-credential">Founder, Dheemer Consulting</span>
-              <p>PhDs in Psychology and Economics and in Yogic Sciences.</p>
-              <p>27 years of corporate leadership, including Hitachi and HCL.</p>
+              <span className="founder-credential">Founder, Dheemer Consulting &middot; Author of the UVAA Framework</span>
+              <p>
+                An engineer turned researcher, Dr. Sayee holds PhDs in Psychology and Economics
+                and in Yogic Sciences, bringing together corporate leadership, psychology and
+                Indian philosophical traditions.
+              </p>
+              <p>
+                27 years of corporate leadership, including global roles at Hitachi and HCL,
+                alongside work as a startup advisor, leadership coach and counselling
+                psychologist &mdash; the foundation UVAA is built on.
+              </p>
               <div className="hero-actions" style={{ justifyContent: 'flex-start', marginTop: 20 }}>
                 <a href="mailto:sayee@dheemerconsulting.com" className="btn btn-primary">Connect</a>
               </div>
@@ -572,6 +581,12 @@ export default function Welcome() {
               <p>About 45 minutes, in one sitting, across 47 scenario-based questions.</p>
             </details>
             <details className="faq-item">
+              <summary>Is UVAA validated?</summary>
+              <p>UVAA is grounded in established decision research. We are building its 
+                reliability and validity evidence with pilot organisations, 
+                and we share what we find openly.</p>
+            </details>
+            <details className="faq-item">
               <summary>Is it suitable for hiring or promotion?</summary>
               <p>No. UVAA is built for leadership development, not for hiring, promotion or
                 termination decisions — though it can complement those decisions.</p>
@@ -603,11 +618,12 @@ export default function Welcome() {
           ============================================================ */}
       <footer className="brand-footer">
         <div className="container">
-          <p className="brand-footer-logo">UVAA</p>
-          <p className="brand-footer-tagline">Decision-making under pressure.</p>
+          <p className="brand-footer-logo">UVAA<sup class="brand-tm">™</sup></p>
+          <p className="brand-footer-tagline">Decision-making under pressure</p>
           <p className="brand-footer-desc">
-            A development-focused leadership decision assessment examining the relationship
-            between core orientation and decision quality.
+            UVAA is a leadership assessment that shows the gap between how a leader appears and 
+            how they decide when pressure rises.
+            Emotional balance  Clarity in complexity Pressure non-reactivity  Detached decision-making
           </p>
           <p className="brand-footer-caps">Upeksha &middot; Viveka &middot; Anuvigna &middot; Anasakti</p>
           <p className="brand-footer-credit">Developed by Dr. Sayee Bhuvaneswari</p>

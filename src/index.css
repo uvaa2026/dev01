@@ -674,6 +674,7 @@ body::after {
 
 .hero-wide-kicker {
   font-size: 0.72rem;
+  font-weight: bolder;
   line-height: 1.8;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -756,6 +757,7 @@ body::after {
 }
 .hero-wide-note-list {
   font-size: 0.56rem;
+  font-weight: 700;
   line-height: 2;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -861,7 +863,7 @@ body::after {
 /* ==========================================================================
    Sections (shared)
    ========================================================================== */
-section { padding: 72px 0; position: relative; }
+section { padding: 40px 0; position: relative; }
 
 .section-head {
   max-width: 640px;
@@ -1078,6 +1080,7 @@ section { padding: 72px 0; position: relative; }
 
 .editorial-label {
   font-size: 0.72rem;
+  font-weight: bolder;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--text-muted);
