@@ -135,7 +135,7 @@ export default function Header() {
   ) : (
     <>
       <Link to="/#how-it-works" className="btn btn-ghost" onClick={closeMobile}>How it works</Link>
-      <Link to="/#pilot" className="btn btn-primary" onClick={closeMobile}>Request a walkthrough</Link>
+      <Link to="/login" className="btn btn-primary" onClick={closeMobile}>Begin Journey</Link>
     </>
   )
 
