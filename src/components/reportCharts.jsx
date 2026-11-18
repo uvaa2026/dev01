@@ -155,9 +155,18 @@ const GRID_ROWS = ['SATTVA', 'RAJAS', 'TAMAS']
 const GRID_COLS = ['AT_RISK', 'DEVELOPING', 'ANCHORED'] // left to right: At risk -> Anchored
 const GRID_COL_TITLE = { AT_RISK: 'At risk', DEVELOPING: 'Developing', ANCHORED: 'Anchored' }
 
-export function PatternGrid({ dominance, patternBand }) {
+// `provisional` (orientation level — margin 0, 18 Nov 2026 spec edit): the
+// occupied cell still sits where the resolved dominance/pattern band say
+// (ties are always resolved to a definite guna at scoring time), but it
+// renders with a dashed border and no name is spoken in the accessible
+// label either, matching Section 4's own text ("this report does not name
+// a pattern").
+export function PatternGrid({ dominance, patternBand, provisional = false }) {
+  const label = provisional
+    ? 'UVAA pattern grid: orientation is level, so no pattern is named'
+    : `UVAA pattern grid: ${GUNA_LABEL[dominance]}, ${GRID_COL_TITLE[patternBand]}`
   return (
-    <div className="pattern-grid" role="img" aria-label={`UVAA pattern grid: ${GUNA_LABEL[dominance]}, ${GRID_COL_TITLE[patternBand]}`}>
+    <div className="pattern-grid" role="img" aria-label={label}>
       <div className="pattern-grid-corner" aria-hidden="true" />
       {GRID_COLS.map((col) => (
         <div className="pattern-grid-col-head" key={col}>{GRID_COL_TITLE[col]}</div>
@@ -170,7 +179,7 @@ export function PatternGrid({ dominance, patternBand }) {
             return (
               <div
                 key={`${row}-${col}`}
-                className={`pattern-grid-cell${occupied ? ' occupied' : ''}`}
+                className={`pattern-grid-cell${occupied ? ' occupied' : ''}${occupied && provisional ? ' provisional' : ''}`}
               />
             )
           })}

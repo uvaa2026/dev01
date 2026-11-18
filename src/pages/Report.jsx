@@ -212,21 +212,41 @@ export default function Report() {
 
         {orientation.marginNote && <p className="report-margin-note">{orientation.marginNote}</p>}
 
-        <div className="orientation-dominance-block">
-          <h3 className="report-subhead">{orientation.profile.heading}</h3>
+        {/* Where the orientation is level (margin 0 between the top two or
+            all three gunas — the 18 Nov 2026 spec edit), the dominance
+            block prints once per level guna under one combined heading
+            instead of a single "{Name} dominant" block, and no pattern name
+            is given in Section 4 below (see "Your orientation is evenly
+            split..." in that section). `profiles` is always an array —
+            length 1 outside the level case — so this renders the same way
+            either way. */}
+        {orientation.level && (
+          <h3 className="report-subhead">{orientation.levelHeading}</h3>
+        )}
 
-          <p className="dominance-block-label">What this looks like</p>
-          <p>{orientation.profile.whatThisLooksLike}</p>
+        {orientation.profiles.map((profile) => (
+          <div className="orientation-dominance-block" key={profile.guna}>
+            {orientation.level ? (
+              <p className="dominance-block-label">{profile.name}</p>
+            ) : (
+              <h3 className="report-subhead">{profile.heading}</h3>
+            )}
 
-          <p className="dominance-block-label">What it supports</p>
-          <p>{orientation.profile.whatItSupports}</p>
+            <p className="dominance-block-label">What this looks like</p>
+            <p>{profile.whatThisLooksLike}</p>
 
-          <p className="dominance-block-label">Where it costs you</p>
-          <p>{orientation.profile.whereItCostsYou}</p>
+            <p className="dominance-block-label">What it supports</p>
+            <p>{profile.whatItSupports}</p>
 
-          <p className="dominance-block-label">How others may see it</p>
-          <p>{orientation.profile.howOthersMaySeeIt}</p>
-        </div>
+            <p className="dominance-block-label">Where it costs you</p>
+            <p>{profile.whereItCostsYou}</p>
+
+            <p className="dominance-block-label">How others may see it</p>
+            <p>{profile.howOthersMaySeeIt}</p>
+          </div>
+        ))}
+
+        <p className="report-footnote">Percentages are rounded and may not add to 100.</p>
 
         <p>
           What this suggests about your decisions and what the situations actually showed are
@@ -282,6 +302,7 @@ export default function Report() {
         <div className="dqi-callout">
           <h3 className="report-subhead">{dqi.callout.headline}</h3>
           <p>{dqi.callout.body}</p>
+          {dqi.callout.extraLine && <p>{dqi.callout.extraLine}</p>}
         </div>
 
         <CapacityBars capacities={capacities} />
@@ -299,7 +320,8 @@ export default function Report() {
       {heldPattern ? (
         <section className="report-section held-pattern-note" id="section-held">
           <p>
-            Your facilitator will be in touch to go through this result with you directly.
+            Your results show an unusual combination that is worth a conversation before any plan is
+            set out. A facilitator will be in touch.
           </p>
         </section>
       ) : (
@@ -314,12 +336,27 @@ export default function Report() {
               assessment exists to produce.
             </p>
 
+            {pattern.stepDownLine && <p className="report-margin-note">{pattern.stepDownLine}</p>}
+
             <div className="pattern-grid-scroll">
-              <PatternGrid dominance={orientation.dominance} patternBand={pattern.patternBand} />
+              <PatternGrid
+                dominance={orientation.dominance}
+                patternBand={pattern.patternBand}
+                provisional={orientation.level}
+              />
             </div>
 
             <div className="pattern-text-block">
-              <h3 className="report-subhead">{pattern.label}</h3>
+              <h3 className="report-subhead">
+                {orientation.level
+                  ? 'Your orientation is evenly split, so this report does not name a pattern.'
+                  : pattern.label}
+              </h3>
+              {orientation.level && (
+                <p className="report-footnote" style={{ marginTop: -8 }}>
+                  Section 3 and your development focus stand without it.
+                </p>
+              )}
               <p>{pattern.description}</p>
 
               <p className="dominance-block-label">What holds</p>

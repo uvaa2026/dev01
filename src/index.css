@@ -2877,8 +2877,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   flex: none;
 }
 
-.guna-orientation-legend-name { color: var(--text-primary); font-weight: 600; margin-right: 4px; }
-.guna-orientation-legend-english { color: var(--text-muted); }
+/* Report spec, Section 2 chart rule (18 Nov 2026 edit): the English names
+   (Composure/Drive/Reserve) are the ones a reader actually orients by, so
+   they carry the bold/primary treatment; Sattva/Rajas/Tamas — the
+   framework names — are the grey, secondary ones. */
+.guna-orientation-legend-name { color: var(--text-muted); margin-right: 4px; }
+.guna-orientation-legend-english { color: var(--text-primary); font-weight: 600; }
+
+.report-footnote {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
 
 /* --- Section 3 chart: DQI gauge ------------------------------------------ */
 .dqi-gauge-wrap {
@@ -2978,6 +2988,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .pattern-grid-cell.occupied {
   background: var(--accent-cyan-soft);
   border: 2px solid var(--accent-cyan);
+}
+
+/* Orientation is level (margin 0) — the cell still marks the resolved
+   dominance/pattern band, but dashed, since no pattern is named for this
+   report (report spec, Rendering Rules: "Provisional pattern"). */
+.pattern-grid-cell.occupied.provisional {
+  border-style: dashed;
+  background: var(--bg-surface-3);
 }
 
 .pattern-text-block { margin-top: 8px; }
