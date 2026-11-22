@@ -23,6 +23,8 @@ import GunaProfiler from './pages/assessment/GunaProfiler.jsx'
 import ConstructAssessment from './pages/assessment/ConstructAssessment.jsx'
 import AdminUsers from './pages/admin/AdminUsers.jsx'
 import AdminUserDetail from './pages/admin/AdminUserDetail.jsx'
+import AdminOrganisations from './pages/admin/AdminOrganisations.jsx'
+import AdminOrganisationDetail from './pages/admin/AdminOrganisationDetail.jsx'
 import OrgRegister from './pages/OrgRegister.jsx'
 import OrgLogin from './pages/OrgLogin.jsx'
 import OrgAdminDashboard from './pages/org-admin/OrgAdminDashboard.jsx'
@@ -134,6 +136,22 @@ export default function App() {
               element={
                 <AdminRoute>
                   <AdminUserDetail />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/organisations"
+              element={
+                <AdminRoute>
+                  <AdminOrganisations />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/organisations/:id"
+              element={
+                <AdminRoute>
+                  <AdminOrganisationDetail />
                 </AdminRoute>
               }
             />

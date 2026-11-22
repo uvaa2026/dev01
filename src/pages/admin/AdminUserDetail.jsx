@@ -43,6 +43,9 @@ export default function AdminUserDetail() {
   const [report, setReport] = useState(null)
   const [showGunaReview, setShowGunaReview] = useState(false)
   const [showConstructReview, setShowConstructReview] = useState(false)
+  const [actionState, setActionState] = useState({ status: 'idle', error: null }) // idle | working | error
+  const [showDisableForm, setShowDisableForm] = useState(false)
+  const [disableReason, setDisableReason] = useState('')
 
   useEffect(() => {
     let cancelled = false
@@ -86,6 +89,54 @@ export default function AdminUserDetail() {
       .catch((err) => setReport({ status: 'error', error: err instanceof ApiError ? err.message : 'Could not load the report.' }))
   }
 
+  // Both approve/reject and disable/enable merge the API's response
+  // straight into profile.data.respondent rather than re-fetching the
+  // whole GET /admin/users/:id — the response already echoes back exactly
+  // the fields that changed.
+  async function handleApproval(decision) {
+    setActionState({ status: 'working', error: null })
+    try {
+      const result = await api.adminSetApproval(id, decision)
+      setProfile((prev) => ({
+        ...prev,
+        data: { ...prev.data, respondent: { ...prev.data.respondent, approvalStatus: result.approvalStatus } },
+      }))
+      setActionState({ status: 'idle', error: null })
+    } catch (err) {
+      setActionState({ status: 'idle', error: err instanceof ApiError ? err.message : 'Could not update the registration decision.' })
+    }
+  }
+
+  async function handleDisable() {
+    setActionState({ status: 'working', error: null })
+    try {
+      const result = await api.adminSetAccountStatus(id, true, disableReason.trim() || null)
+      setProfile((prev) => ({
+        ...prev,
+        data: { ...prev.data, respondent: { ...prev.data.respondent, disabledAt: result.disabledAt, disabledReason: result.disabledReason } },
+      }))
+      setShowDisableForm(false)
+      setDisableReason('')
+      setActionState({ status: 'idle', error: null })
+    } catch (err) {
+      setActionState({ status: 'idle', error: err instanceof ApiError ? err.message : 'Could not disable this account.' })
+    }
+  }
+
+  async function handleEnable() {
+    setActionState({ status: 'working', error: null })
+    try {
+      const result = await api.adminSetAccountStatus(id, false)
+      setProfile((prev) => ({
+        ...prev,
+        data: { ...prev.data, respondent: { ...prev.data.respondent, disabledAt: result.disabledAt, disabledReason: result.disabledReason } },
+      }))
+      setActionState({ status: 'idle', error: null })
+    } catch (err) {
+      setActionState({ status: 'idle', error: err instanceof ApiError ? err.message : 'Could not re-enable this account.' })
+    }
+  }
+
   if (profile.status === 'loading') {
     return <div className="container" style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>Loading…</div>
   }
@@ -115,7 +166,6 @@ export default function AdminUserDetail() {
         <section className="mypage-card">
           <h3>Profile</h3>
           <dl className="info-list">
-            <div className="info-row"><dt>Organisation</dt><dd>{respondent.organisationName}</dd></div>
             <div className="info-row"><dt>Work Experience</dt><dd>{VERTICAL_LABELS[respondent.vertical] || respondent.vertical}</dd></div>
             <div className="info-row"><dt>What they lead</dt><dd>{leadershipScopeLabel(respondent.leadershipScope)}</dd></div>
             <div className="info-row"><dt>Experience</dt><dd>{respondent.experience}</dd></div>
@@ -128,7 +178,76 @@ export default function AdminUserDetail() {
             </div>
             <div className="info-row"><dt>Registered</dt><dd>{new Date(respondent.createdAt).toLocaleString()}</dd></div>
             <div className="info-row"><dt>Last login</dt><dd>{respondent.lastLoginAt ? new Date(respondent.lastLoginAt).toLocaleString() : '—'}</dd></div>
+            <div className="info-row">
+              <dt>Organisation</dt>
+              <dd><Link to={`/admin/organisations/${respondent.organisationId}`} className="link-accent">{respondent.organisationName}</Link></dd>
+            </div>
+            <div className="info-row">
+              <dt>Registration</dt>
+              <dd>
+                {respondent.approvalStatus === 'PENDING' && <span className="pending-badge">Awaiting approval</span>}
+                {respondent.approvalStatus === 'REJECTED' && <span className="rejected-badge">Rejected</span>}
+                {respondent.approvalStatus === 'APPROVED' && <span className="verified-badge">Approved</span>}
+              </dd>
+            </div>
+            <div className="info-row">
+              <dt>Account access</dt>
+              <dd>
+                {respondent.disabledAt
+                  ? <span className="disabled-badge">Disabled {new Date(respondent.disabledAt).toLocaleDateString()}</span>
+                  : <span className="verified-badge">Enabled</span>}
+              </dd>
+            </div>
+            {respondent.disabledReason && (
+              <div className="info-row"><dt>Disable reason</dt><dd>{respondent.disabledReason}</dd></div>
+            )}
           </dl>
+
+          {actionState.error && (
+            <div className="status-msg error" style={{ display: 'block', marginTop: 12 }} role="alert">{actionState.error}</div>
+          )}
+
+          <div className="admin-action-row">
+            {respondent.approvalStatus !== 'APPROVED' && (
+              <button type="button" className="btn btn-primary" disabled={actionState.status === 'working'} onClick={() => handleApproval('APPROVE')}>
+                Approve registration
+              </button>
+            )}
+            {respondent.approvalStatus !== 'REJECTED' && (
+              <button type="button" className="btn btn-ghost" disabled={actionState.status === 'working'} onClick={() => handleApproval('REJECT')}>
+                Reject registration
+              </button>
+            )}
+          </div>
+
+          <div className="admin-action-row">
+            {respondent.disabledAt ? (
+              <button type="button" className="btn btn-primary" disabled={actionState.status === 'working'} onClick={handleEnable}>
+                Re-enable account
+              </button>
+            ) : showDisableForm ? (
+              <div className="admin-seat-form">
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="Reason (optional)"
+                  value={disableReason}
+                  onChange={(e) => setDisableReason(e.target.value)}
+                  style={{ width: 220 }}
+                />
+                <button type="button" className="btn btn-danger" disabled={actionState.status === 'working'} onClick={handleDisable}>
+                  Confirm disable
+                </button>
+                <button type="button" className="btn btn-ghost" onClick={() => { setShowDisableForm(false); setDisableReason('') }}>
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button type="button" className="btn btn-danger" onClick={() => setShowDisableForm(true)}>
+                Disable account
+              </button>
+            )}
+          </div>
         </section>
 
         <section className="mypage-card">

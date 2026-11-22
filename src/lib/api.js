@@ -206,6 +206,19 @@ export const api = {
   adminGetUserConstruct: (id) => request(`/admin/users/${id}/construct`, { method: 'GET' }),
   adminGetUserReport: (id) => request(`/admin/users/${id}/report`, { method: 'GET' }),
 
+  // Super Admin console — approve/reject or disable/enable ANY respondent
+  // regardless of organisation, and manage organisations (list, detail,
+  // seat count). Same is_admin + email-allowlist gate as everything else
+  // in this section.
+  adminSetApproval: (id, decision) =>
+    request(`/admin/users/${id}/approval`, { method: 'PATCH', body: JSON.stringify({ decision }) }),
+  adminSetAccountStatus: (id, disabled, reason) =>
+    request(`/admin/users/${id}/status`, { method: 'PATCH', body: JSON.stringify({ disabled, reason }) }),
+  adminListOrganisations: () => request('/admin/organisations', { method: 'GET' }),
+  adminGetOrganisation: (id) => request(`/admin/organisations/${id}`, { method: 'GET' }),
+  adminSetOrgSeats: (id, seatCount) =>
+    request(`/admin/organisations/${id}/seats`, { method: 'PATCH', body: JSON.stringify({ seatCount }) }),
+
   // GET /admin/export — streams an .xlsx workbook (every respondent's
   // profile, final scores, and raw Guna/Construct answers). Not run through
   // the JSON `request()` helper above since the response is a binary file;

@@ -37,6 +37,11 @@ export default function AdminUsers() {
 
   return (
     <div className="admin-shell container">
+      <div className="admin-nav-tabs">
+        <span className="admin-nav-tab active">Users</span>
+        <Link to="/admin/organisations" className="admin-nav-tab">Organisations</Link>
+      </div>
+
       <div className="admin-header">
         <div>
           <span className="eyebrow"><span className="dot"></span> Admin</span>
@@ -76,6 +81,7 @@ export default function AdminUsers() {
                 <th>Email</th>
                 <th>Organisation</th>
                 <th>Verified</th>
+                <th>Status</th>
                 <th>Guna profiler</th>
                 <th>Construct</th>
                 <th>Report</th>
@@ -89,11 +95,19 @@ export default function AdminUsers() {
                     <Link to={`/admin/users/${u.id}`} className="admin-row-link">{u.fullName}</Link>
                   </td>
                   <td>{u.email}</td>
-                  <td>{u.organisationName}</td>
+                  <td>
+                    <Link to={`/admin/organisations/${u.organisationId}`} className="admin-row-link">{u.organisationName}</Link>
+                  </td>
                   <td>
                     {u.isEmailVerified
                       ? <span className="verified-badge">Verified</span>
                       : <span className="pending-badge">Pending</span>}
+                  </td>
+                  <td>
+                    {u.disabledAt && <span className="disabled-badge">Disabled</span>}
+                    {!u.disabledAt && u.approvalStatus === 'PENDING' && <span className="pending-badge">Awaiting approval</span>}
+                    {!u.disabledAt && u.approvalStatus === 'REJECTED' && <span className="rejected-badge">Rejected</span>}
+                    {!u.disabledAt && u.approvalStatus === 'APPROVED' && <span className="verified-badge">Active</span>}
                   </td>
                   <td>
                     {u.assessments.guna.submitted
@@ -114,7 +128,7 @@ export default function AdminUsers() {
                 </tr>
               ))}
               {state.users.length === 0 && (
-                <tr><td colSpan={8} className="admin-table-muted">No registered users yet.</td></tr>
+                <tr><td colSpan={9} className="admin-table-muted">No registered users yet.</td></tr>
               )}
             </tbody>
           </table>
