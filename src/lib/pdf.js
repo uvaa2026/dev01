@@ -51,6 +51,12 @@ const UNSPLITTABLE_SELECTOR = [
   'h2', 'h3', 'p', 'li', 'blockquote',
   '.orientation-dominance-block', '.dqi-callout', '.pattern-text-block',
   '.capacity-line-row', '.capacity-bar-row', '.report-margin-note',
+  // Cohort report (CohortReport.jsx / cohortReportCharts.jsx) — a separate
+  // set of classes from the individual report above, reused by the same
+  // downloadElementAsPdf, so they need their own entries here or they're
+  // just as splittable as plain text (reported: the "Anasakti / Detached
+  // Decision-Making" capacity row breaking mid-label across a page boundary).
+  '.cohort-capacity-row', '.cohort-segmented-bar', '.dqi-gauge-wrap', '.admin-table-wrap',
 ].join(', ')
 
 // Renders `element` to a multi-page A4 PDF and triggers a download named
