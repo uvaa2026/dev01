@@ -40,7 +40,7 @@ async function ensurePdfLibs() {
 // pixel height per page, with no awareness of what was underneath that
 // line — so a heading or a line of a paragraph could land exactly on a
 // slice boundary and come out visibly cut in two, with the line above and
-// below it both rendered half-height (reported: the "Anuvigna, Pressure
+// below it both rendered half-height (reported: the "Anudvigna, Pressure
 // Non-Reactivity" paragraph splitting mid-sentence across a page break).
 // Keeping this selector in sync with the @media print break-inside: avoid
 // rules in index.css is good practice but not required for correctness —

@@ -260,7 +260,7 @@ export default function Welcome() {
               <h3>Stay on the problem</h3>
               <p style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: 6 }}>Pressure non-reactivity</p>
               <p>Respond to the issue, not the reaction.</p>
-              <span className="sanskrit">Anuvigna</span>
+              <span className="sanskrit">Anudvigna</span>
             </div>
             <div className="card">
               <div className="card-icon"><LineIcon name="openHand" /></div>
@@ -625,7 +625,7 @@ export default function Welcome() {
             how they decide when pressure rises.
             Emotional balance  Clarity in complexity Pressure non-reactivity  Detached decision-making
           </p>
-          <p className="brand-footer-caps">Upeksha &middot; Viveka &middot; Anuvigna &middot; Anasakti</p>
+          <p className="brand-footer-caps">Upeksha &middot; Viveka &middot; Anudvigna &middot; Anasakti</p>
           <p className="brand-footer-credit">Developed by Dr. Sayee Bhuvaneswari</p>
 
           <nav className="brand-footer-nav" aria-label="Footer">

@@ -8,10 +8,13 @@ import { Fragment } from 'react'
 // could later be reused server-side for a PDF export without drift (the
 // spec's own rule: "The PDF and web view must be identical").
 
-const GUNA_ORDER = ['SATTVA', 'RAJAS', 'TAMAS']
-const GUNA_COLOR = { SATTVA: 'var(--accent-cyan)', RAJAS: 'var(--accent-amber)', TAMAS: 'var(--text-muted)' }
-const GUNA_LABEL = { SATTVA: 'Sattva', RAJAS: 'Rajas', TAMAS: 'Tamas' }
-const GUNA_ENGLISH = { SATTVA: 'Composure', RAJAS: 'Drive', TAMAS: 'Reserve' }
+// Exported — components/cohortReportCharts.jsx (the org/cohort-level report)
+// reuses these same colors/labels so the two reports read as one visual
+// system rather than drifting independently.
+export const GUNA_ORDER = ['SATTVA', 'RAJAS', 'TAMAS']
+export const GUNA_COLOR = { SATTVA: 'var(--accent-cyan)', RAJAS: 'var(--accent-amber)', TAMAS: 'var(--text-muted)' }
+export const GUNA_LABEL = { SATTVA: 'Sattva', RAJAS: 'Rajas', TAMAS: 'Tamas' }
+export const GUNA_ENGLISH = { SATTVA: 'Composure', RAJAS: 'Drive', TAMAS: 'Reserve' }
 
 // ---------------------------------------------------------------- Section 2
 export function GunaOrientationBar({ sattvaPct, rajasPct, tamasPct }) {

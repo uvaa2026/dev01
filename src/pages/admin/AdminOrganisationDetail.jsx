@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api, ApiError } from '../../lib/api.js'
+import CohortReport from '../../components/CohortReport.jsx'
 
 const ORG_STATUS_BADGE = {
   ACTIVE: { cls: 'verified-badge', label: 'Active' },
@@ -13,6 +14,7 @@ export default function AdminOrganisationDetail() {
   const [state, setState] = useState({ status: 'loading', data: null, error: null })
   const [seatInput, setSeatInput] = useState('')
   const [seatState, setSeatState] = useState({ status: 'idle', error: null })
+  const [cohortReport, setCohortReport] = useState({ status: 'loading', data: null, error: null })
 
   useEffect(() => {
     let cancelled = false
@@ -27,6 +29,17 @@ export default function AdminOrganisationDetail() {
       .catch((err) => {
         if (cancelled) return
         setState({ status: 'error', data: null, error: err instanceof ApiError ? err.message : 'Could not load this organisation.' })
+      })
+    setCohortReport({ status: 'loading', data: null, error: null })
+    api
+      .adminGetCohortReport(id)
+      .then((data) => {
+        if (cancelled) return
+        setCohortReport({ status: 'ready', data, error: null })
+      })
+      .catch((err) => {
+        if (cancelled) return
+        setCohortReport({ status: 'error', data: null, error: err instanceof ApiError ? err.message : 'Could not load the cohort report.' })
       })
     return () => { cancelled = true }
   }, [id])
@@ -116,6 +129,20 @@ export default function AdminOrganisationDetail() {
             set lower than the seats already used.
           </p>
         </section>
+      </div>
+
+      <div className="mypage-card" style={{ marginTop: 28 }}>
+        <h3>Cohort report</h3>
+        <p className="hint">
+          How this group as a whole responds to pressure — aggregate only, never an individual. Same
+          report the buyer's HR administrator sees, plus the facilitator-only pattern distribution
+          once 30 or more have completed.
+        </p>
+
+        {cohortReport.status === 'error' && (
+          <div className="status-msg error" style={{ display: 'block' }} role="alert">{cohortReport.error}</div>
+        )}
+        {cohortReport.status === 'ready' && <CohortReport data={cohortReport.data} />}
       </div>
 
       <div className="admin-table-wrap" style={{ marginTop: 28 }}>

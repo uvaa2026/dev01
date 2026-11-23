@@ -57,7 +57,7 @@ export default function Framework() {
             <div className="card">
               <div className="card-icon">⚡</div>
               <h3>Pressure Non-Reactivity</h3>
-              <span className="sanskrit">Anuvigna</span>
+              <span className="sanskrit">Anudvigna</span>
               <p>Responding to the crux of a challenge rather than to the challenge.</p>
             </div>
             <div className="card">

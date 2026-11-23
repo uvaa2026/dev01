@@ -275,7 +275,7 @@ export default function Report() {
           signal hit heavier.
         </p>
 
-        <h3 className="report-subhead">Anuvigna, Pressure Non-Reactivity.</h3>
+        <h3 className="report-subhead">Anudvigna, Pressure Non-Reactivity.</h3>
         <p>
           Responding to the crux of a challenge rather than to the challenge. Under social threat the
           response is generated faster than deliberate assessment can happen.

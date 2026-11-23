@@ -3010,6 +3010,67 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .capacity-line-row p { margin-bottom: 4px; }
 .capacity-line-name { font-weight: 600; color: var(--text-primary) !important; }
 
+/* --- Cohort report (org/group-level) -------------------------------------
+   UVAA_Cohort_Report_Spec_v1_1.docx. Shares .report-section/.dqi-gauge-wrap/
+   .capacity-bar-track etc. with the individual report above; the rules here
+   are only for the chart shapes unique to the cohort view (a segmented
+   count bar, and the fixed-order capacity row it and the dashed mean bar
+   both sit inside). */
+.cohort-report-locked {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 24px 0;
+}
+.cohort-report-locked p:first-child { color: var(--text-primary); font-weight: 600; margin-bottom: 4px; }
+
+.cohort-segmented-bar { margin: 0 0 14px; }
+.cohort-segmented-bar-svg {
+  width: 100%;
+  height: 16px;
+  border-radius: 999px;
+  overflow: hidden;
+  display: block;
+}
+.cohort-segmented-bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.cohort-segmented-bar-legend-item { display: flex; align-items: center; gap: 6px; }
+.cohort-segmented-bar-legend-item strong { color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.cohort-segmented-bar-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.cohort-capacity-rows { display: flex; flex-direction: column; gap: 22px; margin-bottom: 8px; }
+.cohort-capacity-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 48px;
+  align-items: center;
+  gap: 16px;
+}
+.cohort-capacity-label { display: flex; flex-direction: column; line-height: 1.25; }
+.cohort-capacity-sanskrit { font-family: var(--font-heading); font-weight: 700; color: var(--text-primary); }
+.cohort-capacity-name { font-size: 0.8rem; color: var(--text-secondary); }
+.cohort-capacity-chart .cohort-segmented-bar { margin-bottom: 0; }
+.cohort-capacity-mean {
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 560px) {
+  .cohort-capacity-row { grid-template-columns: 1fr; }
+  .cohort-capacity-mean { text-align: left; }
+}
+
 /* --- Section 4 chart: nine cell pattern grid ------------------------------
    Mobile rule per the report spec: "Either horizontal scroll on that
    element alone, or replace it with the pattern name and a two axis

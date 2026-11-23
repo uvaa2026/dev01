@@ -219,6 +219,11 @@ export const api = {
   adminSetOrgSeats: (id, seatCount) =>
     request(`/admin/organisations/${id}/seats`, { method: 'PATCH', body: JSON.stringify({ seatCount }) }),
 
+  // GET /admin/organisations/:id/cohort-report — the aggregate, anonymous
+  // group-level report (facilitator/Super Admin side — keeps patternGrid
+  // when the cohort is large enough; see lib/cohortReport.js on the API).
+  adminGetCohortReport: (id) => request(`/admin/organisations/${id}/cohort-report`, { method: 'GET' }),
+
   // GET /admin/export — streams an .xlsx workbook (every respondent's
   // profile, final scores, and raw Guna/Construct answers). Not run through
   // the JSON `request()` helper above since the response is a binary file;
@@ -324,5 +329,10 @@ export const api = {
       request('/org-admin/roster', { method: 'POST', body: JSON.stringify(payload) }),
     uploadRosterCsv: (csv) =>
       request('/org-admin/roster/bulk', { method: 'POST', body: JSON.stringify({ csv }) }),
+    // GET /org-admin/cohort-report — the aggregate, anonymous group-level
+    // report for the buyer's own organisation (never includes patternGrid —
+    // see lib/cohortReport.js on the API, and admin.adminGetCohortReport
+    // above for the facilitator-side equivalent that does).
+    cohortReport: () => request('/org-admin/cohort-report', { method: 'GET' }),
   },
 }

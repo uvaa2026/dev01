@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api, ApiError } from '../../lib/api.js'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useOrgAuth } from '../../context/OrgAuthContext.jsx'
+import CohortReport from '../../components/CohortReport.jsx'
 
 const APPROVAL_LABEL = { PENDING: 'Pending', APPROVED: 'Approved', REJECTED: 'Rejected' }
 
@@ -17,6 +18,7 @@ export default function OrgAdminDashboard() {
   const [overview, setOverview] = useState({ status: 'loading', data: null, error: null })
   const [participants, setParticipants] = useState({ status: 'loading', data: [], error: null })
   const [roster, setRoster] = useState({ status: 'idle', data: [], error: null })
+  const [cohortReport, setCohortReport] = useState({ status: 'loading', data: null, error: null })
   const [expandedId, setExpandedId] = useState(null)
   const [detailById, setDetailById] = useState({}) // id -> { status, data, error }
   const [copied, setCopied] = useState(false)
@@ -54,6 +56,10 @@ export default function OrgAdminDashboard() {
   useEffect(() => {
     loadOverview()
     loadParticipants()
+    api.orgAdmin
+      .cohortReport()
+      .then((data) => setCohortReport({ status: 'ready', data, error: null }))
+      .catch((err) => setCohortReport({ status: 'error', data: null, error: errMessage(err, 'Could not load the cohort report.') }))
   }, [loadOverview, loadParticipants])
 
   useEffect(() => {
@@ -305,6 +311,18 @@ export default function OrgAdminDashboard() {
             </table>
           </div>
         )}
+      </div>
+
+      <div className="mypage-card" style={{ marginTop: 24 }}>
+        <h3>Cohort report</h3>
+        <p className="hint">
+          How your group as a whole responds to pressure — aggregate only, never an individual.
+        </p>
+
+        {cohortReport.status === 'error' && (
+          <div className="status-msg error" style={{ display: 'block' }} role="alert">{cohortReport.error}</div>
+        )}
+        {cohortReport.status === 'ready' && <CohortReport data={cohortReport.data} />}
       </div>
 
       {org.provisioningModel === 'NAMED_ROSTER' && (
