@@ -95,6 +95,7 @@ export default function OrgLogin() {
                 />
                 Remember me
               </label>
+              <Link to="/org-forgot-password" className="link-accent">Forgot password?</Link>
             </div>
 
             <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={submitting}>

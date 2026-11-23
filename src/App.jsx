@@ -16,6 +16,7 @@ import Login from './pages/Login.jsx'
 import VerifyEmail from './pages/VerifyEmail.jsx'
 import ForgotPassword from './pages/ForgotPassword.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
+import OrgForgotPassword from './pages/OrgForgotPassword.jsx'
 import MyPage from './pages/MyPage.jsx'
 import Report from './pages/Report.jsx'
 import BeforeYouBegin from './pages/assessment/BeforeYouBegin.jsx'
@@ -171,6 +172,7 @@ export default function App() {
                 </OrgGuestRoute>
               }
             />
+            <Route path="/org-forgot-password" element={<OrgForgotPassword />} />
             <Route
               path="/org-admin"
               element={

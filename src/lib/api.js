@@ -296,6 +296,16 @@ export const api = {
   lookupCohortCode: (code) =>
     request(`/org/lookup?code=${encodeURIComponent(code)}`, { method: 'GET' }),
 
+  // POST /org/forgot-password { email } — mirrors requestPasswordReset
+  // above, for an Org Admin account. Always resolves with a generic
+  // success message, whether or not the email matches an account (see
+  // uvaa-api's routes/organisations.js for why). The reset link it emails
+  // lands on the same /reset-password page and calls the same
+  // resetPassword below — token redemption is shared across both account
+  // kinds (migration 027).
+  requestOrgPasswordReset: (email) =>
+    request('/org/forgot-password', { method: 'POST', body: JSON.stringify({ email }) }),
+
   // POST /org/login { email, password, rememberMe } — a separate login for
   // the Org Admin, independent of the respondent/participant session. Used
   // by an Org Admin who declined to take the assessment themselves and so
