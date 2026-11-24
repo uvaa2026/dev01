@@ -355,7 +355,7 @@ export default function Welcome() {
               <div className="icon-circle"><LineIcon name="group" /></div>
               <h3>Organisation view</h3>
               <p>
-               Leading Team  or project, Leading a function, Leading Business unit (s).
+               Score distribution, pattern spread and shared development themes, in aggregate. No individual scores.
               </p>
             </div>
           </div>
