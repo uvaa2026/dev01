@@ -38,6 +38,7 @@ const NAV_GROUPS = [
     items: [
       { to: '/#privacy', label: 'Trust & Privacy' },
       { to: '/#faq', label: 'FAQ' },
+      { to: '/guide', label: 'User Guide' },
     ],
   },
 ]

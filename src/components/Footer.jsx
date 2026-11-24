@@ -82,6 +82,7 @@ export default function Footer() {
         <a href="https://wa.me/917550033309" target="_blank" rel="noopener noreferrer" onClick={closeNow}>Social</a>
         <Link to="/#privacy" onClick={closeNow}>Privacy &amp; Data</Link>
         <Link to="/terms" onClick={closeNow}>Terms</Link>
+        <Link to="/guide" onClick={closeNow}>Guide</Link>
         <span className="footer-fab-legal">
           © 2026 UVAA Decision-making under pressure · Indian Patent Application No. 202641076718
         </span>
