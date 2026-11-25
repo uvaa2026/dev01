@@ -26,7 +26,16 @@ export default function Guide() {
       />
 
       <section>
-        <div className="container" style={{ maxWidth: 760, margin: '0 auto' }}>
+        <div
+          className="container"
+          style={{
+            maxWidth: 760,
+            margin: '0 auto',
+            overflowWrap: 'break-word',
+            wordWrap: 'break-word',
+            wordBreak: 'break-word',
+          }}
+        >
 
           <h2>Two ways to use UVAA</h2>
           <p>
@@ -43,7 +52,8 @@ export default function Guide() {
 
           <h3>1. Creating your account</h3>
           <p>
-            Go to <Link to="/register" className="link-accent">Register</Link> and enter the
+            Click <strong>Begin Journey</strong> at the top of the site — or go straight to{' '}
+            <Link to="/register" className="link-accent">Register</Link> — and enter the
             cohort code your organisation shared with you. Once it's recognised, you'll fill in
             your profile — name, email, a password (minimum 8 characters, with at least one
             capital letter and one number), your industry, what you lead, and your experience —
@@ -70,7 +80,8 @@ export default function Guide() {
             verify automatically just from being opened or scanned, which is deliberate: it keeps
             a corporate mail-security scanner from using up your one-time link before you even
             see it. Each link is single-use and expires after 24 hours; if yours has expired,
-            register again or contact your Admin.
+            register again or contact your Admin. Don't see the email within a few minutes?
+            Check your spam or junk folder before trying again.
           </p>
 
           <h3>3. Logging in</h3>
@@ -79,7 +90,7 @@ export default function Guide() {
             Forgotten your password? Use{' '}
             <Link to="/forgot-password" className="link-accent">Forgot password?</Link> on that
             page — we'll email a reset link that's valid for 60 minutes and can only be used
-            once.
+            once. If it doesn't arrive within a few minutes, check your spam or junk folder.
           </p>
 
           <h3>4. Before you begin</h3>
@@ -121,13 +132,11 @@ export default function Guide() {
             press 1, 2, or 3 to pick an option and Enter or the right arrow to move on — handy if
             you'd rather not reach for the mouse each time.
           </p>
-
           <h3>6. Your report</h3>
           <p>
             Once both parts are submitted and scoring is complete, a "View your report" link
             appears on My Page. The report is yours; it isn't shown to anyone else unless you
-            consented to share it, as above. From the report page you can also print it or
-            download it as a PDF to keep.
+            consented to share it, as above.
           </p>
 
           <hr style={{ margin: '32px 0', border: 0, borderTop: '1px solid var(--border-subtle, #e5e5e5)' }} />
@@ -198,7 +207,7 @@ export default function Guide() {
           <p>
             For anything this guide doesn't cover — a stuck verification link, a question about
             your report, or help setting up your organisation — reach out to{' '}
-            <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+            <a href="mailto:connect@uvaa.pro" className="link-accent">connect@uvaa.pro</a>.
             For how your data is handled, see{' '}
             <a href="/#privacy" className="link-accent">Privacy &amp; Data</a>; for the legal
             terms of using UVAA, see{' '}
