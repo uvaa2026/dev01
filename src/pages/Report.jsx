@@ -405,7 +405,7 @@ export default function Report() {
             </p>
             <p className="report-plan-footer">
               To explore a plan or coaching, speak to your programme contact, or write to UVAA at{' '}
-              <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+              <a href="mailto:connect@uvaa.pro" className="link-accent">connect@uvaa.pro</a>.
             </p>
           </section>
         </>

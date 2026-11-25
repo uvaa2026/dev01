@@ -160,7 +160,7 @@ export default function TermsOfUse() {
           <h2>14. Contact</h2>
           <p>
             Questions about these Terms can be sent to{' '}
-            <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+            <a href="mailto:connect@uvaa.pro" className="link-accent">connect@uvaa.pro</a>.
           </p>
 
         </div>

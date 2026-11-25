@@ -109,11 +109,25 @@ export default function Guide() {
             are locked and can't be changed.
           </p>
 
+          <h3>How the screen works</h3>
+          <p>
+            Each part shows one question at a time, with a row of dots along the top marking
+            which ones you've answered and which one you're on — answered questions stay
+            clickable, so you can go back and review or change an earlier answer at any point
+            before you submit. "Save draft" saves your place explicitly, though moving between
+            questions also saves automatically in the background. If you leave and come back
+            within 72 hours, you'll see a "welcome back, resumed where you left off" message; past
+            72 hours, that attempt is cleared and you start fresh. If you're on a keyboard, you can
+            press 1, 2, or 3 to pick an option and Enter or the right arrow to move on — handy if
+            you'd rather not reach for the mouse each time.
+          </p>
+
           <h3>6. Your report</h3>
           <p>
             Once both parts are submitted and scoring is complete, a "View your report" link
             appears on My Page. The report is yours; it isn't shown to anyone else unless you
-            consented to share it, as above.
+            consented to share it, as above. From the report page you can also print it or
+            download it as a PDF to keep.
           </p>
 
           <hr style={{ margin: '32px 0', border: 0, borderTop: '1px solid var(--border-subtle, #e5e5e5)' }} />

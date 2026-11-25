@@ -461,7 +461,7 @@ export default function Welcome() {
                 psychologist &mdash; the foundation UVAA is built on.
               </p>
               <div className="hero-actions" style={{ justifyContent: 'flex-start', marginTop: 20 }}>
-                <a href="mailto:sayee@dheemerconsulting.com" className="btn btn-primary">Connect</a>
+                <a href="mailto:connect@uvaa.pro" className="btn btn-primary">Connect</a>
               </div>
               <p className="founder-patent">
                 Indian Patent Application No. 202641076718, published 3 July 2026 (Publication No. 27/2026).

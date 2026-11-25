@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader.jsx'
 
-// Temporary — swap for a shared UVAA mailbox once one exists.
-const TALK_TO_US_EMAIL = 'sayee@dheemerconsulting.com'
+const TALK_TO_US_EMAIL = 'connect@uvaa.pro'
 
 // Content sourced verbatim from the deck (slide 12 "Closing").
 export default function TalkToUs() {

@@ -165,7 +165,7 @@ export default function CohortReport({ data }) {
           <p className="report-footnote">
             What this report cannot tell you is who is where. If you would like a debrief with the
             group, or to explore what group-level work on {data.focus.name} could look like, write to{' '}
-            <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+            <a href="mailto:connect@uvaa.pro" className="link-accent">connect@uvaa.pro</a>.
             The UVAA team will explain what it includes and what it costs before anything is agreed.
             Individuals who want a personalised development plan can ask for one themselves, and their
             reports stay private to them.
