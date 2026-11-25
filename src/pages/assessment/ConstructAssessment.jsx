@@ -251,7 +251,7 @@ export default function ConstructAssessment() {
           <p>
             The UVAA Development Plan and coaching are there to help you work on it. To find out
             more, write to{' '}
-            <a href="mailto:sayee@dheemerconsulting.com" className="link-accent">sayee@dheemerconsulting.com</a>.
+            <a href="mailto:connect@uvaa.pro" className="link-accent">connect@uvaa.pro</a>.
           </p>
           {submittedAt && (
             <p className="report-italic">Submitted {new Date(submittedAt).toLocaleString()}</p>
